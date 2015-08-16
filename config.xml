@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "com.phonegap.leelaveda"
+        id          = "com.phonegap.leelaveda2"
         versionCode = "10"
         version     = "1.0.0" >
 
     <!-- versionCode is optional and Android only -->
 
-    <name>Игра Лила</name>
+    <name>Leela Veda</name>
 
     <description>
-        просветление онлайн
+        enlightenment online
     </description>
 
     <author href="http://www.tihoemesto.ru" email="gush@bk.ru">
-        Александр Бом
+        Alexander Bom
     </author>
-
-    <access origin="http://leelaveda.ru" subdomains="true" />
-
-    <icon src="img/icon.png" />
-
-    <feature name="http://api.phonegap.com/1.0/notification" />
 
 </widget>
