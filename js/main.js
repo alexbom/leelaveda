@@ -660,7 +660,7 @@ Leela = {
     }
 };
 
-if (window.location.pathname == '/') Leela.init();
+if (window.location.pathname != '/history.html') Leela.init();
 
 if (window.location.pathname == '/history.html') {
     Leela.load();
