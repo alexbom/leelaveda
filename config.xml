@@ -7,19 +7,19 @@
 
     <!-- versionCode is optional and Android only -->
 
-    <name>Leela Veda</name>
+    <name>Игра Лила</name>
 
     <description>
-        Лила Веда - Игра самопознания
+        просветление онлайн
     </description>
 
     <author href="http://www.tihoemesto.ru" email="gush@bk.ru">
-        Alexander Bom
+        Александр Бом
     </author>
 
-    <access origin="http://www.leelaveda.ru" subdomains="true" />
+    <access origin="http://leelaveda.ru" subdomains="true" />
 
-    <icon src="icon.png" />
+    <icon src="img/icon.png" />
 
     <feature name="http://api.phonegap.com/1.0/notification" />
 
