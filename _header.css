@@ -36,10 +36,6 @@ a:hover {
     -moz-animation:spin 2s linear infinite;
     animation:spin 2s linear infinite;
 }
-.remodal {
-    text-align: left;
-    font-size: 120%;
-}
 .hidden {
 	display: none;
 }

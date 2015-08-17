@@ -15,15 +15,13 @@
 	opacity: .6;
 }
 
-body input:focus:required:invalid,
-body textarea:focus:required:invalid {
-	
+.remodal {
+    text-align: left;
+    font-size: 120%;
 }
-body input:required:valid,
-body textarea:required:valid {
-	
+.remodal-close, .remodal-close:before {
+    right: 0;
 }
-
 .nav-player > * {
     display: inline-block;
     vertical-align: top;

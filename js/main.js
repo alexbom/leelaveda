@@ -344,7 +344,7 @@ Leela = {
             var d = new Date();
             Leela.history.add({ player_id: player.id, dice: value, cell_id: cell_id, date: d.getTime(), six: player.six });
 
-            if (cell_id == 68) alert($('#alert-win').text().replace(/{name}/, player.name));
+            //if (cell_id == 68) alert($('#alert-win').text().replace(/{name}/, player.name));
 
             if ((prev_id && prev_id == 1) || $.inArray(Leela.map.cells[cell_id - 1].type, ['arrow', 'snake']) !== -1 || player.six) {
                 Leela.actions.nav();
