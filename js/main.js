@@ -91,7 +91,7 @@ Leela = {
                 Leela.history.el.css({ height: win_h - 400 });
             }).resize();
 
-            if ($(window).width() >= 1400) $('#players-btn, #actions-btn').click();
+            $('#actions-btn').click();
 
             if ('ontouchstart' in window) Leela.map.el.addClass('touch');
         },
@@ -275,13 +275,15 @@ Leela = {
                 }
             }
 
+            var six_move = 0;
             if (value == 6) player.six++;
             if (player.six == 3 && value && value < 6) {
                 alert($('#alert-six-3').text());
 
                 for (var l = hist.length - 1, i = l; i >= 0; i--) {
                     if ((hist[i].dice && hist[i].dice < 6) || ! i) {
-                        hist.splice(i + 1, l - i);
+                        cell_id = hist[i].cell_id + value;
+                        six_move = 1;
                         break;
                     }
                 }
@@ -291,8 +293,8 @@ Leela = {
 
                 for (var l = hist.length - 1, i = l; i >= 0; i--) {
                     if ((hist[i].dice && hist[i].dice < 6) || ! i) {
-                        hist.splice(i + 1, l - i);
-                        cell_id = hist[hist.length - 1].cell_id + player.six * 6 + value;
+                        cell_id = hist[i].cell_id + player.six * 6 + value;
+                        six_move = 1;
                         break;
                     }
                 }
@@ -316,7 +318,7 @@ Leela = {
                 }
             }
 
-            if (cell_id == 1 || $.inArray(Leela.map.cells[prev_id - 1].type, ['birth', 'arrow', 'snake']) !== -1) {
+            if (cell_id == 1 || six_move || $.inArray(Leela.map.cells[prev_id - 1].type, ['birth', 'arrow', 'snake']) !== -1) {
                 var cell = $('#cell-' + cell_id),
                     pos  = cell.position();
 
