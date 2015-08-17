@@ -388,7 +388,7 @@
         <button class="nav-del" title="Удалить игрока"></button>
     </div>
     <button id="map-player-{id}" class="map-player ava-{ava}"></button>
-    <div class="remodal-tpl" data-remodal-id="cell-{id}">
+    <div class="remodal-tpl" data-remodal-id="{id}">
         <button data-remodal-action="close" class="remodal-close"></button>
         {data}
     </div>
@@ -397,6 +397,10 @@
         <span class="hist-date float-right">{date}</span>
         <div class="clear"></div>
         <button class="hist-cell" data-id="{cell_id}">{cell_id}. {cell_name}</button>
+    </div>
+    <div class="hist-step-text">
+        <h3>{name} - {date}</h3>
+        {text}
     </div>
     <div class="help-start"><span class="player-name-{id}">{name}</span>, чтобы войти в игру, <nobr>бросьте шесть.</nobr></div>
     <div class="help-dice"><span class="player-name-{id}">{name}</span>, бросайте кубик.</div>
