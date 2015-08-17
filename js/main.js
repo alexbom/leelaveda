@@ -10,14 +10,16 @@ Leela = {
         Leela.map.el      = $('#map');
         Leela.players.el  = $('#players-list');
 
-        $('[data-remodal-id="intro"]').remodal().open();
-
         Leela.load();
         Leela.map.init();
         Leela.actions.init();
         Leela.history.init();
         Leela.players.init();
         Leela.design.init();
+
+        if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
+            $('[data-remodal-id="intro"]').remodal().open();
+        }
     },
     design: {
         min: 320,
@@ -341,7 +343,7 @@ Leela = {
 
             if (cell_id == 68) alert($('#alert-win').text().replace(/{name}/, player.name));
 
-            if ((prev_id && prev_id == 1) || player.six) {
+            if ((prev_id && prev_id == 1) || $.inArray(Leela.map.cells[cell_id - 1].type, ['arrow', 'snake']) !== -1 || player.six) {
                 Leela.actions.nav();
             } else {
                 Leela.players.next();
@@ -363,7 +365,16 @@ Leela = {
 
             $('#hist-print').click(function() {
                 localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
-                window.open('history.html');
+
+                var vars  = [
+                        { name: 'id', value: 'history' },
+                        { name: 'data', value: '<div id="history-text"></div>' }
+                    ],
+                    modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+
+                modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
+                modal.remodal().open();
+                Leela.players.load(1);
             });
 
             $('#hist-new').click(function() {
@@ -394,7 +405,7 @@ Leela = {
             if (text) {
                 $.get('data/' + step.cell_id + '.html', function(data) {
                     vars.push({ name: 'text', value: data });
-                    Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
+                    $('#history-text').prepend(Leela.design.tpl('.hist-step-text:first', vars));
                 });
             } else {
                 if (Leela.history.root.is(':hidden')) Leela.history.root.show();
@@ -541,21 +552,21 @@ Leela = {
         height: 700,
         init:   function() {
             /*Leela.map.el.css({
-                'min-width'       : Leela.design.min,
-                'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
-                'background-image': 'url(' + Leela.map.image + ')'
-            });
+             'min-width'       : Leela.design.min,
+             'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
+             'background-image': 'url(' + Leela.map.image + ')'
+             });
 
-            for (var i = 0; i < 72; i++) {
-                var item = Leela.map.cells[Leela.map.grid[i] - 1],
-                    vars = [
-                        { name: 'type', value: item.type || '' },
-                        { name: 'id',   value: item.id },
-                        { name: 'name', value: item.name }
-                    ];
+             for (var i = 0; i < 72; i++) {
+             var item = Leela.map.cells[Leela.map.grid[i] - 1],
+             vars = [
+             { name: 'type', value: item.type || '' },
+             { name: 'id',   value: item.id },
+             { name: 'name', value: item.name }
+             ];
 
-                Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
-            }*/
+             Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
+             }*/
 
             Leela.map.el.on('click', '.cell', function() {
                 var item = $(this),
@@ -563,7 +574,7 @@ Leela = {
 
                 $.get('data/' + id + '.html', function(data) {
                     var vars  = [
-                            { name: 'id', value: id },
+                            { name: 'id', value: 'cell-' + id },
                             { name: 'data', value: data }
                         ],
                         modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
@@ -659,13 +670,7 @@ Leela = {
         ]
     }
 };
-
-if (window.location.pathname != '/history.html') Leela.init();
-
-if (window.location.pathname == '/history.html') {
-    Leela.load();
-    Leela.players.load(1);
-}
+Leela.init();
 
 // PhoneGap Build
 if (navigator.notification) {
