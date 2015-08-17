@@ -1,0 +1,9 @@
+User-agent: *
+
+Disallow: /data/
+Disallow: /fonts/
+Disallow: /js/
+Disallow: /libs/
+Disallow: /old/
+Disallow: /history.html
+Disallow: /compiled.min.css
