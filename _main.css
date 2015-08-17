@@ -184,8 +184,7 @@ body textarea:required:valid {
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
-#actions-help:after {
-    content: '';
+#help-tail {
     position: absolute;
     top: -8px;
     left: 50%;

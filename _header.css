@@ -120,6 +120,7 @@ a:hover {
     margin: 0 auto;
     background: #333 50% 50% no-repeat;
     background-size: contain;
+    font-size: 0;
 
     -webkit-box-shadow: 0 0 50px #000;
     -moz-box-shadow: 0 0 50px #000;
