@@ -196,7 +196,8 @@ Leela = {
 
             if ( ! window.confirm(confirm)) return;
 
-            Leela.players.next();
+            if (LeelaGame.turn == id) Leela.players.next();
+
             LeelaGame.players.splice(player.i, 1);
             $('#nav-player-' + id + ', #map-player-' + id).remove();
             Leela.players.add_btn.show();
