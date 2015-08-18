@@ -15,13 +15,6 @@
 	opacity: .6;
 }
 
-.remodal {
-    text-align: left;
-    font-size: 120%;
-}
-.remodal-close, .remodal-close:before {
-    right: 0;
-}
 .nav-player > * {
     display: inline-block;
     vertical-align: top;

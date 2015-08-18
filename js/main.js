@@ -88,10 +88,11 @@ Leela = {
                     $('#map-player-' + player.id).css({ top: pos.top, left: pos.left });
                 }
 
-                Leela.history.el.css({ height: win_h - 400 });
+                Leela.history.el.css({ height: win_h - 430 });
             }).resize();
 
             $('#actions-btn').click();
+            if ($(window).width() > 1366) $('#players-btn').click();
 
             if ('ontouchstart' in window) Leela.map.el.addClass('touch');
         },

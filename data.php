@@ -12,11 +12,11 @@ $descr = str_replace('"', '', $descr);
 $descr = substr($descr, 0, 160).'&hellip;';
 ?>
 
-    <!DOCTYPE html>
-    <!--[if lt IE 7 ]><html class="ie ie6" lang="ru"><![endif]-->
-    <!--[if IE 7 ]><html class="ie ie7" lang="ru"><![endif]-->
-    <!--[if IE 8 ]><html class="ie ie8" lang="ru"><![endif]-->
-    <!--[if (gte IE 9)|!(IE)]><!--><html lang="ru"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="ru"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="ru"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="ru"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="ru"><!--<![endif]-->
 
 <head>
 
