@@ -175,7 +175,8 @@
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
-#help-tail {
+#actions-help:after {
+    content: '';
     position: absolute;
     top: -8px;
     left: 50%;

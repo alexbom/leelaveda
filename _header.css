@@ -33,6 +33,7 @@ a:hover {
     font-size: 120%;
 }
 .remodal-close, .remodal-close:before {
+    left: auto;
     right: 0;
 }
 .rotate:hover, .rotating {
