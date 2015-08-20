@@ -245,6 +245,7 @@ a:hover {
 #author {
     bottom: 0;
     right: 0;
+    font-size: 14px;
 
     zoom: 1;
     opacity: .5;
