@@ -9,10 +9,15 @@ body {
     font-family: 'RobotoRegular', sans-serif;
     color: #fff;
 }
-h1, h2, h3 {
+h1, h2, h3, h4 {
     margin: 0;
     text-align: center;
+}
+h1, h2, h3 {
     font: 36px 'RuslanDisplay', sans-serif;
+}
+h4 {
+    font-size: 18px;
 }
 button {
     cursor: pointer;

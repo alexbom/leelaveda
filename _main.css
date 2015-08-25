@@ -135,14 +135,15 @@
     background-image: url('img/actions-birth.png');
 }
 #actions-arrow {
-    position: relative;
     background-image: url('img/actions-arrow.png');
 }
 #actions-snake {
-    position: relative;
     background-image: url('img/actions-snake.png');
 }
-#actions-arrow span, #actions-snake span {
+#actions-dice, #actions-arrow, #actions-snake {
+    position: relative;
+}
+#actions-dice span, #actions-arrow span, #actions-snake span {
     position: absolute;
     left: 0;
     top: 0;
@@ -224,6 +225,12 @@
     zoom: 1;
     opacity: 1;
     filter: alpha(opacity=100);
+}
+.hist-step-full {
+    position: relative;
+    margin-bottom: 25px;
+    padding-bottom: 50px;
+    background: url(img/step.png) 50% 100% no-repeat;
 }
 #hist-save {
     background: url(img/history-save.png) 0 0 no-repeat;

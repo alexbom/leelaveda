@@ -116,17 +116,17 @@ Leela = {
             Leela.players.load();
             Leela.players.next(1);
         },
-        load: function(text) {
+        load: function(full) {
             var local_game = localStorage.getItem('LeelaGame');
             if (local_game) LeelaGame = JSON.parse(local_game);
 
             if (LeelaGame.players.length) {
-                Leela.history.fill(text);
+                Leela.history.fill(full);
             } else {
                 Leela.players.add();
             }
         },
-        add: function(player, no_obj, text) {
+        add: function(player, no_obj, full) {
             if (LeelaGame.players.length == Leela.players.max - 1) Leela.players.add_btn.hide();
 
             if ( ! player) {
@@ -138,7 +138,7 @@ Leela = {
 
             if ( ! no_obj) LeelaGame.players.push(player);
 
-            if (text) return;
+            if (full) return;
 
             var vars = [
                     { name: 'id',   value: player.id },
@@ -372,7 +372,7 @@ Leela = {
 
                 var vars  = [
                         { name: 'id', value: 'history' },
-                        { name: 'data', value: '<div id="history-text"></div>' }
+                        { name: 'data', value: '<div id="history-full"></div>' }
                     ],
                     modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
 
@@ -388,7 +388,7 @@ Leela = {
                 window.location.reload(true);
             });
         },
-        add: function(step, no_obj, text) {
+        add: function(step, no_obj, full) {
             var player = LeelaGame.players[Leela.players.get(step.player_id).i],
                 hist   = player.history,
                 d      = new Date(step.date),
@@ -406,32 +406,32 @@ Leela = {
                 ];
 
             if ( ! no_obj) hist.push(step);
-            if (text) {
-                $.get('data/' + step.cell_id + '.html', function(data) {
-                    vars.push({ name: 'text', value: data });
-                    $('#history-text').prepend(Leela.design.tpl('.hist-step-text:first', vars));
-                });
+            if (full) {
+                $('#history-full').prepend(Leela.design.tpl('.hist-step-full:first', vars));
             } else {
                 if (Leela.history.root.is(':hidden')) Leela.history.root.show();
                 Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
             }
         },
-        fill: function(text) {
+        fill: function(full) {
             var steps = [];
             for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
-                Leela.players.add(LeelaGame.players[i], 1, text);
+                Leela.players.add(LeelaGame.players[i], 1, full);
                 steps = steps.concat(LeelaGame.players[i].history);
             }
             steps.sort(Leela.history.sort);
-            if (text) steps.reverse();
+            if (full) {
+                steps.reverse();
+                $('#history-full').html('');
+            }
 
             var dice = 0;
             for (var l = steps.length, i = 0; i < l; i++) {
                 if (steps[i].dice) dice = steps[i].dice;
-                Leela.history.add(steps[i], 1, text);
+                Leela.history.add(steps[i], 1, full);
             }
 
-            if ( ! text && dice) {
+            if ( ! full && dice) {
                 Leela.actions.dice.el.attr('class', 'dice-' + dice).attr('data-value');
             }
         },
