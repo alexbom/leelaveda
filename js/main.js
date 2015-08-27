@@ -518,8 +518,8 @@ Leela = {
             },
             roll: function(value) {
                 if ( ! Leela.actions.dice.cheat && value) {
-                    Leela.actions.dice.cheat = 1;
                     if ( ! window.confirm($('#alert-cheat-confirm').text())) return;
+                    Leela.actions.dice.cheat = 1;
                 }
 
                 Leela.actions.panel.find('button').prop('disabled', true);

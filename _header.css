@@ -50,14 +50,22 @@ a:hover {
     -moz-border-radius: 200px;
     border-radius: 200px;
 }
-.rotate:hover, .rotating {
-    -webkit-animation:spin 2s linear infinite;
-    -moz-animation:spin 2s linear infinite;
-    animation:spin 2s linear infinite;
+.remodal a {
+    color: #900;
 }
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+.remodal a:hover {
+    color: #f00;
+}
+.rotate:hover, .rotating {
+    -webkit-animation: spin 3s linear infinite;
+    -moz-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@-ms-keyframes spin { 100% { -ms-transform: rotate(360deg); } }
+@-moz-keyframes spin { 100% { transform: rotate(360deg); } }
+@-o-keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin { 100% { transform:rotate(360deg); } }
 
 .hidden {
 	display: none;
