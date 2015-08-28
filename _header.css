@@ -36,6 +36,7 @@ a:hover {
 .remodal {
     text-align: left;
     font-size: 120%;
+    color: #333;
 }
 .remodal-close, .remodal-close:before {
     left: auto;
@@ -51,10 +52,10 @@ a:hover {
     border-radius: 200px;
 }
 .remodal a {
-    color: #900;
+    color: #333;
 }
 .remodal a:hover {
-    color: #f00;
+    color: #666;
 }
 .rotate:hover, .rotating {
     -webkit-animation: spin 3s linear infinite;

@@ -16,10 +16,6 @@ Leela = {
         Leela.history.init();
         Leela.players.init();
         Leela.design.init();
-
-        if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
-            $('[data-remodal-id="intro"]').remodal().open();
-        }
     },
     design: {
         min: 320,
@@ -27,6 +23,10 @@ Leela = {
             Leela.design.nav('#players', '#players-btn', '#players-panel');
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
             Leela.design.adaptive();
+
+            if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
+                $('[data-remodal-id="intro"]').remodal().open();
+            }
         },
         nav: function(aside, btn, nav) {
             aside = $(aside);
