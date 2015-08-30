@@ -24,6 +24,9 @@ Leela = {
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
             Leela.design.adaptive();
 
+            $(document).on('closed', '.remodal', function(e) {
+                if (Leela.design.modal) Leela.design.modal.destroy();
+            });
             if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
                 $('[data-remodal-id="intro"]').remodal().open();
             }
@@ -40,27 +43,31 @@ Leela = {
                         nav.hide();
                     });
                 } else {
+                    if ($(window).width() < 1366) {
+                        $('.fixed-panel:not(#' + aside.attr('id') + '-panel)')
+                            .hide().removeClass('clicked');
+                    }
                     nav.addClass('clicked');
                     nav.stop().show().animate({ opacity: 1 }, 'fast');
                 }
             });
 
-            if ( ! ('ontouchstart' in window)) {
-                aside.hover(
-                    function () {
-                        if ( ! nav.hasClass('clicked')) {
-                            nav.stop().css({ opacity: 0 }).show().animate({ opacity: 1 }, 'fast');
-                        }
-                    },
-                    function () {
-                        if ( ! nav.hasClass('clicked')) {
-                            nav.stop().animate({ opacity: 0 }, 'fast', function () {
-                                nav.hide();
-                            });
-                        }
-                    }
-                );
-            }
+            /*if ( ! ('ontouchstart' in window)) {
+             aside.hover(
+             function () {
+             if ( ! nav.hasClass('clicked')) {
+             nav.stop().css({ opacity: 0 }).show().animate({ opacity: 1 }, 'fast');
+             }
+             },
+             function () {
+             if ( ! nav.hasClass('clicked')) {
+             nav.stop().animate({ opacity: 0 }, 'fast', function () {
+             nav.hide();
+             });
+             }
+             }
+             );
+             }*/
         },
         adaptive: function() {
             $('body').css({ 'min-width': Leela.design.min });
@@ -362,6 +369,10 @@ Leela = {
                 $('#cell-' + $(this).attr('data-id')).click();
             });
 
+            $(document).on('click', '.hist-step-full', function() {
+                $('#cell-' + $(this).attr('data-id')).click();
+            });
+
             $('#hist-save').click(function() {
                 localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
                 alert($('#alert-hist-save').text());
@@ -371,13 +382,14 @@ Leela = {
                 localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
 
                 var vars  = [
-                        { name: 'id', value: 'history' },
-                        { name: 'data', value: '<div id="history-full"></div>' }
-                    ],
-                    modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                    { name: 'id', value: 'history' },
+                    { name: 'data', value: '<div id="history-full"></div>' }
+                ];
 
-                modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
-                modal.remodal().open();
+                Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
+                Leela.design.modal = Leela.design.modal.remodal();
+                Leela.design.modal.open();
                 Leela.players.load(1);
             });
 
@@ -578,13 +590,16 @@ Leela = {
 
                 $.get('data/' + id + '.html', function(data) {
                     var vars  = [
-                            { name: 'id', value: 'cell-' + id },
-                            { name: 'data', value: data }
-                        ],
-                        modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                        { name: 'id', value: 'cell-' + id },
+                        { name: 'data', value: data }
+                    ];
 
-                    modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
-                    modal.remodal().open();
+                    if (Leela.design.modal) Leela.design.modal.destroy();
+
+                    Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                    Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
+                    Leela.design.modal = Leela.design.modal.remodal();
+                    Leela.design.modal.open();
                 });
             });
         },
