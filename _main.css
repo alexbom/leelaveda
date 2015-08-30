@@ -145,6 +145,7 @@ a:hover {
     display: none;
     width: 300px;
     padding: 10px;
+    font-size: 0;
 }
 #players {
     left: 0;
@@ -391,7 +392,7 @@ a:hover {
     right: 0;
 }
 #actions-dices {
-    width: 176px;
+    width: 170px;
     margin: 0 auto;
 }
 #actions-dice, #actions-birth, #actions-arrow, #actions-snake {
