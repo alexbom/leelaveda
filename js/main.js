@@ -378,7 +378,7 @@ Leela = {
                 alert($('#alert-hist-save').text());
             });
 
-            $('#hist-print').click(function() {
+            $('#hist-full').click(function() {
                 localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
 
                 var vars  = [

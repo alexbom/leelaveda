@@ -550,8 +550,8 @@ a:hover {
 #hist-save {
     background: url(img/history-save.png) 0 0 no-repeat;
 }
-#hist-print {
-    background: url(img/history-print.png) 0 0 no-repeat;
+#hist-full {
+    background: url(img/history-full.png) 0 0 no-repeat;
 }
 #hist-new {
     background: url(img/history-new.png) 0 0 no-repeat;
