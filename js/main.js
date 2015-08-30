@@ -369,7 +369,7 @@ Leela = {
                 $('#cell-' + $(this).attr('data-id')).click();
             });
 
-            $(document).on('click', '.hist-step-full', function() {
+            $(document).on('click', '.hist-step-full a', function() {
                 $('#cell-' + $(this).attr('data-id')).click();
             });
 
@@ -381,12 +381,16 @@ Leela = {
             $('#hist-full').click(function() {
                 localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
 
-                var vars  = [
-                    { name: 'id', value: 'history' },
-                    { name: 'data', value: '<div id="history-full"></div>' }
-                ];
+                var player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],
+                    vars   = [
+                        { name: 'id',   value: 'history' },
+                        { name: 'data', value: Leela.design.tpl('.hist-full:first', [
+                            { name: 'name', value: player.name }
+                        ])
+                    }];
 
                 Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                Leela.design.modal.find('img:first').attr('src', 'img/ava/' + player.ava + '.png');
                 Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
                 Leela.design.modal = Leela.design.modal.remodal();
                 Leela.design.modal.open();
@@ -419,7 +423,7 @@ Leela = {
 
             if ( ! no_obj) hist.push(step);
             if (full) {
-                $('#history-full').prepend(Leela.design.tpl('.hist-step-full:first', vars));
+                $('.remodal .hist-steps-full').prepend(Leela.design.tpl('.hist-step-full:first', vars));
             } else {
                 if (Leela.history.root.is(':hidden')) Leela.history.root.show();
                 Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
@@ -427,9 +431,15 @@ Leela = {
         },
         fill: function(full) {
             var steps = [];
-            for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
-                Leela.players.add(LeelaGame.players[i], 1, full);
-                steps = steps.concat(LeelaGame.players[i].history);
+            if (full) {
+                var player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i];
+                Leela.players.add(player, 1, full);
+                steps = steps.concat(player.history);
+            } else {
+                for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
+                    Leela.players.add(LeelaGame.players[i], 1, full);
+                    steps = steps.concat(LeelaGame.players[i].history);
+                }
             }
             steps.sort(Leela.history.sort);
             if (full) {
@@ -492,7 +502,7 @@ Leela = {
                 ];
 
             if (spec) {
-                Leela.actions.dice.root.hide();
+                Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
 
                 if (type == 'birth') {
                     Leela.actions.birth.show();
@@ -507,8 +517,8 @@ Leela = {
                     Leela.actions.help.html(Leela.design.tpl('.help-snake:first', vars));
                 }
             } else {
-                Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).hide();
-                Leela.actions.dice.root.show();
+                Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).prop('disabled', true).fadeOut('slow');
+                Leela.actions.dice.root.fadeIn('slow');
 
                 if ( ! hist.length || hist[hist.length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-start:first', vars));

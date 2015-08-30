@@ -63,7 +63,6 @@ a:hover {
 }
 .remodal img {
     display: block;
-    width: 200px;
     margin: 0 auto;
 
     -webkit-border-radius: 200px;
@@ -391,9 +390,17 @@ a:hover {
 #actions-panel {
     right: 0;
 }
+#actions-nav {
+    position: relative;
+    height: 90px;
+}
+#actions-dices, #actions-birth, #actions-arrow, #actions-snake {
+    position: absolute;
+    top: 0;
+    left: 65px;
+}
 #actions-dices {
     width: 170px;
-    margin: 0 auto;
 }
 #actions-dice, #actions-birth, #actions-arrow, #actions-snake {
     width: 90px;
@@ -403,6 +410,7 @@ a:hover {
 }
 #actions-birth, #actions-arrow, #actions-snake {
     display: none;
+    margin-left: 40px;
 }
 #actions-dice, .dice-aside {
     display: inline-block;
@@ -560,12 +568,26 @@ a:hover {
 }
 .hist-step-full {
     position: relative;
-    margin-bottom: 25px;
-    padding-bottom: 50px;
-    background: url(img/step.png) 50% 100% no-repeat;
+    margin-top: 25px;
 }
 .hist-step-full a {
     text-decoration: none;
+}
+#hist-print {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 32px;
+    height: 32px;
+    background: url(img/history-print.png) 0 0 no-repeat;
+
+    zoom: 1;
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+#hist-print:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
 }
 #hist-save {
     background: url(img/history-save.png) 0 0 no-repeat;
@@ -608,4 +630,5 @@ a:hover {
 }
 @media print  {
     .remodal-wrapper { position: absolute; overflow: visible; }
+    .remodal-close { display: none; }
 }
