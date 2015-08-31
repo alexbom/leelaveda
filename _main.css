@@ -57,6 +57,9 @@ a:hover {
     font-size: 120%;
     color: #333;
 }
+.remodal-overlay {
+    background: rgba(43, 46, 56, .5);
+}
 .remodal-close, .remodal-close:before {
     left: auto;
     right: 0;
@@ -618,6 +621,12 @@ a:hover {
 }
 .circle-text a:hover {
     color: #999;
+}
+#salute {
+    position: absolute;
+    height: 125%;
+    bottom: 0;
+    left: -16%;
 }
 
 @media only screen and (max-width : 1366px) {

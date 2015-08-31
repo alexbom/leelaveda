@@ -352,8 +352,6 @@ Leela = {
             var d = new Date();
             Leela.history.add({ player_id: player.id, dice: value, cell_id: cell_id, date: d.getTime(), six: player.six });
 
-            //if (cell_id == 68) alert($('#alert-win').text().replace(/{name}/, player.name));
-
             if ((prev_id && prev_id == 1) || $.inArray(Leela.map.cells[cell_id - 1].type, ['arrow', 'snake']) !== -1 || player.six) {
                 Leela.actions.nav();
             } else {
@@ -520,7 +518,10 @@ Leela = {
                 Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).prop('disabled', true).fadeOut('slow');
                 Leela.actions.dice.root.fadeIn('slow');
 
-                if ( ! hist.length || hist[hist.length - 1].cell_id == 68) {
+                if (hist.length && hist[hist.length - 1].cell_id == 68) {
+                    Leela.actions.help.html(Leela.design.tpl('.help-win:first', vars));
+                    Leela.map.el.append('<img src="img/salute.gif" id="salute">');
+                } else if ( ! hist.length || hist[hist.length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-start:first', vars));
                 } else if (player.six && player.six < 3) {
                     Leela.actions.help.html(Leela.design.tpl('.help-six:first', vars));
@@ -539,6 +540,9 @@ Leela = {
                 return Math.floor(Math.random() * 6) + 1;
             },
             roll: function(value) {
+                var salute = $('#salute');
+                if (salute.length) salute.remove();
+
                 if ( ! Leela.actions.dice.cheat && value) {
                     if ( ! window.confirm($('#alert-cheat-confirm').text())) return;
                     Leela.actions.dice.cheat = 1;
