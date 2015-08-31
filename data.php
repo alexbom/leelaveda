@@ -4,12 +4,12 @@ ob_start();
 $html = file('data/'.(int)$_GET['id'].'.html');
 array_pop($html);
 
-$title = 'Игра Лила - '.array_shift($html);
 $text  = implode("\n", $html);
+$title = 'Игра Лила - '.trim(strip_tags(array_shift($html)));
 
 $descr = strip_tags($text);
 $descr = str_replace('"', '', $descr);
-$descr = substr($descr, 0, 160).'&hellip;';
+$descr = mb_substr($descr, 0, 160, 'utf-8').'&hellip;';
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +28,8 @@ $descr = substr($descr, 0, 160).'&hellip;';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link rel="shortcut icon" href="/img/favicon/favicon.ico" type="image/x-icon">
+    <base href="/">
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
     <!--link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png"-->
