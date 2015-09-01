@@ -330,7 +330,7 @@ Leela = {
                 var cell = $('#cell-' + cell_id),
                     pos  = cell.position();
 
-                $('#map-player-' + LeelaGame.turn).animate({ top: pos.top, left: pos.left }, 'fast', function() {
+                $('#map-player-' + LeelaGame.turn).animate({ top: pos.top, left: pos.left }, 'slow', function() {
                     $('#cell-' + cell_id).click();
                 });
             } else {
@@ -339,7 +339,7 @@ Leela = {
                         pos   = cell.position(),
                         times = prev_id + 1;
 
-                    $('#map-player-' + LeelaGame.turn).animate({ top: pos.top, left: pos.left }, 'fast', function() {
+                    $('#map-player-' + LeelaGame.turn).animate({ top: pos.top, left: pos.left }, 'slow', function() {
                         if (times < cell_id) {
                             times++;
                         } else {
@@ -499,6 +499,9 @@ Leela = {
                     { name: 'name', value: player.name }
                 ];
 
+            var salute = $('#salute');
+            if (salute.length) salute.remove();
+
             if (spec) {
                 Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
 
@@ -540,9 +543,6 @@ Leela = {
                 return Math.floor(Math.random() * 6) + 1;
             },
             roll: function(value) {
-                var salute = $('#salute');
-                if (salute.length) salute.remove();
-
                 if ( ! Leela.actions.dice.cheat && value) {
                     if ( ! window.confirm($('#alert-cheat-confirm').text())) return;
                     Leela.actions.dice.cheat = 1;

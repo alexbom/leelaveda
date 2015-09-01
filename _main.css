@@ -477,36 +477,37 @@ a:hover {
     -webkit-border-radius: 90px;
     -moz-border-radius: 90px;
     border-radius: 90px;
-
+}
+.pulsate {
     -webkit-animation: pulsate 2s ease-out;
     -webkit-animation-iteration-count: infinite;
     -moz-animation: pulsate 2s ease-out;
     -moz-animation-iteration-count: infinite;
 }
 @-webkit-keyframes pulsate {
-    0%   { -webkit-transform: scale(1, 1); opacity: 0.0; }
-    50%  { opacity: 1.0; }
-    100% { -webkit-transform: scale(1.5, 1.5); opacity: 0.0; }
+    0%   { -webkit-transform: scale(1, 1); opacity: 0; }
+    50%  { opacity: 1; }
+    100% { -webkit-transform: scale(1.5, 1.5); opacity: 0; }
 }
 @-ms-keyframes pulsate {
-    0%   { -ms-transform: scale(1, 1); opacity: 0.0; }
-    50%  { opacity: 1.0; }
-    100% { -ms-transform: scale(1.5, 1.5); opacity: 0.0; }
+    0%   { -ms-transform: scale(1, 1); opacity: 0; }
+    50%  { opacity: 1; }
+    100% { -ms-transform: scale(1.5, 1.5); opacity: 0; }
 }
 @-moz-keyframes pulsate {
-    0%   { transform: scale(1, 1); opacity: 0.0; }
-    50%  { opacity: 1.0; }
-    100% { transform: scale(1.5, 1.5); opacity: 0.0; }
+    0%   { transform: scale(1, 1); opacity: 0; }
+    50%  { opacity: 1; }
+    100% { transform: scale(1.5, 1.5); opacity: 0; }
 }
 @-o-keyframes pulsate {
-    0%   { transform: scale(1, 1); opacity: 0.0; }
-    50%  { opacity: 1.0; }
-    100% { transform: scale(1.5, 1.5); opacity: 0.0; }
+    0%   { transform: scale(1, 1); opacity: 0; }
+    50%  { opacity: 1; }
+    100% { transform: scale(1.5, 1.5); opacity: 0; }
 }
 @keyframes pulsate {
-    0%   { transform: scale(1, 1); opacity: 0.0; }
-    50%  { opacity: 1.0; }
-    100% { transform: scale(1.5, 1.5); opacity: 0.0; }
+    0%   { transform: scale(1, 1); opacity: 0; }
+    50%  { opacity: 1; }
+    100% { transform: scale(1.5, 1.5); opacity: 0; }
 }
 #actions-help {
     position: relative;
