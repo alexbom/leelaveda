@@ -185,10 +185,9 @@ a:hover {
     display: inline-block;
     width: 11.111%;
     height: 12.5%;
-    border: 1px #000 solid;
+    border: 1px #fff solid;
     overflow: hidden;
     vertical-align: top;
-    text-shadow: 1px 1px 3px #000;
 
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -219,6 +218,7 @@ a:hover {
     position: absolute;
     top: 0;
     left: 4px;
+    text-shadow: 1px 1px 3px #000;
 }
 .cell-name {
     position: absolute;
@@ -226,8 +226,9 @@ a:hover {
     left: 0;
     width: 100%;
     padding: 3px 4px;
-    background-color: #000;
+    background-color: #fff;
     font-size: 71%;
+    color: #000;
 
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -246,16 +247,10 @@ a:hover {
     -moz-box-shadow: inset 0 0 50px #c00;
     box-shadow: inset 0 0 50px #c00;
 }
-.cell.snake:hover .cell-name {
-    background-color: #400;
-}
 .cell.arrow:hover {
     -webkit-box-shadow: inset 0 0 50px #090;
     -moz-box-shadow: inset 0 0 50px #090;
     box-shadow: inset 0 0 50px #090;
-}
-.cell.arrow:hover .cell-name {
-    background-color: #030;
 }
 .map-player {
     position: absolute;
