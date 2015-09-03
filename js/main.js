@@ -326,12 +326,25 @@ Leela = {
                 }
             }
 
+            function moveEnd() {
+                $('#cell-' + cell_id).click();
+
+                var d = new Date();
+                Leela.history.add({ player_id: player.id, dice: value, cell_id: cell_id, date: d.getTime(), six: player.six });
+
+                if ((prev_id && prev_id == 1) || $.inArray(Leela.map.cells[cell_id - 1].type, ['arrow', 'snake']) !== -1 || player.six) {
+                    Leela.actions.nav();
+                } else {
+                    Leela.players.next();
+                }
+            }
+
             if (cell_id == 1 || six_move || $.inArray(Leela.map.cells[prev_id - 1].type, ['birth', 'arrow', 'snake']) !== -1) {
                 var cell = $('#cell-' + cell_id),
                     pos  = cell.position();
 
                 $('#map-player-' + LeelaGame.turn).animate({ top: pos.top, left: pos.left }, 'slow', function() {
-                    $('#cell-' + cell_id).click();
+                    moveEnd();
                 });
             } else {
                 for (var i = prev_id + 1; i <= cell_id; i++) {
@@ -343,19 +356,10 @@ Leela = {
                         if (times < cell_id) {
                             times++;
                         } else {
-                            $('#cell-' + cell_id).click();
+                            moveEnd();
                         }
                     });
                 }
-            }
-
-            var d = new Date();
-            Leela.history.add({ player_id: player.id, dice: value, cell_id: cell_id, date: d.getTime(), six: player.six });
-
-            if ((prev_id && prev_id == 1) || $.inArray(Leela.map.cells[cell_id - 1].type, ['arrow', 'snake']) !== -1 || player.six) {
-                Leela.actions.nav();
-            } else {
-                Leela.players.next();
             }
         }
     },
