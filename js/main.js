@@ -39,17 +39,13 @@ Leela = {
 
             btn.click(function() {
                 if (nav.hasClass('clicked')) {
-                    nav.removeClass('clicked');
-                    nav.stop().animate({ opacity: 0 }, 'fast', function () {
-                        nav.hide();
-                    });
+                    nav.hide().removeClass('clicked');
                 } else {
                     if ($(window).width() < 1366) {
                         $('.fixed-panel:not(#' + aside.attr('id') + '-panel)')
                             .hide().removeClass('clicked');
                     }
-                    nav.addClass('clicked');
-                    nav.stop().show().animate({ opacity: 1 }, 'fast');
+                    nav.show().addClass('clicked');
                 }
             });
 
