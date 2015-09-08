@@ -24,12 +24,13 @@ Leela = {
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
             Leela.design.adaptive();
 
-            $(document).on('closed', '.remodal', function(e) {
-                if (Leela.design.modal) Leela.design.modal.destroy();
-            });
             if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
                 $('[data-remodal-id="intro"]').remodal().open();
             }
+            $(document).on('closed', '.remodal', function() {
+                if (Leela.design.modal) Leela.design.modal.destroy();
+                Leela.actions.panel.show().addClass('clicked');
+            });
         },
         nav: function(aside, btn, nav) {
             aside = $(aside);
@@ -324,6 +325,10 @@ Leela = {
                     Leela.players.next();
                     return;
                 }
+            }
+
+            if ($(window).width() < 1366) {
+                $('.fixed-panel').hide().removeClass('clicked');
             }
 
             function moveEnd() {
