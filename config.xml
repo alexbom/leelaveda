@@ -17,7 +17,7 @@
         Alexander Bom
     </author>
 
-    <preference name='phonegap-version' value='cli-5.1.1' />
+    <preference name='phonegap-version' value='cli-5.2.0' />
 
     <access origin="*" />
 
