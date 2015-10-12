@@ -120,19 +120,19 @@ Leela = {
             Leela.players.load();
             Leela.players.next(1);
         },
-        load: function(full) {
-            var local_game = localStorage.getItem('LeelaGame');
-            if (local_game) LeelaGame = JSON.parse(local_game);
+        load: function(player_id) {
+            if ( ! player_id) {
+                var game = localStorage.getItem('LeelaGame');
+                if (game) LeelaGame = JSON.parse(game);
+            }
 
             if (LeelaGame.players.length) {
-                Leela.history.fill(full);
+                Leela.history.fill(player_id);
             } else {
                 Leela.players.add();
             }
         },
         add: function(player, no_obj, full) {
-            if (LeelaGame.players.length == Leela.players.max - 1) Leela.players.add_btn.hide();
-
             if ( ! player) {
                 player = {
                     id: LeelaGame.players.length ? LeelaGame.players[LeelaGame.players.length - 1].id + 1 : 1,
@@ -173,6 +173,24 @@ Leela = {
                 Leela.players.ava(player.id);
             });
 
+            nav_player.find('.nav-hist').click(function() {
+                var player_id = $(this).parent().attr('data-id'),
+                    player    = LeelaGame.players[Leela.players.get(player_id).i],
+                    vars      = [
+                        { name: 'id',   value: 'history' },
+                        { name: 'data', value: Leela.design.tpl('.hist-full:first', [
+                            { name: 'name', value: player.name }
+                        ])
+                    }];
+
+                Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                Leela.design.modal.find('img:first').attr('src', 'img/ava/' + player.ava + '.png');
+                Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
+                Leela.design.modal = Leela.design.modal.remodal();
+                Leela.design.modal.open();
+                Leela.players.load(player_id);
+            });
+
             nav_player.on('click', '.nav-del', function() {
                 Leela.players.del(player.id);
             });
@@ -189,6 +207,8 @@ Leela = {
                 $('#cell-' + cell_id).click();
             });
             Leela.map.el.append(map_player);
+
+            if (LeelaGame.players.length == Leela.players.max) Leela.players.add_btn.hide();
         },
         del: function(id) {
             if (LeelaGame.players.length == 1) {
@@ -323,6 +343,14 @@ Leela = {
                 }
             }
 
+            if (cell_id == 68 || prev_id + value == 68) {
+                var salute = $('<img src="img/salute.gif" id="salute">');
+                salute.click(function() {
+                    salute.fadeOut('fast', function() { salute.remove(); });
+                });
+                Leela.map.el.append(salute);
+            }
+
             if ($(window).width() < 1366) {
                 $('.fixed-panel').hide().removeClass('clicked');
             }
@@ -376,30 +404,6 @@ Leela = {
                 $('#cell-' + $(this).attr('data-id')).click();
             });
 
-            $('#hist-save').click(function() {
-                localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
-                alert($('#alert-hist-save').text());
-            });
-
-            $('#hist-full').click(function() {
-                localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
-
-                var player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],
-                    vars   = [
-                        { name: 'id',   value: 'history' },
-                        { name: 'data', value: Leela.design.tpl('.hist-full:first', [
-                            { name: 'name', value: player.name }
-                        ])
-                    }];
-
-                Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
-                Leela.design.modal.find('img:first').attr('src', 'img/ava/' + player.ava + '.png');
-                Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
-                Leela.design.modal = Leela.design.modal.remodal();
-                Leela.design.modal.open();
-                Leela.players.load(1);
-            });
-
             $('#hist-new').click(function() {
                 if ( ! window.confirm($('#alert-hist-new').text())) return;
 
@@ -407,7 +411,7 @@ Leela = {
                 window.location.reload(true);
             });
         },
-        add: function(step, no_obj, full) {
+        add: function(step, no_obj, player_id) {
             var player = LeelaGame.players[Leela.players.get(step.player_id).i],
                 hist   = player.history,
                 d      = new Date(step.date),
@@ -425,27 +429,27 @@ Leela = {
                 ];
 
             if ( ! no_obj) hist.push(step);
-            if (full) {
+            if (player_id) {
                 $('.remodal .hist-steps-full').prepend(Leela.design.tpl('.hist-step-full:first', vars));
             } else {
                 if (Leela.history.root.is(':hidden')) Leela.history.root.show();
                 Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
             }
         },
-        fill: function(full) {
+        fill: function(player_id) {
             var steps = [];
-            if (full) {
-                var player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i];
-                Leela.players.add(player, 1, full);
+            if (player_id) {
+                var player = LeelaGame.players[Leela.players.get(player_id).i];
+                Leela.players.add(player, 1, player_id);
                 steps = steps.concat(player.history);
             } else {
                 for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
-                    Leela.players.add(LeelaGame.players[i], 1, full);
+                    Leela.players.add(LeelaGame.players[i], 1, player_id);
                     steps = steps.concat(LeelaGame.players[i].history);
                 }
             }
             steps.sort(Leela.history.sort);
-            if (full) {
+            if (player_id) {
                 steps.reverse();
                 $('#history-full').html('');
             }
@@ -453,10 +457,10 @@ Leela = {
             var dice = 0;
             for (var l = steps.length, i = 0; i < l; i++) {
                 if (steps[i].dice) dice = steps[i].dice;
-                Leela.history.add(steps[i], 1, full);
+                Leela.history.add(steps[i], 1, player_id);
             }
 
-            if ( ! full && dice) {
+            if ( ! player_id && dice) {
                 Leela.actions.dice.el.attr('class', 'dice-' + dice).attr('data-value');
             }
         },
@@ -504,9 +508,6 @@ Leela = {
                     { name: 'name', value: player.name }
                 ];
 
-            var salute = $('#salute');
-            if (salute.length) salute.remove();
-
             if (spec) {
                 Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
 
@@ -528,7 +529,6 @@ Leela = {
 
                 if (hist.length && hist[hist.length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-win:first', vars));
-                    Leela.map.el.append('<img src="img/salute.gif" id="salute">');
                 } else if ( ! hist.length || hist[hist.length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-start:first', vars));
                 } else if (player.six && player.six < 3) {
@@ -541,6 +541,7 @@ Leela = {
             }
 
             Leela.actions.panel.find('button').prop('disabled', false);
+            localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
         },
         dice: {
             cheat: 0,
