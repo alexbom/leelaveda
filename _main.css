@@ -378,6 +378,10 @@ a:hover {
     width: 48px;
     height: 48px;
     border: 0;
+
+    zoom: 1;
+    opacity: .5;
+    filter: alpha(opacity=50);
 }
 .nav-hist {
     background: url(img/players-hist.png) 50% 50% no-repeat;
@@ -386,9 +390,8 @@ a:hover {
     background: url(img/players-del.png) 50% 50% no-repeat;
 }
 .nav-hist:hover, .nav-del:hover {
-    -webkit-animation: spin 2.5s linear infinite;
-    -moz-animation: spin 2.5s linear infinite;
-    animation: spin 2.5s linear infinite;
+    opacity: 1;
+    filter: alpha(opacity=100);
 }
 #actions-panel {
     right: 0;

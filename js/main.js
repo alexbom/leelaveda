@@ -1,16 +1,13 @@
 LeelaGame = { turn : 1, players: [] };
 
 Leela = {
-    load: function() {
+    init: function() {
         Leela.design.tpls = $('#tpls');
         Leela.history.el  = $('#actions-steps');
-    },
-    init: function() {
         Leela.design.logo = $('#logo');
         Leela.map.el      = $('#map');
         Leela.players.el  = $('#players-list');
 
-        Leela.load();
         Leela.map.init();
         Leela.actions.init();
         Leela.history.init();
@@ -29,7 +26,7 @@ Leela = {
             }
             $(document).on('closed', '.remodal', function() {
                 if (Leela.design.modal) Leela.design.modal.destroy();
-                Leela.actions.panel.show().addClass('clicked');
+                Leela.actions.btn.click();
             });
         },
         nav: function(aside, btn, nav) {
@@ -95,7 +92,7 @@ Leela = {
                 Leela.history.el.css({ height: win_h - 430 });
             }).resize();
 
-            $('#actions-btn').click();
+            Leela.actions.btn.click();
             if ($(window).width() > 1366) $('#players-btn').click();
 
             if ('ontouchstart' in window) Leela.map.el.addClass('touch');
@@ -472,6 +469,7 @@ Leela = {
     },
     actions: {
         init: function() {
+            Leela.actions.btn       = $('#actions-btn');
             Leela.actions.panel     = $('#actions-panel');
             Leela.actions.help      = $('#actions-help');
             Leela.actions.dice.root = $('#actions-dices');
