@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.phonegap.leelaveda2"
         versionCode = "10"
-        version     = "2.0.1" >
+        version     = "2.0.2" >
 
     <!-- versionCode is optional and Android only -->
 
@@ -16,6 +16,8 @@
     <author href="http://www.tihoemesto.ru" email="gush@bk.ru">
         Alexander Bom
     </author>
+
+    <preference name='phonegap-version' value='cli-5.1.1' />
 
     <access origin="*" />
 
