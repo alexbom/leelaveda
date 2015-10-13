@@ -26,7 +26,7 @@ Leela = {
             }
             $(document).on('closed', '.remodal', function() {
                 if (Leela.design.modal) Leela.design.modal.destroy();
-                Leela.actions.btn.click();
+                if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
             });
         },
         nav: function(aside, btn, nav) {
