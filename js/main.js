@@ -342,7 +342,7 @@ Leela = {
 
             if (cell_id == 68 || prev_id + value == 68) {
                 var salute = $('<img src="img/salute.gif" id="salute">');
-                salute.click(function() {
+                salute.add(Leela.actions.dice.el).one('click', function() {
                     salute.fadeOut('fast', function() { salute.remove(); });
                 });
                 Leela.map.el.append(salute);
