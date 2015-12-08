@@ -282,6 +282,10 @@ Leela = {
             Leela.actions.nav();
         },
         move: function(value, cell_id) {
+            if ($(window).width() < 1366) {
+                $('.fixed-panel').hide().removeClass('clicked');
+            }
+
             value = value * 1;
             if (cell_id) cell_id = cell_id * 1;
 
@@ -330,13 +334,19 @@ Leela = {
                 return;
             }
 
-            if (cell_id > 72) cell_id = 72;
+            if (cell_id > 72) cell_id = hist[hist.length - 1].cell_id;
+
             if ( ! cell_id) {
                 cell_id = prev_id + value;
 
                 if (cell_id > 72) {
-                    Leela.players.next();
-                    return;
+                    if (value < 6) {
+                        Leela.players.next();
+                        return;
+                    } else {
+                        Leela.actions.nav();
+                        return;
+                    }
                 }
             }
 
@@ -346,10 +356,6 @@ Leela = {
                     salute.fadeOut('fast', function() { salute.remove(); });
                 });
                 Leela.map.el.append(salute);
-            }
-
-            if ($(window).width() < 1366) {
-                $('.fixed-panel').hide().removeClass('clicked');
             }
 
             function moveEnd() {

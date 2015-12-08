@@ -27,7 +27,7 @@ info =
 '<div>'+
     '<p>Знамя Мира &ndash; есть символ всего Мира, не одной страны, но всего цивилизованного Мира.</p>'+
     '<p id="'+id+'-author">Николай Рерих</p>'+
-    '<p>Кнопка &laquo;Я за МИР&raquo; &ndash; это маяк для Интернет-путешественников, напоминающий о единстве, мире и доброте.</p>'+
+    '<p>Кнопка &laquo;Я за МИР&raquo; &ndash; это маяк для Интернет-путешественников, напоминающий о единстве, мире и любви вне времени и пространства.</p>'+
     '<p class="'+id+'-foot"><a href="#" id="'+id+'-get">Поднять Знамя Мира &rarr;</a></p>'+
 '</div>';
 code =
@@ -44,18 +44,16 @@ title = 'I`m Peace';
 info =
 '<div>'+
     '<p>Banner of Peace &mdash; a symbol around the world, not one country, but of the whole civilized world.</p>'+
-    '<p>Has great antiquity and is found throughout the world, therefore can not be limited to any sect, religion or tradition, for it represents the evolution of consciousness in all its phases.</p>'+
     '<p id="'+id+'-author">Nicholas Roerich</p>'+
-    '<p class="'+id+'-foot">'+
-        '<br /><a href="#" id="'+id+'-get">Raise <nobr>the Banner of Peace</nobr></a>'+
-    '</p>'+
+    '<p>Button &laquo;I am for peace&raquo; &ndash; a beacon for Internet travelers, reminiscent of unity, peace and love beyond time and space.</p>'+
+    '<p class="'+id+'-foot"><a href="#" id="'+id+'-get">Raise <nobr>the Banner of Peace</nobr></a></p>'+
 '</div>';
 code =
 '<div>'+
-    '<p>Be the Banner of Peace code on your site to remind ourselves and others about the value of peace on Earth.</p>'+
-    '<br>'+
+    '<p>HTML-code to insert on your website:</p>'+
     '<textarea id="'+id+'-code" title="Copy: Ctrl + C">&lt;div id="'+id+'" data-lang="en"&gt;&lt;/div&gt;\n&lt;script type="text/javascript" src="//leelaveda.ru/js/'+id+'.js"&gt;&lt;/script&gt;</textarea>'+
-    '<p class="'+id+'-foot"><a href="#" id="'+id+'-back">Back</a>'+
+    '<p id="'+id+'-about"><a href="http://hram-mira.ru/button.html" title="Open in new window" target="_blank">More about the button</a></p>'+
+    '<p class="'+id+'-foot"><a href="#" id="'+id+'-back">&larr; Back to description</a></p>'+
 '</div>';
     break;
 }
