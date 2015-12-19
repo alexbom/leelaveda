@@ -21,9 +21,16 @@ Leela = {
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
             Leela.design.adaptive();
 
-            if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
-                $('[data-remodal-id="intro"]').remodal().open();
+            var hash = window.location.href;
+            if (hash.indexOf('#cell-') !== -1) {
+                var arr = hash.split('-');
+                $('#cell-' + arr[1]).click();
+            } else {
+                if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
+                    $('[data-remodal-id="intro"]').remodal().open();
+                }
             }
+
             $(document).on('closed', '.remodal', function() {
                 if (Leela.design.modal) Leela.design.modal.destroy();
                 if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
