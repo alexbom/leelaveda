@@ -40,6 +40,7 @@ $descr = mb_substr($descr, 0, 160, 'utf-8').'&hellip;';
 <?=$text?>
 
 <a href="http://leelaveda.ru" id="leela-home">Игра Лила</a>
+<script src="js/"></script>
 
 </body>
 </html>

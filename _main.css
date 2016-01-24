@@ -160,7 +160,7 @@ a:hover {
 #players-btn {
     background: url(img/btn-players.png) 0 0 no-repeat;
 }
-#actions {
+#actions, #author {
     right: 0;
     text-align: right;
 }
@@ -275,28 +275,18 @@ a:hover {
 #footer .fixed-aside, #footer .fixed-center {
     position: absolute;
 }
-#download, #author {
-    padding: 2px 10px;
-}
-#download {
+#music {
     bottom: 0;
     left: 0;
+}
+#music > * {
+    padding: 0!important;
 }
 #share {
     bottom: 0;
 }
-#author {
-    bottom: 0;
-    right: 0;
-    font-size: 14px;
-
-    zoom: 1;
-    opacity: .5;
-    filter: alpha(opacity=50);
-}
-#author:hover {
-    opacity: 1;
-    filter: alpha(opacity=100);
+#author-btn {
+    background: url(img/btn-author.png) 0 0 no-repeat;
 }
 .font-default {
     font-size: 16px;
@@ -627,6 +617,13 @@ a:hover {
     height: 125%;
     bottom: 0;
     left: -16%;
+}
+#ya-donate {
+    width: 524px;
+    margin: 0 auto;
+}
+#banner-of-peace-btn {
+    margin: 0 auto!important;
 }
 
 @media only screen and (max-width : 1366px) {

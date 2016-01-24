@@ -19,6 +19,11 @@ Leela = {
         init: function() {
             Leela.design.nav('#players', '#players-btn', '#players-panel');
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
+
+            $('#author-btn').click(function() {
+                $('[data-remodal-id="about-author"]').remodal().open();
+            });
+
             Leela.design.adaptive();
 
             var hash = window.location.href;
@@ -631,6 +636,8 @@ Leela = {
                     Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
                     Leela.design.modal = Leela.design.modal.remodal();
                     Leela.design.modal.open();
+
+                    // клонировать картинку перед и после существующей
                 });
             });
         },
