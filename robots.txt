@@ -5,3 +5,6 @@ Disallow: /fonts/
 Disallow: /js/
 Disallow: /libs/
 Disallow: /old/
+Disallow: /music/
+Disallow: /voice/
+Disallow: /soundmanager2/

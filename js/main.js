@@ -1,6 +1,7 @@
 LeelaGame = { turn : 1, players: [] };
 
 Leela = {
+    mobile: 0,
     init: function() {
         Leela.design.tpls = $('#tpls');
         Leela.history.el  = $('#actions-steps');
@@ -13,6 +14,7 @@ Leela = {
         Leela.history.init();
         Leela.players.init();
         Leela.design.init();
+        Leela.sound.init();
     },
     design: {
         min: 320,
@@ -22,6 +24,10 @@ Leela = {
 
             $('#author-btn').click(function() {
                 $('[data-remodal-id="about-author"]').remodal().open();
+
+                if (Leela.mobile) return;
+
+                $('#donation').html('<h2>Богатство щедрого неисчерпаемо</h2><br><div id="ya-donate"><iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/donate.xml?account=41001427090185&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&default-sum=&targets=%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B2%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5+%D0%BF%D0%BE%D0%B6%D0%B5%D1%80%D1%82%D0%B2%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F+%D0%BD%D0%B0+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%B8%D0%B3%D1%80%D1%8B&target-visibility=on&project-name=%D0%98%D0%B3%D1%80%D0%B0+%D0%9B%D0%B8%D0%BB%D0%B0&project-site=http%3A%2F%2Fleelaveda.ru&button-text=01&successURL=http%3A%2F%2Fleelaveda.ru" width="524" height="117"></iframe></div><br>');
             });
 
             Leela.design.adaptive();
@@ -36,10 +42,25 @@ Leela = {
                 }
             }
 
+            $(document).on('opened', '.remodal', function() {
+                Leela.sound.voice();
+            });
             $(document).on('closed', '.remodal', function() {
                 if (Leela.design.modal) Leela.design.modal.destroy();
                 if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
             });
+
+            if (Leela.mobile) return;
+
+            var sc  = document.createElement('script');
+            sc.type = 'text/javascript';
+            sc.src  = '//yandex.st/share/share.js';
+            document.getElementsByTagName('body')[0].appendChild(sc);
+
+            var sc  = document.createElement('script');
+            sc.type = 'text/javascript';
+            sc.src  = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.getElementsByTagName('body')[0].appendChild(sc);
         },
         nav: function(aside, btn, nav) {
             aside = $(aside);
@@ -57,23 +78,6 @@ Leela = {
                     nav.show().addClass('clicked');
                 }
             });
-
-            /*if ( ! ('ontouchstart' in window)) {
-             aside.hover(
-             function () {
-             if ( ! nav.hasClass('clicked')) {
-             nav.stop().css({ opacity: 0 }).show().animate({ opacity: 1 }, 'fast');
-             }
-             },
-             function () {
-             if ( ! nav.hasClass('clicked')) {
-             nav.stop().animate({ opacity: 0 }, 'fast', function () {
-             nav.hide();
-             });
-             }
-             }
-             );
-             }*/
         },
         adaptive: function() {
             $('body').css({ 'min-width': Leela.design.min });
@@ -112,13 +116,61 @@ Leela = {
         tpl: function(sel, vars) {
             var clone = Leela.design.tpls.find(sel).clone(),
                 tpl   = $('<div />').append(clone),
-                html  = tpl.html();
+                html  = tpl.html(),
+                reg;
 
             for (var l = vars.length, i = 0; i < l; i++) {
-                var reg = new RegExp('{' + vars[i].name + '}', 'gi');
+                reg  = new RegExp('\\[' + vars[i].name + '\\]', 'g');
                 html = html.replace(reg, vars[i].value);
             }
             return html;
+        }
+    },
+    sound: {
+        init: function() {
+            if (Leela.mobile) return;
+
+            var ms  = document.createElement('link');
+            ms.rel  = 'stylesheet';
+            ms.href = 'soundmanager2/demo/bar-ui/css/bar-ui.min.css';
+            document.getElementsByTagName('head')[0].appendChild(ms);
+
+            var sc  = document.createElement('script');
+            sc.type = 'text/javascript';
+            sc.src  = 'soundmanager2/script/soundmanager2-nodebug-jsmin.js';
+            document.getElementsByTagName('body')[0].appendChild(sc);
+
+            var sc    = document.createElement('script');
+            sc.type   = 'text/javascript';
+            sc.src    = 'soundmanager2/demo/bar-ui/script/bar-ui.min.js';
+            sc.onload = function() {
+                soundManager.setup({ url: '/soundmanager2/swf/' });
+                $('#actions-sound').show().click(function() {
+                    $('#play-music').slideToggle();
+                });
+
+                $(document).on('closing', '.remodal', function() {
+                    var time = $('#play-voice .sm2-inline-time');
+
+                    if (time.length && time.text() != '0:00') {
+                        time.text('0:00');
+                        window.sm2BarPlayers[1].actions.stop();
+                        soundManager.reboot();
+                    }
+                    $('#play-voice').hide().remove().appendTo('body');
+                });
+            };
+            document.getElementsByTagName('body')[0].appendChild(sc);
+        },
+        voice: function() {
+            if (Leela.mobile) return;
+
+            var item = $('.remodal.remodal-is-opened .voice-wrap');
+            if ( ! item.length) return;
+
+            var play = $('#play-voice');
+            play.find('.sm2-playlist-bd').html('<li class="selected"><a href="' + item.attr('data-url') + '">' + item.attr('data-read') + '</a></li>');
+            play.remove().appendTo(item).show();
         }
     },
     players: {
@@ -154,9 +206,9 @@ Leela = {
             if (full) return;
 
             var vars = [
-                    { name: 'id',   value: player.id },
-                    { name: 'name', value: player.name },
-                    { name: 'ava',  value: player.ava }
+                    { name: 'Id',    value: player.id },
+                    { name: 'Pname', value: player.name },
+                    { name: 'Ava',   value: player.ava }
                 ],
                 nav_player = $(Leela.design.tpl('.nav-player:first', vars)),
                 name       = nav_player.find('.nav-name');
@@ -186,11 +238,11 @@ Leela = {
                 var player_id = $(this).parent().attr('data-id'),
                     player    = LeelaGame.players[Leela.players.get(player_id).i],
                     vars      = [
-                        { name: 'id',   value: 'history' },
-                        { name: 'data', value: Leela.design.tpl('.hist-full:first', [
-                            { name: 'name', value: player.name }
+                        { name: 'Id',   value: 'history' },
+                        { name: 'Data', value: Leela.design.tpl('.hist-full:first', [
+                            { name: 'Pname', value: player.name }
                         ])
-                    }];
+                        }];
 
                 Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
                 Leela.design.modal.find('img:first').attr('src', 'img/ava/' + player.ava + '.png');
@@ -217,6 +269,7 @@ Leela = {
             });
             Leela.map.el.append(map_player);
 
+            if (LeelaGame.players.length > 1) Leela.actions.next.show();
             if (LeelaGame.players.length == Leela.players.max) Leela.players.add_btn.hide();
         },
         del: function(id) {
@@ -226,7 +279,7 @@ Leela = {
             }
 
             var player  = Leela.players.get(id),
-                confirm = $('#alert-del-confirm').text().replace(/{name}/, player.name);
+                confirm = $('#alert-del-confirm').text().replace(/\[Pname\]/, player.name);
 
             if ( ! window.confirm(confirm)) return;
 
@@ -235,6 +288,8 @@ Leela = {
             LeelaGame.players.splice(player.i, 1);
             $('#nav-player-' + id + ', #map-player-' + id).remove();
             Leela.players.add_btn.show();
+
+            if (LeelaGame.players.length == 1) Leela.actions.next.hide();
         },
         get: function(id) {
             for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
@@ -364,7 +419,7 @@ Leela = {
 
             if (cell_id == 68 || prev_id + value == 68) {
                 var salute = $('<img src="img/salute.gif" id="salute">');
-                salute.add(Leela.actions.dice.el).one('click', function() {
+                salute.add(Leela.actions.dice.el).add(Leela.actions.dice.root.find('.dice-aside button')).one('click', function() {
                     salute.fadeOut('fast', function() { salute.remove(); });
                 });
                 Leela.map.el.append(salute);
@@ -436,11 +491,11 @@ Leela = {
                     ('0' + d.getHours()).slice(-2) + ':' +
                     ('0' + d.getMinutes()).slice(-2),
                 vars   = [
-                    { name: 'id',        value: player.id },
-                    { name: 'name',      value: player.name },
-                    { name: 'date',      value: date },
-                    { name: 'cell_id',   value: step.cell_id },
-                    { name: 'cell_name', value: Leela.map.cells[step.cell_id - 1].name }
+                    { name: 'Id',        value: player.id },
+                    { name: 'Pname',     value: player.name },
+                    { name: 'Date',      value: date },
+                    { name: 'Cell_id',   value: step.cell_id },
+                    { name: 'Cell_name', value: Leela.map.cells[step.cell_id - 1].name }
                 ];
 
             if ( ! no_obj) hist.push(step);
@@ -495,6 +550,7 @@ Leela = {
             Leela.actions.birth     = $('#actions-birth');
             Leela.actions.arrow     = $('#actions-arrow');
             Leela.actions.snake     = $('#actions-snake');
+            Leela.actions.next      = $('#actions-next');
 
             Leela.actions.dice.root.on('click', '.dice-aside button', function() {
                 Leela.actions.dice.roll($(this).attr('data-value'));
@@ -504,6 +560,9 @@ Leela = {
             });
             Leela.actions.birth.click(function() {
                 Leela.players.move(0, 6);
+            });
+            Leela.actions.next.click(function() {
+                Leela.players.next();
             });
             Leela.actions.arrow.add(Leela.actions.snake).click(function() {
                 var hist    = LeelaGame.players[Leela.players.get(LeelaGame.turn).i].history,
@@ -520,22 +579,28 @@ Leela = {
                 type    = Leela.map.cells[cell_id - 1].type,
                 spec    = ($.inArray(type, ['birth', 'arrow', 'snake']) !== -1),
                 vars    = [
-                    { name: 'id',   value: player.id },
-                    { name: 'name', value: player.name }
+                    { name: 'Id',    value: player.id },
+                    { name: 'Pname', value: player.name }
                 ];
 
             if (spec) {
                 Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
 
                 if (type == 'birth') {
+                    Leela.actions.arrow.hide();
+                    Leela.actions.snake.hide();
                     Leela.actions.birth.show();
                     Leela.actions.help.html(Leela.design.tpl('.help-birth:first', vars));
                 }
                 if (type == 'arrow') {
+                    Leela.actions.birth.hide();
+                    Leela.actions.snake.hide();
                     Leela.actions.arrow.show();
                     Leela.actions.help.html(Leela.design.tpl('.help-arrow:first', vars));
                 }
                 if (type == 'snake') {
+                    Leela.actions.arrow.hide();
+                    Leela.actions.birth.hide();
                     Leela.actions.snake.show();
                     Leela.actions.help.html(Leela.design.tpl('.help-snake:first', vars));
                 }
@@ -612,22 +677,25 @@ Leela = {
              for (var i = 0; i < 72; i++) {
              var item = Leela.map.cells[Leela.map.grid[i] - 1],
              vars = [
-             { name: 'type', value: item.type || '' },
-             { name: 'id',   value: item.id },
-             { name: 'name', value: item.name }
+             { name: 'Type', value: item.type || '' },
+             { name: 'Id',   value: item.id },
+             { name: 'Cell_name', value: item.name }
              ];
 
              Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
              }*/
 
-            Leela.map.el.on('click', '.cell', function() {
+            Leela.map.el.on('click', '.cell', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
                 var item = $(this),
                     id   = item.attr('data-id');
 
                 $.get('data/' + id + '.html', function(data) {
                     var vars  = [
-                        { name: 'id', value: 'cell-' + id },
-                        { name: 'data', value: data }
+                        { name: 'Id', value: 'cell-' + id },
+                        { name: 'Data', value: data }
                     ];
 
                     if (Leela.design.modal) Leela.design.modal.destroy();
@@ -636,8 +704,6 @@ Leela = {
                     Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
                     Leela.design.modal = Leela.design.modal.remodal();
                     Leela.design.modal.open();
-
-                    // клонировать картинку перед и после существующей
                 });
             });
         },
