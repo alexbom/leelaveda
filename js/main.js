@@ -132,7 +132,7 @@ Leela = {
 
             var ms  = document.createElement('link');
             ms.rel  = 'stylesheet';
-            ms.href = 'soundmanager2/demo/bar-ui/css/bar-ui.min.css';
+            ms.href = 'libs/soundmanager2/demo/bar-ui/css/bar-ui.min.css';
             document.getElementsByTagName('head')[0].appendChild(ms);
 
             var sc  = document.createElement('script');
