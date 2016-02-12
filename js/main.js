@@ -44,6 +44,10 @@ Leela = {
 
             $(document).on('opened', '.remodal', function() {
                 Leela.sound.voice();
+
+                if (Leela.mobile) return;
+
+                $('.remodal.remodal-is-opened .cell-rec-open').show();
             });
             $(document).on('closed', '.remodal', function() {
                 if (Leela.design.modal) Leela.design.modal.destroy();
