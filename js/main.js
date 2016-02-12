@@ -1,7 +1,7 @@
 LeelaGame = { turn : 1, players: [] };
 
 Leela = {
-    mobile: 1,
+    mobile: 0,
     init: function() {
         Leela.design.tpls = $('#tpls');
         Leela.history.el  = $('#actions-steps');
