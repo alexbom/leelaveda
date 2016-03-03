@@ -134,21 +134,23 @@ Leela = {
         init: function() {
             if (Leela.mobile) return;
 
-            var ms  = document.createElement('link');
-            ms.rel  = 'stylesheet';
-            ms.href = 'libs/soundmanager2/demo/bar-ui/css/bar-ui.min.css';
+            var ms    = document.createElement('link');
+            ms.rel    = 'stylesheet';
+            ms.href   = 'libs/soundmanager2/demo/bar-ui/css/bar-ui.min.css';
             document.getElementsByTagName('head')[0].appendChild(ms);
 
-            var sc  = document.createElement('script');
-            sc.type = 'text/javascript';
-            sc.src  = 'soundmanager2/script/soundmanager2-nodebug-jsmin.js';
+            var sc    = document.createElement('script');
+            sc.type   = 'text/javascript';
+            sc.async  = false;
+            sc.src    = 'libs/soundmanager2/script/soundmanager2-nodebug-jsmin.js';
             document.getElementsByTagName('body')[0].appendChild(sc);
 
             var sc    = document.createElement('script');
             sc.type   = 'text/javascript';
-            sc.src    = 'soundmanager2/demo/bar-ui/script/bar-ui.min.js';
+            sc.async  = false;
+            sc.src    = 'libs/soundmanager2/demo/bar-ui/script/bar-ui.min.js';
             sc.onload = function() {
-                soundManager.setup({ url: '/soundmanager2/swf/' });
+                soundManager.setup({ url: '/libs/soundmanager2/swf/' });
                 $('#actions-sound').show().click(function() {
                     $('#play-music').slideToggle();
                 });
@@ -210,9 +212,9 @@ Leela = {
             if (full) return;
 
             var vars = [
-                    { name: 'Id',    value: player.id },
-                    { name: 'Pname', value: player.name },
-                    { name: 'Ava',   value: player.ava }
+                    { name: 'Id',          value: player.id },
+                    { name: 'Player_name', value: player.name },
+                    { name: 'Ava',         value: player.ava }
                 ],
                 nav_player = $(Leela.design.tpl('.nav-player:first', vars)),
                 name       = nav_player.find('.nav-name');
@@ -244,7 +246,7 @@ Leela = {
                     vars      = [
                         { name: 'Id',   value: 'history' },
                         { name: 'Data', value: Leela.design.tpl('.hist-full:first', [
-                            { name: 'Pname', value: player.name }
+                            { name: 'Player_name', value: player.name }
                         ])
                         }];
 
@@ -283,7 +285,7 @@ Leela = {
             }
 
             var player  = Leela.players.get(id),
-                confirm = $('#alert-del-confirm').text().replace(/\[Pname\]/, player.name);
+                confirm = $('#alert-del-confirm').text().replace(/\[Player_name\]/, player.name);
 
             if ( ! window.confirm(confirm)) return;
 
@@ -495,11 +497,11 @@ Leela = {
                     ('0' + d.getHours()).slice(-2) + ':' +
                     ('0' + d.getMinutes()).slice(-2),
                 vars   = [
-                    { name: 'Id',        value: player.id },
-                    { name: 'Pname',     value: player.name },
-                    { name: 'Date',      value: date },
-                    { name: 'Cell_id',   value: step.cell_id },
-                    { name: 'Cell_name', value: Leela.map.cells[step.cell_id - 1].name }
+                    { name: 'Id',          value: player.id },
+                    { name: 'Player_name', value: player.name },
+                    { name: 'Hist_date',   value: date },
+                    { name: 'Cell_id',     value: step.cell_id },
+                    { name: 'Cell_name',   value: Leela.map.cells[step.cell_id - 1].name }
                 ];
 
             if ( ! no_obj) hist.push(step);
@@ -583,9 +585,15 @@ Leela = {
                 type    = Leela.map.cells[cell_id - 1].type,
                 spec    = ($.inArray(type, ['birth', 'arrow', 'snake']) !== -1),
                 vars    = [
-                    { name: 'Id',    value: player.id },
-                    { name: 'Pname', value: player.name }
+                    { name: 'Id',          value: player.id },
+                    { name: 'Player_name', value: player.name }
                 ];
+
+            if (type == 'arrow' || type == 'snake') {
+                $('#cell-' + cell_id).mouseover();
+            } else {
+                Leela.map.el.find('.cell').mouseout();
+            }
 
             if (spec) {
                 Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
@@ -626,6 +634,8 @@ Leela = {
             }
 
             Leela.actions.panel.find('button').prop('disabled', false);
+            if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
+
             localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
         },
         dice: {
@@ -673,21 +683,35 @@ Leela = {
         height: 700,
         init:   function() {
             /*Leela.map.el.css({
-             'min-width'       : Leela.design.min,
-             'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
-             'background-image': 'url(' + Leela.map.image + ')'
-             });
+                'min-width'       : Leela.design.min,
+                'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
+                'background-image': 'url(' + Leela.map.image + ')'
+            });*/
 
-             for (var i = 0; i < 72; i++) {
-             var item = Leela.map.cells[Leela.map.grid[i] - 1],
-             vars = [
-             { name: 'Type', value: item.type || '' },
-             { name: 'Id',   value: item.id },
-             { name: 'Cell_name', value: item.name }
-             ];
+            for (var i = 0; i < 72; i++) {
+                var item = Leela.map.cells[Leela.map.grid[i] - 1]/*,
+                    vars = [
+                        { name: 'Cell_type', value: item.type || '' },
+                        { name: 'Id',        value: item.id },
+                        { name: 'Cell_name', value: item.name }
+                    ]*/;
 
-             Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
-             }*/
+                //Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
+
+                if (item.type == 'arrow' || item.type == 'snake') {
+                    var img = $('<img src="img/guide-' + item.id + '.png" alt="" id="guide-' + item.id + '" class="map-guide trans-linear">');
+
+                    Leela.map.el.append(img);
+                    $('#cell-' + item.id).hover(
+                        function() {
+                            $('#guide-' + $(this).attr('data-id')).stop().fadeIn('fast');
+                        },
+                        function() {
+                            $('#guide-' + $(this).attr('data-id')).stop().fadeOut('fast');
+                        }
+                    );
+                }
+            }
 
             Leela.map.el.on('click', '.cell', function(e) {
                 e.preventDefault();
