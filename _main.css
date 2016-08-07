@@ -615,7 +615,7 @@ a:hover {
     position: relative;
 }
 #actions-dice span, #actions-arrow span, #actions-snake span {*/
-.pulsate {
+/*.pulsate {
     z-index: 1;
     position: absolute;
     left: 50%;
@@ -631,12 +631,12 @@ a:hover {
     -moz-border-radius: 90px;
     border-radius: 90px;
 }
-/*.pulsate {
+.pulsate {
     -webkit-animation: pulsate 2s ease-out;
     -webkit-animation-iteration-count: infinite;
     -moz-animation: pulsate 2s ease-out;
     -moz-animation-iteration-count: infinite;
-}*/
+}
 @-webkit-keyframes pulsate {
     0%   { -webkit-transform: scale(1, 1); opacity: 0; }
     50%  { opacity: 1; }
@@ -661,7 +661,7 @@ a:hover {
     0%   { transform: scale(1, 1); opacity: 0; }
     50%  { opacity: 1; }
     100% { transform: scale(1.5, 1.5); opacity: 0; }
-}
+}*/
 #actions-help {
     position: relative;
     margin-top: 10px;
