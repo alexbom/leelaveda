@@ -183,6 +183,7 @@ a:hover {
     margin: 0 auto;
     background: #333 50% 50% no-repeat;
     background-size: contain;
+    overflow: hidden;
     font-size: 0;
 
     -webkit-box-shadow: 0 0 50px #000;
@@ -519,6 +520,10 @@ a:hover {
     position: relative;
     height: 90px;
 }
+#actions-nav button {
+    z-index: 2;
+    position: relative;
+}
 #actions-dices, #actions-birth, #actions-arrow, #actions-snake {
     position: absolute;
     top: 0;
@@ -546,7 +551,7 @@ a:hover {
     vertical-align: top;
 }
 #actions-next, #actions-sound {
-    position: absolute;
+    position: absolute!important;
     right: 0;
     width: 32px;
     height: 32px;
@@ -607,16 +612,19 @@ a:hover {
 #actions-snake {
     background-image: url('img/actions-snake.png');
 }
-#actions-dice, #actions-arrow, #actions-snake {
+/*#actions-dice, #actions-arrow, #actions-snake {
     position: relative;
 }
-#actions-dice span, #actions-arrow span, #actions-snake span {
+#actions-dice span, #actions-arrow span, #actions-snake span {*/
+.pulsate {
+    z-index: 1;
     position: absolute;
-    left: 0;
+    left: 50%;
     top: 0;
     display: block;
     height: 90px;
     width: 90px;
+    margin-left: -45px;
     border: 1px solid #fff;
     opacity: 0;
 

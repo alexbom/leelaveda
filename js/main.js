@@ -1,7 +1,7 @@
 LeelaGame = { turn : 1, players: [] };
 
 Leela = {
-    mobile: 1,
+    mobile: 0,
     init: function() {
         Leela.design.tpls = $('#tpls');
         Leela.history.el  = $('#actions-steps');
@@ -24,10 +24,6 @@ Leela = {
 
             $('#author-btn').click(function() {
                 $('[data-remodal-id="about-author"]').remodal().open();
-
-                if (Leela.mobile) return;
-
-                $('#donation').html('<h2>Богатство щедрого неисчерпаемо</h2><br><div id="ya-donate"><iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/donate.xml?account=41001427090185&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&default-sum=&targets=%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B2%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5+%D0%BF%D0%BE%D0%B6%D0%B5%D1%80%D1%82%D0%B2%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F+%D0%BD%D0%B0+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%B8%D0%B3%D1%80%D1%8B&target-visibility=on&project-name=%D0%98%D0%B3%D1%80%D0%B0+%D0%9B%D0%B8%D0%BB%D0%B0&project-site=http%3A%2F%2Fleelaveda.ru&button-text=01&successURL=http%3A%2F%2Fleelaveda.ru" width="524" height="117"></iframe></div><br>');
             });
 
             Leela.design.adaptive();
@@ -544,6 +540,13 @@ Leela = {
             if (a.date < b.date) return -1;
             if (a.date > b.date) return 1;
             return 0;
+        },
+        save: function() {
+            $.post('php/save.php', 'game=' + localStorage.getItem('LeelaGame'), function(result) {
+                if ( ! result) return;
+
+                window.open('game/' + result + '.html');
+            });
         }
     },
     actions: {
@@ -557,6 +560,7 @@ Leela = {
             Leela.actions.arrow     = $('#actions-arrow');
             Leela.actions.snake     = $('#actions-snake');
             Leela.actions.next      = $('#actions-next');
+            Leela.actions.pulsate   = $('#actions-pulsate');
 
             Leela.actions.dice.root.on('click', '.dice-aside button', function() {
                 Leela.actions.dice.roll($(this).attr('data-value'));
@@ -595,6 +599,7 @@ Leela = {
                 Leela.map.el.find('.cell').mouseout();
             }
 
+            Leela.actions.pulsate.hide();
             if (spec) {
                 Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
 
@@ -608,17 +613,21 @@ Leela = {
                     Leela.actions.birth.hide();
                     Leela.actions.snake.hide();
                     Leela.actions.arrow.show();
+                    Leela.actions.pulsate.show();
                     Leela.actions.help.html(Leela.design.tpl('.help-arrow:first', vars));
                 }
                 if (type == 'snake') {
                     Leela.actions.arrow.hide();
                     Leela.actions.birth.hide();
                     Leela.actions.snake.show();
+                    Leela.actions.pulsate.show();
                     Leela.actions.help.html(Leela.design.tpl('.help-snake:first', vars));
                 }
             } else {
                 Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).prop('disabled', true).fadeOut('slow');
-                Leela.actions.dice.root.fadeIn('slow');
+                Leela.actions.dice.root.fadeIn('slow', function() {
+                    Leela.actions.pulsate.show();
+                });
 
                 if (hist.length && hist[hist.length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-win:first', vars));
@@ -821,11 +830,17 @@ Leela = {
         ]
     }
 };
-Leela.init();
 
-// PhoneGap Build
-if (navigator.notification) {
-    alert = function(message, title) {
-        navigator.notification.alert(message, null, title || '', 'OK');
+// URLs to init default object actions
+if ($.inArray(window.location.pathname, ['/', '/index.max.html']) !== -1) {
+    Leela.init();
+}
+
+if (Leela.mobile) {
+    // PhoneGap Build
+    if (navigator.notification) {
+        alert = function(message, title) {
+            navigator.notification.alert(message, null, title || '', 'OK');
+        }
     }
 }
