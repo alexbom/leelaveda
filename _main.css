@@ -183,7 +183,6 @@ a:hover {
     margin: 0 auto;
     background: #333 50% 50% no-repeat;
     background-size: contain;
-    overflow: hidden;
     font-size: 0;
 
     -webkit-box-shadow: 0 0 50px #000;
@@ -632,12 +631,12 @@ a:hover {
     -moz-border-radius: 90px;
     border-radius: 90px;
 }
-.pulsate {
+/*.pulsate {
     -webkit-animation: pulsate 2s ease-out;
     -webkit-animation-iteration-count: infinite;
     -moz-animation: pulsate 2s ease-out;
     -moz-animation-iteration-count: infinite;
-}
+}*/
 @-webkit-keyframes pulsate {
     0%   { -webkit-transform: scale(1, 1); opacity: 0; }
     50%  { opacity: 1; }
