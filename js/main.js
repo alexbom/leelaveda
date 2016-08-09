@@ -830,9 +830,9 @@ Leela = {
         ]
     }
 };
-alert(window.location.pathname+'!');
+
 // URLs to init default object actions
-if ($.inArray(window.location.pathname, ['/', '/index.html', '/index.max.html']) !== -1) {alert('2');
+if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/index.max.html']) !== -1) {
     Leela.init();
 }
 
