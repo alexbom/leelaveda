@@ -1,4 +1,4 @@
-LeelaGame = { turn : 1, players: [] };
+LeelaGame = { turn: 1, players: [] };
 
 Leela = {
     mobile: 1,
@@ -832,7 +832,7 @@ Leela = {
 };
 
 // URLs to init default object actions
-if ($.inArray(window.location.pathname, ['/', '/index.max.html']) !== -1) {
+if ($.inArray(window.location.pathname, ['/', '/index.html', '/index.max.html']) !== -1) {
     Leela.init();
 }
 
