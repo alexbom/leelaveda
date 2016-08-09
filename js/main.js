@@ -692,18 +692,18 @@ Leela = {
         height: 700,
         init:   function() {
             /*Leela.map.el.css({
-                'min-width'       : Leela.design.min,
-                'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
-                'background-image': 'url(' + Leela.map.image + ')'
-            });*/
+             'min-width'       : Leela.design.min,
+             'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
+             'background-image': 'url(' + Leela.map.image + ')'
+             });*/
 
             for (var i = 0; i < 72; i++) {
                 var item = Leela.map.cells[Leela.map.grid[i] - 1]/*,
-                    vars = [
-                        { name: 'Cell_type', value: item.type || '' },
-                        { name: 'Id',        value: item.id },
-                        { name: 'Cell_name', value: item.name }
-                    ]*/;
+                 vars = [
+                 { name: 'Cell_type', value: item.type || '' },
+                 { name: 'Id',        value: item.id },
+                 { name: 'Cell_name', value: item.name }
+                 ]*/;
 
                 //Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
 
@@ -830,7 +830,7 @@ Leela = {
         ]
     }
 };
-alert('1');
+alert(window.location.pathname+'!');
 // URLs to init default object actions
 if ($.inArray(window.location.pathname, ['/', '/index.html', '/index.max.html']) !== -1) {alert('2');
     Leela.init();
