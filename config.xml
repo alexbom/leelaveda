@@ -21,6 +21,8 @@
 
     <icon src="img/icon.png" />
 
+    <preference name="phonegap-version" value="cli-6.3.0" />
+
     <feature name="http://api.phonegap.com/1.0/notification" />
 
     <feature name="InAppBrowser">
