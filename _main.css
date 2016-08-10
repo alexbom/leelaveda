@@ -83,6 +83,8 @@ a:hover {
     color: #666;
 }
 .rotate:hover, .rotating {
+    overflow: visible;
+
     -webkit-animation: spin 3s linear infinite;
     -moz-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
@@ -269,6 +271,7 @@ a:hover {
 }
 .map-player.rotating {
     z-index: 10;
+    overflow: visible;
 }
 @keyframes fading {
     0%   { opacity: 0; }
@@ -852,7 +855,7 @@ a:hover {
     h1, h2, h3 { font-size: 26px; }
     #logo h1 { margin-bottom: -6px; }
 }
-@media only screen and (max-width : 600px) {
+@media only screen and (max-width : 640px) {
     #share { display: none; }
 }
 @media only screen and (max-width : 320px) {
