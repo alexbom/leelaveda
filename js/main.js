@@ -601,7 +601,7 @@ Leela = {
 
             Leela.actions.pulsate.hide();
             if (spec) {
-                Leela.actions.dice.root.prop('disabled', true).fadeOut('slow');
+                Leela.actions.dice.root.stop().fadeOut('slow');
 
                 if (type == 'birth') {
                     Leela.actions.arrow.hide();
@@ -624,8 +624,8 @@ Leela = {
                     Leela.actions.help.html(Leela.design.tpl('.help-snake:first', vars));
                 }
             } else {
-                Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).prop('disabled', true).fadeOut('slow');
-                Leela.actions.dice.root.fadeIn('slow', function() {
+                Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).prop('disabled', true).stop().fadeOut('slow');
+                Leela.actions.dice.root.stop().fadeIn('slow', function() {
                     Leela.actions.pulsate.show();
                 });
 
