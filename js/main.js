@@ -502,7 +502,11 @@ Leela = {
 
             if ( ! no_obj) hist.push(step);
             if (player_id) {
-                $('.remodal .hist-steps-full').prepend(Leela.design.tpl('.hist-step-full:first', vars));
+                var step_full = $('.remodal .hist-steps-full');
+                step_full.prepend(Leela.design.tpl('.hist-step-full:first', vars));
+
+                var step_img = step_full.find('img:first');
+                step_img.attr('src', step_img.attr('data-src'));
             } else {
                 if (Leela.history.root.is(':hidden')) Leela.history.root.show();
                 Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
@@ -739,6 +743,7 @@ Leela = {
 
                     Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
                     Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
+                    Leela.design.modal.find('.remodal-continue').css('background-image', 'url(img/cells/' + id + '.jpg)');
                     Leela.design.modal = Leela.design.modal.remodal();
                     Leela.design.modal.open();
                 });
