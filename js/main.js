@@ -709,7 +709,7 @@ Leela = {
 
             if ( ! first) return;
 
-            if (first.date + 24 * 3600 > hist[length - 1].date) {
+            if (first.date + 60 * 5/*24 * 3600*/ > hist[length - 1].date) {
                 Leela.actions.dice.root.hide();
                 Leela.actions.birth.hide();
                 Leela.actions.snake.hide();
