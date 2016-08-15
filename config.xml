@@ -21,8 +21,6 @@
 
     <icon src="img/icon.png" />
 
-    <preference name="phonegap-version" value="cli-6.3.0" />
-
     <feature name="http://api.phonegap.com/1.0/notification" />
 
     <feature name="InAppBrowser">
@@ -32,6 +30,7 @@
         <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
 
-    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
+    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
+    <preference name="phonegap-version" value="cli-6.3.0" />
 
 </widget>
