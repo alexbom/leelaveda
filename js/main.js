@@ -424,8 +424,11 @@ Leela = {
 
             if (cell_id == 68 || prev_id + value == 68) {
                 var salute = $('<img src="img/salute.gif" id="salute">');
-                salute.add(Leela.actions.dice.el).add(Leela.actions.dice.root.find('.dice-aside button')).one('click', function() {
-                    salute.fadeOut('fast', function() { salute.remove(); });
+                salute
+                    .add(Leela.actions.dice.el)
+                    .add(Leela.actions.dice.root.find('.dice-aside button'))
+                .one('click', function() {
+                    salute.remove();
                 });
                 Leela.map.el.append(salute);
             }
@@ -610,7 +613,7 @@ Leela = {
 
             Leela.actions.pulsate.hide();
             if (spec) {
-                Leela.actions.dice.root.stop().fadeOut('slow');
+                Leela.actions.dice.root.hide();
 
                 if (type == 'birth') {
                     Leela.actions.arrow.hide();
@@ -633,10 +636,9 @@ Leela = {
                     Leela.actions.help.html(Leela.design.tpl('.help-snake:first', vars));
                 }
             } else {
-                Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).prop('disabled', true).stop().fadeOut('slow');
-                Leela.actions.dice.root.stop().fadeIn('slow', function() {
-                    Leela.actions.pulsate.show();
-                });
+                Leela.actions.birth.add(Leela.actions.arrow).add(Leela.actions.snake).hide();
+                Leela.actions.dice.root.show();
+                Leela.actions.pulsate.show();
 
                 if (length && hist[length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-win:first', vars));
