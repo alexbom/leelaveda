@@ -541,7 +541,7 @@ a:hover {
     z-index: 2;
     position: relative;
 }
-#actions-dices, #actions-birth, #actions-arrow, #actions-snake {
+#actions-dices, #actions-birth, #actions-arrow, #actions-snake, #actions-pay {
     position: absolute;
     top: 0;
     left: 65px;
@@ -549,13 +549,13 @@ a:hover {
 #actions-dices {
     width: 170px;
 }
-#actions-dice, #actions-birth, #actions-arrow, #actions-snake {
+#actions-dice, #actions-birth, #actions-arrow, #actions-snake, #actions-pay {
     width: 90px;
     height: 90px;
     border: 0;
     background: 0 0 no-repeat;
 }
-#actions-birth, #actions-arrow, #actions-snake {
+#actions-birth, #actions-arrow, #actions-snake, #actions-pay {
     display: none;
     margin-left: 40px;
 }

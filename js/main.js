@@ -2,6 +2,7 @@ LeelaGame = { turn: 1, players: [] };
 
 Leela = {
     mobile: 1,
+    paid: 0,
     init: function() {
         Leela.design.tpls = $('#tpls');
         Leela.history.el  = $('#actions-steps');
@@ -115,13 +116,15 @@ Leela = {
         },
         tpl: function(sel, vars) {
             var clone = Leela.design.tpls.find(sel).clone(),
-                tpl   = $('<div />').append(clone),
-                html  = tpl.html(),
+                tpl = $('<div />').append(clone),
+                html = tpl.html(),
                 reg;
 
-            for (var l = vars.length, i = 0; i < l; i++) {
-                reg  = new RegExp('\\[' + vars[i].name + '\\]', 'g');
-                html = html.replace(reg, vars[i].value);
+            if (vars && vars.length) {
+                for (var l = vars.length, i = 0; i < l; i++) {
+                    reg = new RegExp('\\[' + vars[i].name + '\\]', 'g');
+                    html = html.replace(reg, vars[i].value);
+                }
             }
             return html;
         }
@@ -565,6 +568,7 @@ Leela = {
             Leela.actions.snake     = $('#actions-snake');
             Leela.actions.next      = $('#actions-next');
             Leela.actions.pulsate   = $('#actions-pulsate');
+            Leela.actions.pay       = $('#actions-pay');
 
             Leela.actions.dice.root.on('click', '.dice-aside button', function() {
                 Leela.actions.dice.roll($(this).attr('data-value'));
@@ -589,7 +593,8 @@ Leela = {
         nav: function() {
             var player  = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],
                 hist    = player.history,
-                cell_id = hist.length ? hist[hist.length - 1].cell_id : 68,
+                length  = hist.length,
+                cell_id = length ? hist[length - 1].cell_id : 68,
                 type    = Leela.map.cells[cell_id - 1].type,
                 spec    = ($.inArray(type, ['birth', 'arrow', 'snake']) !== -1),
                 vars    = [
@@ -633,9 +638,9 @@ Leela = {
                     Leela.actions.pulsate.show();
                 });
 
-                if (hist.length && hist[hist.length - 1].cell_id == 68) {
+                if (length && hist[length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-win:first', vars));
-                } else if ( ! hist.length || hist[hist.length - 1].cell_id == 68) {
+                } else if ( ! length || hist[length - 1].cell_id == 68) {
                     Leela.actions.help.html(Leela.design.tpl('.help-start:first', vars));
                 } else if (player.six && player.six < 3) {
                     Leela.actions.help.html(Leela.design.tpl('.help-six:first', vars));
@@ -649,7 +654,9 @@ Leela = {
             Leela.actions.panel.find('button').prop('disabled', false);
             if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
 
-            localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
+            if (Leela.mobile) localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
+
+            Leela.pay.check();
         },
         dice: {
             cheat: 0,
@@ -687,6 +694,28 @@ Leela = {
                             fade_out++;
                         });
                 }
+            }
+        }
+    },
+    pay: {
+        check: function() {
+            if ( ! Leela.mobile || Leela.paid) return;
+
+            var free   = 3,
+                player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],
+                hist   = player.history,
+                length = hist.length,
+                first  = hist[length - free];
+
+            if ( ! first) return;
+
+            if (first.date + 24 * 3600 > hist[length - 1].date) {
+                Leela.actions.dice.root.hide();
+                Leela.actions.birth.hide();
+                Leela.actions.snake.hide();
+                Leela.actions.arrow.hide();
+                Leela.actions.pay.stop().fadeIn();
+                Leela.actions.help.html(Leela.design.tpl('.help-pay:first'));
             }
         }
     },
