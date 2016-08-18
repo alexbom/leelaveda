@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "LeelaVeda"
+        id          = "com.alexbom.leelaveda"
         versionCode = "11"
         version     = "2.0.5" >
 
@@ -27,7 +27,6 @@
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
 
-    <plugin name="cordova-plugin-inappbrowser" source="npm" />
-    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
+    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
 
 </widget>
