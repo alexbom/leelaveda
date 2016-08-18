@@ -427,9 +427,9 @@ Leela = {
                 salute
                     .add(Leela.actions.dice.el)
                     .add(Leela.actions.dice.root.find('.dice-aside button'))
-                .one('click', function() {
-                    salute.remove();
-                });
+                    .one('click', function() {
+                        salute.remove();
+                    });
                 Leela.map.el.append(salute);
             }
 
@@ -876,6 +876,9 @@ if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/i
 
 if (Leela.mobile) {
     // PhoneGap Build
+    if (cordova.InAppBrowser) {
+        window.open = cordova.InAppBrowser.open;
+    }
     if (navigator.notification) {
         alert = function(message, title) {
             navigator.notification.alert(message, null, title || '', 'OK');
