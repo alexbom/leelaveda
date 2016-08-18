@@ -15,6 +15,8 @@
         Alexander Bom
     </author>
 
+    <plugin name="cordova-plugin-inappbrowser" />
+
     <access origin="*" />
 
     <icon src="img/icon.png" />
@@ -24,7 +26,5 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
     </feature>
-
-    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
 
 </widget>
