@@ -2,10 +2,10 @@
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "LeelaVeda"
-        versionCode = "10"
-        version     = "2.0.4" >
+        versionCode = "11"
+        version     = "2.0.5" >
 
-    <!-- versionCode is optional and Android only -->
+    <preference name="phonegap-version" value="cli-6.3.0" />
 
     <name>Leela Veda</name>
 
@@ -24,13 +24,9 @@
     <feature name="http://api.phonegap.com/1.0/notification" />
 
     <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.InAppBrowser" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="ios-package" value="CDVInAppBrowser" />
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
 
-    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
-    <preference name="phonegap-version" value="cli-6.3.0" />
+    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
 
 </widget>
