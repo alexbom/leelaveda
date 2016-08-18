@@ -881,4 +881,7 @@ if (Leela.mobile) {
             navigator.notification.alert(message, null, title || '', 'OK');
         }
     }
+    if (cordova.InAppBrowser) {
+        window.open = cordova.InAppBrowser.open;
+    }
 }
