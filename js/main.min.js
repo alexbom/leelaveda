@@ -592,6 +592,9 @@ Leela = {
 
                 Leela.players.move(0, next_id);
             });
+            Leela.actions.pay.click(function() {
+                window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full','_blank','location=yes');
+            });
         },
         nav: function() {
             var player  = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],

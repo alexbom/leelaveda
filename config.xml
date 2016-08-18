@@ -15,7 +15,7 @@
         Alexander Bom
     </author>
 
-    <plugin name="cordova-plugin-inappbrowser" />
+    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
 
     <access origin="*" />
 
