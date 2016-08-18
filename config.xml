@@ -27,6 +27,6 @@
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
 
-    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
+    <plugin name="org.apache.cordova.inappbrowser" spec="0.6.0" source="pgb" />
 
 </widget>
