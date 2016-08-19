@@ -879,14 +879,11 @@ if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/i
 
 if (Leela.mobile) {alert('ready?');
     // PhoneGap Build
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {alert('ready!');
-        window.open = cordova.InAppBrowser.open;
+    window.open = cordova.InAppBrowser.open;
 
-        if (navigator.notification) {
-            alert = function(message, title) {
-                navigator.notification.alert(message, null, title || '', 'OK');
-            }
+    if (navigator.notification) {
+        alert = function(message, title) {
+            navigator.notification.alert(message, null, title || '', 'OK');
         }
-    }
+    }alert('ready!');
 }
