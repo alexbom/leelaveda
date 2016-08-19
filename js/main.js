@@ -593,7 +593,7 @@ Leela = {
                 Leela.players.move(0, next_id);
             });
             Leela.actions.pay.click(function() {
-                var ref = window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
+                var ref = window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_system', 'location=yes');
             });
         },
         nav: function() {
