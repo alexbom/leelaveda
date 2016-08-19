@@ -21,6 +21,6 @@
 
     <feature name="http://api.phonegap.com/1.0/notification" />
 
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <plugin name="org.apache.cordova.inappbrowser" source="pgb" spec="0.6.0" />
 
 </widget>
