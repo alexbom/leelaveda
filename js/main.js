@@ -880,10 +880,10 @@ if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/i
 if (Leela.mobile) {
     // PhoneGap Build
     if (navigator.notification) {
-        document.addEventListener("deviceready", onDeviceReady, false);
+        /*document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
             window.open = cordova.InAppBrowser.open;
-        }
+        }*/
         alert = function(message, title) {
             navigator.notification.alert(message, null, title || '', 'OK');
         }
