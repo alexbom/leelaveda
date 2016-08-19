@@ -15,10 +15,16 @@
         Alexander Bom
     </author>
 
+    <icon src="img/icon.png" />
+
     <access origin="*" />
 
     <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
 
-    <icon src="img/icon.png" />
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.InAppBrowser" />
+    </feature>
+
+    <feature name="http://api.phonegap.com/1.0/notification" />
 
 </widget>
