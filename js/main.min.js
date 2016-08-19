@@ -877,16 +877,16 @@ if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/i
     Leela.init();
 }
 
-if (Leela.mobile) {
+if (Leela.mobile) {alert('ready?');
     // PhoneGap Build
-    if (navigator.notification) {
-        alert = function(message, title) {
-            navigator.notification.alert(message, null, title || '', 'OK');
-        }
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
-            window.open = cordova.InAppBrowser.open;
-        }
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {alert('ready!');
         window.open = cordova.InAppBrowser.open;
+
+        if (navigator.notification) {
+            alert = function(message, title) {
+                navigator.notification.alert(message, null, title || '', 'OK');
+            }
+        }
     }
 }
