@@ -51,17 +51,22 @@ Leela = {
                 if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
             });
 
-            if (Leela.mobile) return;
+            if (Leela.mobile) {
+                var sc  = document.createElement('script');
+                sc.type = 'text/javascript';
+                sc.src  = 'cordova.js';
+                document.getElementsByTagName('body')[0].appendChild(sc);
+            } else {
+                var sc  = document.createElement('script');
+                sc.type = 'text/javascript';
+                sc.src  = '//yandex.st/share/share.js';
+                document.getElementsByTagName('body')[0].appendChild(sc);
 
-            var sc  = document.createElement('script');
-            sc.type = 'text/javascript';
-            sc.src  = '//yandex.st/share/share.js';
-            document.getElementsByTagName('body')[0].appendChild(sc);
-
-            var sc  = document.createElement('script');
-            sc.type = 'text/javascript';
-            sc.src  = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-            document.getElementsByTagName('body')[0].appendChild(sc);
+                var sc  = document.createElement('script');
+                sc.type = 'text/javascript';
+                sc.src  = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                document.getElementsByTagName('body')[0].appendChild(sc);
+            }
         },
         nav: function(aside, btn, nav) {
             aside = $(aside);
