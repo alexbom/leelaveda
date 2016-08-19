@@ -593,7 +593,7 @@ Leela = {
                 Leela.players.move(0, next_id);
             });
             Leela.actions.pay.click(function() {
-                window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
+                var ref = window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
             });
         },
         nav: function() {
@@ -877,12 +877,13 @@ if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/i
     Leela.init();
 }
 
-if (Leela.mobile) {alert('0');
+if (Leela.mobile) {
     // PhoneGap Build
-    if (cordova.InAppBrowser) {alert('1');
-        window.open = cordova.InAppBrowser.open;alert('2');
-    }
     if (navigator.notification) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            window.open = cordova.InAppBrowser.open;
+        }
         alert = function(message, title) {
             navigator.notification.alert(message, null, title || '', 'OK');
         }
