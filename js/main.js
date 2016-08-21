@@ -719,16 +719,16 @@ Leela = {
 
             if ( ! first) return;
 
-            var time = new Date().getTime();
+            var now = new Date();
 
-            if (first.date + 24 * 3600 > time) {
-                Leela.actions.dice.root.hide();
-                Leela.actions.birth.hide();
-                Leela.actions.snake.hide();
-                Leela.actions.arrow.hide();
-                Leela.actions.pay.stop().fadeIn();
-                Leela.actions.help.html(Leela.design.tpl('.help-pay:first'));
-            }
+            if (first.date + 24 * 60 * 60 * 1000 < now.getTime()) return;
+
+            Leela.actions.dice.root.hide();
+            Leela.actions.birth.hide();
+            Leela.actions.snake.hide();
+            Leela.actions.arrow.hide();
+            Leela.actions.pay.stop().fadeIn();
+            Leela.actions.help.html(Leela.design.tpl('.help-pay:first'));
         }
     },
     map: {
