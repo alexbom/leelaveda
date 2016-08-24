@@ -67,10 +67,9 @@ a:hover {
     left: auto;
     right: 0;
 }
-.remodal img, .cell-page-head img, .remodal-continue {
+.remodal img:not(.simple-img), .cell-page-head img, .remodal-continue {
     display: block;
     width: 200px;
-    height: 200px;
     margin: 0 auto;
     overflow: hidden;
 
@@ -85,7 +84,8 @@ a:hover {
     color: #666;
 }
 .remodal-continue {
-    margin: 0 auto;
+    height: 200px;
+    margin: 30px auto 0;
     background: 0 0 no-repeat;
 }
 .remodal-continue button {
@@ -101,6 +101,7 @@ a:hover {
 
     -webkit-animation: spin 3s linear infinite;
     -moz-animation: spin 3s linear infinite;
+    -o-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
 }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
@@ -161,6 +162,7 @@ a:hover {
     z-index: 4;
     position: fixed;
     top: 0;
+    width: 320px;
     font-size: 0;
 }
 .fixed-panel {
@@ -176,23 +178,12 @@ a:hover {
     left: 0;
 }
 .fixed-aside > button {
-    width: 50px;
+    width: 49px;
     height: 50px;
     padding: 0;
 }
 #players-btn {
     background: url(img/btn-players.png) 0 0 no-repeat;
-}
-#actions {
-    right: 0;
-}
-#author {
-    right: 40px;
-    margin-top: 10px;
-    text-align: right;
-}
-#actions-btn {
-    background: url(img/btn-actions.png) 0 0 no-repeat;
 }
 #map {
     z-index: 2;
@@ -428,12 +419,27 @@ a:hover {
 #footer .fixed-aside, #footer .fixed-center {
     position: absolute;
 }
-#peace {
-    bottom: 0;
+#actions {
+    right: 0;
+}
+#actions-btn {
+    background: url(img/btn-actions.png) 0 0 no-repeat;
+}
+#author {
     left: 0;
 }
-#peace > * {
-    padding: 0!important;
+#author-btn {
+    margin-top: 10px;
+}
+#download {
+    right: 0;
+}
+#download-btn {
+    display: block;
+    width: 60px;
+    height: 50px;
+    padding: 0 60px 0 0;
+    background: url(img/btn-download.png) 100% 0 no-repeat;
 }
 .font-default {
     font-size: 16px;
@@ -819,9 +825,6 @@ a:hover {
 #ya-donate {
     width: 524px;
     margin: 0 auto;
-}
-#banner-of-peace-btn {
-    margin: 0 auto!important;
 }
 #google_translate_element {
     zoom: 1;

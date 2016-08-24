@@ -1,7 +1,7 @@
 LeelaGame = { turn: 1, players: [] };
 
 Leela = {
-    mobile: 1,
+    mobile: 0,
     paid: 0,
     init: function() {
         Leela.design.tpls = $('#tpls');
@@ -15,6 +15,7 @@ Leela = {
         Leela.history.init();
         Leela.players.init();
         Leela.design.init();
+        Leela.adv.init();
         Leela.sound.init();
     },
     design: {
@@ -22,11 +23,6 @@ Leela = {
         init: function() {
             Leela.design.nav('#players', '#players-btn', '#players-panel');
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
-
-            $('#author-btn').click(function() {
-                $('[data-remodal-id="about-author"]').remodal().open();
-            });
-
             Leela.design.adaptive();
 
             var hash = window.location.href;
@@ -51,12 +47,40 @@ Leela = {
                 if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
             });
 
+            $('#author-btn').click(function() {
+                $('[data-remodal-id="about-author"]').remodal().open();
+            });
+            $('#website-btn').click(function() {
+                window.open('http://www.tihoemesto.ru/', '_blank', 'location=yes');
+                return false;
+            });
+            $('#wiki-btn').click(function() {
+                window.open('https://ru.wikipedia.org/wiki/Джохари,_Хариш', '_blank', 'location=yes');
+                return false;
+            });
+
+            var down_btn = $('#download-btn');
             if (Leela.mobile) {
+                down_btn.hide();
+
                 var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
                 sc.src  = 'cordova.js';
                 document.getElementsByTagName('body')[0].appendChild(sc);
             } else {
+                down_btn.click(function() {
+                    window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda', '_blank', 'location=yes');
+                    return false;
+                });
+                $('#market-1').click(function() {
+                    window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda', '_blank', 'location=yes');
+                    return false;
+                });
+                $('#market-2').click(function() {
+                    window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
+                    return false;
+                });
+
                 var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
                 sc.src  = '//yandex.st/share/share.js';
@@ -134,6 +158,21 @@ Leela = {
             return html;
         }
     },
+    adv: {
+        shown: 0,
+        init: function() {
+            if (Leela.mobile) return;
+
+            Leela.adv.intrv = setInterval(function() {
+                if (Leela.adv.shown) return;
+                if ($('.remodal-wrapper.remodal-is-opened:visible').length) return;
+
+                Leela.adv.shown = 1;
+                clearInterval(Leela.adv.intrv);
+                $('[data-remodal-id="adv-popup"]').remodal().open();
+            }, 3 * 60000);
+        }
+    },
     sound: {
         init: function() {
             if (Leela.mobile) return;
@@ -187,7 +226,13 @@ Leela = {
         max: 7,
         init: function() {
             Leela.players.add_btn = $('#players-add');
-            Leela.players.add_btn.click(function() { Leela.players.add(); });
+
+            if (Leela.paid) {
+                Leela.players.add_btn.click(function() { Leela.players.add(); });
+            } else {
+                Leela.players.add_btn.hide();
+            }
+
             Leela.players.load();
             Leela.players.next(1);
         },
@@ -279,7 +324,13 @@ Leela = {
             });
             Leela.map.el.append(map_player);
 
-            if (LeelaGame.players.length > 1) Leela.actions.next.show();
+            if (LeelaGame.players.length > 1) {
+                Leela.actions.next.show();
+                Leela.players.el.find('.nav-del:first').show();
+            } else {
+                Leela.players.el.find('.nav-del:first').hide();
+            }
+
             if (LeelaGame.players.length == Leela.players.max) Leela.players.add_btn.hide();
         },
         del: function(id) {
@@ -297,7 +348,12 @@ Leela = {
 
             LeelaGame.players.splice(player.i, 1);
             $('#nav-player-' + id + ', #map-player-' + id).remove();
-            Leela.players.add_btn.show();
+
+            if (Leela.paid) Leela.players.add_btn.show();
+
+            if (LeelaGame.players.length == 1) {
+                Leela.players.el.find('.nav-del:first').hide();
+            }
 
             if (LeelaGame.players.length == 1) Leela.actions.next.hide();
         },
@@ -599,6 +655,7 @@ Leela = {
             });
             Leela.actions.pay.click(function() {
                 window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
+                return false;
             });
         },
         nav: function() {
