@@ -1,7 +1,7 @@
 LeelaGame = { turn: 1, players: [] };
 
 Leela = {
-    mobile: 0,
+    mobile: 1,
     paid:   0,
     lang:  'ru',
     init:  function() {
@@ -89,8 +89,6 @@ Leela = {
                 if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
             });
 
-            //$('#author').prepend('<div id="banner-of-peace" class="float-left" data-img="img/peace-btn-' + Leela.lang + '.png" data-lang="' + Leela.lang + '"></div>');
-
             $('#author-btn').click(function() {
                 $('[data-remodal-id="about-author"]').remodal().open();
             });
@@ -115,11 +113,6 @@ Leela = {
                 sc.type = 'text/javascript';
                 sc.src  = '//yastatic.net/share2/share.js';
                 document.getElementsByTagName('body')[0].appendChild(sc);
-
-                /*var sc  = document.createElement('script');
-                sc.type = 'text/javascript';
-                sc.src  = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-                document.getElementsByTagName('body')[0].appendChild(sc);*/
             }
         },
         nav: function(aside, btn, nav) {
