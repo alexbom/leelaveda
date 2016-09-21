@@ -2,8 +2,8 @@
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.alexbom.leelaveda"
-        versionCode = "13"
-        version     = "2.0.7" >
+        versionCode = "14"
+        version     = "2.0.8" >
 
     <name>Leela Veda</name>
 

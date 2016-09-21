@@ -55,6 +55,12 @@ a:hover {
     color: #ff9;
 }
 
+.loader {
+    width: 100%;
+    min-width: 120px;
+    min-height: 120px;
+    background: url(img/loader.svg) 50% 50% no-repeat;
+}
 .remodal {
     text-align: left;
     font-size: 120%;
@@ -88,9 +94,11 @@ a:hover {
     margin: 30px auto 0;
     background: 0 0 no-repeat;
 }
-.remodal-continue button {
+.remodal-continue > *, .remodal-continue button {
     width: 100%;
     height: 100%;
+}
+.remodal-continue button {
     background-color: rgba(0, 0, 0, .75);
 }
 .remodal-continue button:hover {
@@ -157,6 +165,9 @@ a:hover {
 #logo a {
     text-decoration: none;
     color: #fff;
+}
+#logo a:hover {
+    color: #ff9;
 }
 .fixed-aside {
     z-index: 4;
@@ -429,12 +440,18 @@ a:hover {
     left: 0;
 }
 #author-btn {
-    margin-top: 10px;
+    width: 70px;
+    height: 50px;
+    padding: 0 0 0 60px;
+    background: url(img/btn-author.png) 0 0 no-repeat;
+}
+#share {
+    margin-top: 14px;
 }
 #download {
     right: 0;
 }
-#download-btn {
+.download-btn {
     display: block;
     width: 60px;
     height: 50px;
@@ -810,8 +827,10 @@ a:hover {
     background: url(img/btn-rec.png) 0 0 no-repeat;
 }
 .cell-rec-wrap {
+    display: none;
     margin: 25px 0;
     border: 1px dashed #ccc;
+    text-align: center;
 }
 .cell-rec-wrap p {
     margin: 1em;
@@ -864,6 +883,9 @@ a:hover {
 }
 .voice-wrap {
     margin-top: 15px;
+}
+.lang-en {
+    display: none;
 }
 
 @media only screen and (max-width : 1366px) {

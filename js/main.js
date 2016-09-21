@@ -1,15 +1,19 @@
 LeelaGame = { turn: 1, players: [] };
 
 Leela = {
-    mobile: 0,
-    paid: 0,
-    init: function() {
-        Leela.design.tpls = $('#tpls');
-        Leela.history.el  = $('#actions-steps');
-        Leela.design.logo = $('#logo');
-        Leela.map.el      = $('#map');
-        Leela.players.el  = $('#players-list');
+    mobile: 1,
+    paid:   0,
+    lang:  'ru',
+    init:  function() {
+        Leela.design.tpls   = $('#tpls');
+        Leela.design.logo   = $('#logo');
+        Leela.design.intro  = $('#intro-win');
+        Leela.design.loader = $('<div class="loader"></div>');
+        Leela.map.el        = $('#map');
+        Leela.history.el    = $('#actions-steps');
+        Leela.players.el    = $('#players-list');
 
+        Leela.language.init();
         Leela.map.init();
         Leela.actions.init();
         Leela.history.init();
@@ -17,6 +21,45 @@ Leela = {
         Leela.design.init();
         Leela.adv.init();
         Leela.sound.init();
+    },
+    language: {
+        init: function() {
+            Leela.language.translate();
+        },
+        translate: function(sel) {
+            sel = sel || 'body';
+            if (sel instanceof jQuery === false) sel = $(sel);
+
+            sel.find('.lang:not(.lang-' + Leela.lang + ')').hide();
+            sel.find('.lang-' + Leela.lang).show();
+
+            sel.find('[data-title_ru]').each(function() {
+                var item = $(this);
+                item.attr('title', item.attr('data-title_' + Leela.lang));
+            });
+            sel.find('[data-placeholder_ru]').each(function() {
+                var item = $(this);
+                item.attr('placeholder', item.attr('data-placeholder_' + Leela.lang));
+            });
+        },
+        toggle: function(lang) {
+            if ( ! lang || lang == Leela.lang) return;
+
+            var intro_lang = Leela.design.intro.find('.lang-' + lang);
+
+            if ( ! intro_lang.text()) {
+                intro_lang.html('').append(Leela.design.loader).load('data/intro_' + lang + '.html');
+            }
+
+            Leela.players.el.find('.nav-name').each(function() {
+                var item = $(this);
+                if (item.val() == item.attr('placeholder')) {
+                    item.val(item.attr('data-placeholder_' + lang)).blur();
+                }
+            });
+            Leela.lang = lang;
+            Leela.language.translate();
+        }
     },
     design: {
         min: 320,
@@ -31,65 +74,49 @@ Leela = {
                 $('#cell-' + arr[1]).click();
             } else {
                 if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
-                    $('[data-remodal-id="intro"]').remodal().open();
+                    $('#intro-win').remodal().open();
                 }
             }
 
             $(document).on('opened', '.remodal', function() {
-                Leela.sound.voice();
-
                 if (Leela.mobile) return;
 
-                $('.remodal.remodal-is-opened .cell-rec-open').show();
+                Leela.sound.voice();
+                Leela.sound.record();
             });
             $(document).on('closed', '.remodal', function() {
                 if (Leela.design.modal) Leela.design.modal.destroy();
                 if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
             });
 
+            //$('#author').prepend('<div id="banner-of-peace" class="float-left" data-img="img/peace-btn-' + Leela.lang + '.png" data-lang="' + Leela.lang + '"></div>');
+
             $('#author-btn').click(function() {
                 $('[data-remodal-id="about-author"]').remodal().open();
             });
-            $('#website-btn').click(function() {
-                window.open('http://www.tihoemesto.ru/', '_blank', 'location=yes');
-                return false;
-            });
-            $('#wiki-btn').click(function() {
-                window.open('https://ru.wikipedia.org/wiki/Джохари,_Хариш', '_blank', 'location=yes');
-                return false;
-            });
 
-            var down_btn = $('#download-btn');
             if (Leela.mobile) {
-                down_btn.hide();
+                $('#lang-toggle, .download-btn').hide();
 
                 var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
                 sc.src  = 'cordova.js';
                 document.getElementsByTagName('body')[0].appendChild(sc);
             } else {
-                down_btn.click(function() {
-                    window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda', '_blank', 'location=yes');
-                    return false;
-                });
-                $('#market-1').click(function() {
-                    window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda', '_blank', 'location=yes');
-                    return false;
-                });
-                $('#market-2').click(function() {
-                    window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
-                    return false;
-                });
-
                 var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
-                sc.src  = '//yandex.st/share/share.js';
+                sc.src  = '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js';
                 document.getElementsByTagName('body')[0].appendChild(sc);
 
                 var sc  = document.createElement('script');
+                sc.type = 'text/javascript';
+                sc.src  = '//yastatic.net/share2/share.js';
+                document.getElementsByTagName('body')[0].appendChild(sc);
+
+                /*var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
                 sc.src  = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-                document.getElementsByTagName('body')[0].appendChild(sc);
+                document.getElementsByTagName('body')[0].appendChild(sc);*/
             }
         },
         nav: function(aside, btn, nav) {
@@ -220,6 +247,17 @@ Leela = {
             var play = $('#play-voice');
             play.find('.sm2-playlist-bd').html('<li class="selected"><a href="' + item.attr('data-url') + '">' + item.attr('data-read') + '</a></li>');
             play.remove().appendTo(item).show();
+        },
+        record: function() {
+            var modal = $('.remodal.remodal-is-opened'),
+                btn   = $('<button></button>');
+
+            btn.addClass('cell-rec-open').click(function() {
+                $(this).parent().parent().find('.cell-rec-wrap').slideToggle();
+            });
+
+            modal.find('.cell-page-head').append(btn);
+            modal.find('.cell-rec-wrap').append(Leela.design.tpl('.cell-rec'));
         }
     },
     players: {
@@ -335,12 +373,12 @@ Leela = {
         },
         del: function(id) {
             if (LeelaGame.players.length == 1) {
-                alert($('#alert-del-last').text());
+                alert($('#alert-del-last').find('.lang-' + Leela.lang).text());
                 return;
             }
 
             var player  = Leela.players.get(id),
-                confirm = $('#alert-del-confirm').text().replace(/\[Player_name\]/, player.name);
+                confirm = $('#alert-del-confirm').find('.lang-' + Leela.lang).text().replace(/\[Player_name\]/, player.name);
 
             if ( ! window.confirm(confirm)) return;
 
@@ -437,7 +475,7 @@ Leela = {
             var six_move = 0;
             if (value == 6) player.six++;
             if (player.six == 3 && value && value < 6) {
-                alert($('#alert-six-3').text());
+                alert($('#alert-six-3').find('.lang-' + Leela.lang).text());
 
                 for (var l = hist.length - 1, i = l; i >= 0; i--) {
                     if ((hist[i].dice && hist[i].dice < 6) || ! i) {
@@ -448,7 +486,7 @@ Leela = {
                 }
             }
             if (player.six > 3 && value && value < 6) {
-                alert($('#alert-six-4').text());
+                alert($('#alert-six-4').find('.lang-' + Leela.lang).text());
 
                 for (var l = hist.length - 1, i = l; i >= 0; i--) {
                     if ((hist[i].dice && hist[i].dice < 6) || ! i) {
@@ -544,7 +582,7 @@ Leela = {
             });
 
             $('#hist-new').click(function() {
-                if ( ! window.confirm($('#alert-hist-new').text())) return;
+                if ( ! window.confirm($('#alert-hist-new').find('.lang-' + Leela.lang).text())) return;
 
                 localStorage.removeItem('LeelaGame');
                 window.location.reload(true);
@@ -554,17 +592,19 @@ Leela = {
             var player = LeelaGame.players[Leela.players.get(step.player_id).i],
                 hist   = player.history,
                 d      = new Date(step.date),
+                cell   = Leela.map.cells[step.cell_id - 1],
                 date   =
                     ('0' + d.getDate()).slice(-2) + '.' +
                     ('0' + (d.getMonth() + 1)).slice(-2) + ' ' +
                     ('0' + d.getHours()).slice(-2) + ':' +
                     ('0' + d.getMinutes()).slice(-2),
                 vars   = [
-                    { name: 'Id',          value: player.id },
-                    { name: 'Player_name', value: player.name },
-                    { name: 'Hist_date',   value: date },
-                    { name: 'Cell_id',     value: step.cell_id },
-                    { name: 'Cell_name',   value: Leela.map.cells[step.cell_id - 1].name }
+                    { name: 'Id',           value: player.id },
+                    { name: 'Player_name',  value: player.name },
+                    { name: 'Hist_date',    value: date },
+                    { name: 'Cell_id',      value: step.cell_id },
+                    { name: 'Cell_name_ru', value: cell.name_ru },
+                    { name: 'Cell_name_en', value: cell.name_en }
                 ];
 
             if ( ! no_obj) hist.push(step);
@@ -732,7 +772,7 @@ Leela = {
             },
             roll: function(value) {
                 if ( ! Leela.actions.dice.cheat && value) {
-                    if ( ! window.confirm($('#alert-cheat-confirm').text())) return;
+                    if ( ! window.confirm($('#alert-cheat-confirm').find('.lang-' + Leela.lang).text())) return;
                     Leela.actions.dice.cheat = 1;
                 }
 
@@ -776,9 +816,12 @@ Leela = {
 
             if ( ! first) return;
 
-            var now = new Date();
+            var now = new Date(),
+                old = new Date(first.date);
 
-            if (first.date + 24 * 60 * 60 * 1000 < now.getTime()) return;
+            old.setHours(0, 0, 0, 0);
+
+            if (old.getTime() + 24 * 60 * 60 * 1000 < now.getTime()) return;
 
             Leela.actions.dice.root.hide();
             Leela.actions.birth.hide();
@@ -793,21 +836,22 @@ Leela = {
         width:  765,
         height: 700,
         init:   function() {
-            /*Leela.map.el.css({
-             'min-width'       : Leela.design.min,
-             'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
-             'background-image': 'url(' + Leela.map.image + ')'
-             });*/
+            Leela.map.el.css({
+                'min-width'       : Leela.design.min,
+                'min-height'      : Leela.design.min * (Leela.map.height / Leela.map.width),
+                'background-image': 'url(' + Leela.map.image + ')'
+             });
 
             for (var i = 0; i < 72; i++) {
-                var item = Leela.map.cells[Leela.map.grid[i] - 1]/*,
+                var item = Leela.map.cells[Leela.map.grid[i] - 1],
                  vars = [
-                 { name: 'Cell_type', value: item.type || '' },
-                 { name: 'Id',        value: item.id },
-                 { name: 'Cell_name', value: item.name }
-                 ]*/;
+                     { name: 'Cell_type',    value: item.type || '' },
+                     { name: 'Id',           value: item.id },
+                     { name: 'Cell_name_ru', value: item.name_ru },
+                     { name: 'Cell_name_en', value: item.name_en }
+                 ];
 
-                //Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
+                Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
 
                 if (item.type == 'arrow' || item.type == 'snake') {
                     var img = $('<img src="img/guide-' + item.id + '.png" alt="" id="guide-' + item.id + '" class="map-guide trans-linear">');
@@ -840,6 +884,8 @@ Leela = {
                     if (Leela.design.modal) Leela.design.modal.destroy();
 
                     Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
+                    Leela.language.translate(Leela.design.modal);
+
                     Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
                     Leela.design.modal.find('.remodal-continue').css('background-image', 'url(img/cells/' + id + '.jpg)');
                     Leela.design.modal = Leela.design.modal.remodal();
@@ -858,78 +904,78 @@ Leela = {
             1,  2,  3,  4,  5,  6,  7,  8,  9
         ],
         cells: [
-            { id:  1, name: 'Рождение', type: 'birth', goto: 6 },
-            { id:  2, name: 'Майа' },
-            { id:  3, name: 'Гнев' },
-            { id:  4, name: 'Жадность' },
-            { id:  5, name: 'Физический план' },
-            { id:  6, name: 'Заблуждение' },
-            { id:  7, name: 'Тщеславие' },
-            { id:  8, name: 'Алчность' },
-            { id:  9, name: 'Чувственный план' },
-            { id: 10, name: 'Очищение', type: 'arrow', goto: 23 },
-            { id: 11, name: 'Развлечения' },
-            { id: 12, name: 'Зависть', type: 'snake', goto: 8 },
-            { id: 13, name: 'Ничтожность' },
-            { id: 14, name: 'Астральный план' },
-            { id: 15, name: 'План фантазии' },
-            { id: 16, name: 'Ревность', type: 'snake', goto: 4 },
-            { id: 17, name: 'Сострадание', type: 'arrow', goto: 69 },
-            { id: 18, name: 'План радости' },
-            { id: 19, name: 'План кармы' },
-            { id: 20, name: 'Благотворительность', type: 'arrow', goto: 32 },
-            { id: 21, name: 'Искупление' },
-            { id: 22, name: 'План Дхармы', type: 'arrow', goto: 60 },
-            { id: 23, name: 'Небесный план' },
-            { id: 24, name: 'Плохая компания', type: 'snake', goto: 7 },
-            { id: 25, name: 'Хорошая компания' },
-            { id: 26, name: 'Печаль' },
-            { id: 27, name: 'Самоотверженное служение', type: 'arrow', goto: 41 },
-            { id: 28, name: 'Истинная религиозность', type: 'arrow', goto: 50 },
-            { id: 29, name: 'Неправедность', type: 'snake', goto: 6 },
-            { id: 30, name: 'Хорошие тенденции' },
-            { id: 31, name: 'План святости' },
-            { id: 32, name: 'План равновесия' },
-            { id: 33, name: 'План ароматов' },
-            { id: 34, name: 'План вкуса' },
-            { id: 35, name: 'Чистилище' },
-            { id: 36, name: 'Ясность сознания' },
-            { id: 37, name: 'Джняна', type: 'arrow', goto: 66 },
-            { id: 38, name: 'Прана-лока' },
-            { id: 39, name: 'Апана-лока' },
-            { id: 40, name: 'Въяна-лока' },
-            { id: 41, name: 'Человеческий план' },
-            { id: 42, name: 'План Агни' },
-            { id: 43, name: 'Рождение человека' },
-            { id: 44, name: 'Неведение', type: 'snake', goto: 9 },
-            { id: 45, name: 'Правильное знание', type: 'arrow', goto: 67 },
-            { id: 46, name: 'Различение', type: 'arrow', goto: 62 },
-            { id: 47, name: 'План нейтральности' },
-            { id: 48, name: 'Солнечный план' },
-            { id: 49, name: 'Лунный план' },
-            { id: 50, name: 'План аскетизма' },
-            { id: 51, name: 'Земля' },
-            { id: 52, name: 'План насилия', type: 'snake', goto: 35 },
-            { id: 53, name: 'План жидкостей' },
-            { id: 54, name: 'План духовной преданности', type: 'arrow', goto: 68 },
-            { id: 55, name: 'Эгоизм', type: 'snake', goto: 3 },
-            { id: 56, name: 'План изначальных вибраций' },
-            { id: 57, name: 'План газов' },
-            { id: 58, name: 'План сияния' },
-            { id: 59, name: 'План реальности' },
-            { id: 60, name: 'Позитивный интеллект' },
-            { id: 61, name: 'Негативный интеллект', type: 'snake', goto: 13 },
-            { id: 62, name: 'Счастье' },
-            { id: 63, name: 'Тамас', type: 'snake', goto: 2 },
-            { id: 64, name: 'Феноменальный план' },
-            { id: 65, name: 'План внутреннего пространства' },
-            { id: 66, name: 'План блаженства' },
-            { id: 67, name: 'План космического блага' },
-            { id: 68, name: 'Космическое Сознание' },
-            { id: 69, name: 'План Абсолюта' },
-            { id: 70, name: 'Саттвагуна' },
-            { id: 71, name: 'Раджогуна' },
-            { id: 72, name: 'Тамогуна', type: 'snake', goto: 51 }
+            { id:  1, name_ru: 'Рождение', name_en: 'Birth', type: 'birth', goto: 6 },
+            { id:  2, name_ru: 'Майа', name_en: 'Maya' },
+            { id:  3, name_ru: 'Гнев', name_en: 'Anger' },
+            { id:  4, name_ru: 'Жадность', name_en: 'Greed' },
+            { id:  5, name_ru: 'Физический план', name_en: 'Physical Plan' },
+            { id:  6, name_ru: 'Заблуждение', name_en: 'Delusion' },
+            { id:  7, name_ru: 'Тщеславие', name_en: 'Vanity' },
+            { id:  8, name_ru: 'Алчность', name_en: 'Алчность' },
+            { id:  9, name_ru: 'Чувственный план', name_en: 'Чувственный план' },
+            { id: 10, name_ru: 'Очищение', name_en: 'Очищение', type: 'arrow', goto: 23 },
+            { id: 11, name_ru: 'Развлечения', name_en: 'Развлечения' },
+            { id: 12, name_ru: 'Зависть', name_en: 'Зависть', type: 'snake', goto: 8 },
+            { id: 13, name_ru: 'Ничтожность', name_en: 'Ничтожность' },
+            { id: 14, name_ru: 'Астральный план', name_en: 'Астральный план' },
+            { id: 15, name_ru: 'План фантазии', name_en: 'План фантазии' },
+            { id: 16, name_ru: 'Ревность', name_en: 'Ревность', type: 'snake', goto: 4 },
+            { id: 17, name_ru: 'Сострадание', name_en: 'Сострадание', type: 'arrow', goto: 69 },
+            { id: 18, name_ru: 'План радости', name_en: 'План радости' },
+            { id: 19, name_ru: 'План кармы', name_en: 'План кармы' },
+            { id: 20, name_ru: 'Благотворительность', name_en: 'Благотворительность', type: 'arrow', goto: 32 },
+            { id: 21, name_ru: 'Искупление', name_en: 'Искупление' },
+            { id: 22, name_ru: 'План Дхармы', name_en: 'План Дхармы', type: 'arrow', goto: 60 },
+            { id: 23, name_ru: 'Небесный план', name_en: 'Небесный план' },
+            { id: 24, name_ru: 'Плохая компания', name_en: 'Плохая компания', type: 'snake', goto: 7 },
+            { id: 25, name_ru: 'Хорошая компания', name_en: 'Хорошая компания' },
+            { id: 26, name_ru: 'Печаль', name_en: 'Печаль' },
+            { id: 27, name_ru: 'Самоотверженное служение', name_en: 'Самоотверженное служение', type: 'arrow', goto: 41 },
+            { id: 28, name_ru: 'Истинная религиозность', name_en: 'Истинная религиозность', type: 'arrow', goto: 50 },
+            { id: 29, name_ru: 'Неправедность', name_en: 'Неправедность', type: 'snake', goto: 6 },
+            { id: 30, name_ru: 'Хорошие тенденции', name_en: 'Хорошие тенденции' },
+            { id: 31, name_ru: 'План святости', name_en: 'План святости' },
+            { id: 32, name_ru: 'План равновесия', name_en: 'План равновесия' },
+            { id: 33, name_ru: 'План ароматов', name_en: 'План ароматов' },
+            { id: 34, name_ru: 'План вкуса', name_en: 'План вкуса' },
+            { id: 35, name_ru: 'Чистилище', name_en: 'Чистилище' },
+            { id: 36, name_ru: 'Ясность сознания', name_en: 'Ясность сознания' },
+            { id: 37, name_ru: 'Джняна', name_en: 'Джняна', type: 'arrow', goto: 66 },
+            { id: 38, name_ru: 'Прана-лока', name_en: 'Прана-лока' },
+            { id: 39, name_ru: 'Апана-лока', name_en: 'Апана-лока' },
+            { id: 40, name_ru: 'Въяна-лока', name_en: 'Въяна-лока' },
+            { id: 41, name_ru: 'Человеческий план', name_en: 'Человеческий план' },
+            { id: 42, name_ru: 'План Агни', name_en: 'План Агни' },
+            { id: 43, name_ru: 'Рождение человека', name_en: 'Рождение человека' },
+            { id: 44, name_ru: 'Неведение', name_en: 'Неведение', type: 'snake', goto: 9 },
+            { id: 45, name_ru: 'Правильное знание', name_en: 'Правильное знание', type: 'arrow', goto: 67 },
+            { id: 46, name_ru: 'Различение', name_en: 'Различение', type: 'arrow', goto: 62 },
+            { id: 47, name_ru: 'План нейтральности', name_en: 'План нейтральности' },
+            { id: 48, name_ru: 'Солнечный план', name_en: 'Солнечный план' },
+            { id: 49, name_ru: 'Лунный план', name_en: 'Лунный план' },
+            { id: 50, name_ru: 'План аскетизма', name_en: 'План аскетизма' },
+            { id: 51, name_ru: 'Земля', name_en: 'Земля' },
+            { id: 52, name_ru: 'План насилия', name_en: 'План насилия', type: 'snake', goto: 35 },
+            { id: 53, name_ru: 'План жидкостей', name_en: 'План жидкостей' },
+            { id: 54, name_ru: 'План духовной преданности', name_en: 'План духовной преданности', type: 'arrow', goto: 68 },
+            { id: 55, name_ru: 'Эгоизм', name_en: 'Эгоизм', type: 'snake', goto: 3 },
+            { id: 56, name_ru: 'План изначальных вибраций', name_en: 'План изначальных вибраций' },
+            { id: 57, name_ru: 'План газов', name_en: 'План газов' },
+            { id: 58, name_ru: 'План сияния', name_en: 'План сияния' },
+            { id: 59, name_ru: 'План реальности', name_en: 'План реальности' },
+            { id: 60, name_ru: 'Позитивный интеллект', name_en: 'Позитивный интеллект' },
+            { id: 61, name_ru: 'Негативный интеллект', name_en: 'Негативный интеллект', type: 'snake', goto: 13 },
+            { id: 62, name_ru: 'Счастье', name_en: 'Счастье' },
+            { id: 63, name_ru: 'Тамас', name_en: 'Тамас', type: 'snake', goto: 2 },
+            { id: 64, name_ru: 'Феноменальный план', name_en: 'Феноменальный план' },
+            { id: 65, name_ru: 'План внутреннего пространства', name_en: 'План внутреннего пространства' },
+            { id: 66, name_ru: 'План блаженства', name_en: 'План блаженства' },
+            { id: 67, name_ru: 'План космического блага', name_en: 'План космического блага' },
+            { id: 68, name_ru: 'Космическое Сознание', name_en: 'Космическое Сознание' },
+            { id: 69, name_ru: 'План Абсолюта', name_en: 'План Абсолюта' },
+            { id: 70, name_ru: 'Саттвагуна', name_en: 'Саттвагуна' },
+            { id: 71, name_ru: 'Раджогуна', name_en: 'Раджогуна' },
+            { id: 72, name_ru: 'Тамогуна', name_en: 'Тамогуна', type: 'snake', goto: 51 }
         ]
     }
 };
