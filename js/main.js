@@ -1,7 +1,7 @@
 LeelaGame = { turn: 1, players: [] };
 
 Leela = {
-    mobile: 1,
+    mobile: 0,
     paid:   0,
     lang:  'ru',
     init:  function() {
@@ -103,6 +103,9 @@ Leela = {
                 sc.src  = 'cordova.js';
                 document.getElementsByTagName('body')[0].appendChild(sc);
             } else {
+                var rec = '<iframe src="http://vocaroo.com/?minimal" width="525" height="480" frameborder="0"></iframe><p><small>Powered by <a href="http://vocaroo.com" title="Voice Recorder" rel="nofollow">Vocaroo Voice Recorder</a></small></p>';
+                Leela.design.tpls.find('.cell-rec').append(rec);
+
                 var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
                 sc.src  = '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js';
