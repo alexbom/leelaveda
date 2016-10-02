@@ -2,7 +2,7 @@ LeelaGame = { turn: 1, players: [] };
 
 Leela = {
     mobile: 1,
-    paid:   1,
+    paid:   0,
     lang:  'en',
     init:  function() {
         Leela.design.tpls   = $('#tpls');
@@ -696,7 +696,8 @@ Leela = {
                 Leela.players.move(0, next_id);
             });
             Leela.actions.pay.click(function() {
-                window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda_full', '_blank', 'location=yes');
+                var lang = (Leela.lang == 'ru') ? '' : '_' + Leela.lang;
+                window.open('https://play.google.com/store/apps/details?id=com.alexbom.leelaveda' + lang + '_full', '_blank', 'location=yes');
                 return false;
             });
         },
