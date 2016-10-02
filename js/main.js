@@ -2,7 +2,7 @@ LeelaGame = { turn: 1, players: [] };
 
 Leela = {
     mobile: 1,
-    paid:   0,
+    paid:   1,
     lang:  'en',
     init:  function() {
         Leela.design.tpls   = $('#tpls');
@@ -13,19 +13,18 @@ Leela = {
         Leela.history.el    = $('#actions-steps');
         Leela.players.el    = $('#players-list');
 
-        Leela.language.init();
         Leela.map.init();
         Leela.actions.init();
         Leela.history.init();
         Leela.players.init();
         Leela.design.init();
+        Leela.language.init();
         Leela.adv.init();
         Leela.sound.init();
     },
     language: {
         init: function() {
-            Leela.language.intro();
-            Leela.language.translate();
+            Leela.language.toggle();
         },
         translate: function(sel) {
             sel = sel || 'body';
@@ -46,26 +45,24 @@ Leela = {
                 var item = $(this);
                 item.attr('placeholder', item.attr('data-placeholder_' + Leela.lang));
             });
-            Leela.players.el.find('.nav-name').each(function() {
-                var item = $(this);
-                if (item.val() == item.attr('placeholder')) {
-                    item.val(item.attr('data-placeholder_' + Leela.lang)).blur();
-                }
-            });
         },
-        intro: function(lang) {
+        toggle: function(lang) {
             if ( ! lang) lang = Leela.lang;
 
-            var intro_lang = Leela.design.intro.find('.lang-' + lang);
+            Leela.players.el.find('.nav-name').each(function() {console.log(1);
+                var item = $(this),
+                    pl   = item.attr('placeholder');
 
+                if ( ! pl || pl == item.val()) {
+                    item.val(item.attr('data-placeholder_' + lang)).blur();
+                }
+            });
+
+            var intro_lang = Leela.design.intro.find('.lang-' + lang);
             if ( ! intro_lang.text()) {
                 intro_lang.html('').append(Leela.design.loader).load('data/intro_' + lang + '.html');
             }
-        },
-        toggle: function(lang) {
-            if ( ! lang || lang == Leela.lang) return;
 
-            Leela.language.intro(lang);
             Leela.lang = lang;
             Leela.language.translate();
         }

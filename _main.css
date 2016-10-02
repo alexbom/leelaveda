@@ -173,7 +173,6 @@ a:hover {
     z-index: 4;
     position: fixed;
     top: 0;
-    width: 320px;
     font-size: 0;
 }
 .fixed-panel {
@@ -442,6 +441,7 @@ a:hover {
 #author-btn {
     width: 70px;
     height: 50px;
+    margin-right: 130px;
     padding: 0 0 0 60px;
     background: url(img/btn-author.png) 0 0 no-repeat;
 }
