@@ -3,7 +3,7 @@ LeelaGame = { turn: 1, players: [] };
 Leela = {
     mobile: 1,
     paid:   0,
-    lang:  'ru',
+    lang:  'en',
     init:  function() {
         Leela.design.tpls   = $('#tpls');
         Leela.design.logo   = $('#logo');
@@ -24,6 +24,7 @@ Leela = {
     },
     language: {
         init: function() {
+            Leela.language.intro();
             Leela.language.translate();
         },
         translate: function(sel) {
@@ -33,6 +34,10 @@ Leela = {
             sel.find('.lang:not(.lang-' + Leela.lang + ')').hide();
             sel.find('.lang-' + Leela.lang).show();
 
+            sel.find('[data-alt_ru]').each(function() {
+                var item = $(this);
+                item.attr('alt', item.attr('data-alt_' + Leela.lang));
+            });
             sel.find('[data-title_ru]').each(function() {
                 var item = $(this);
                 item.attr('title', item.attr('data-title_' + Leela.lang));
@@ -41,22 +46,26 @@ Leela = {
                 var item = $(this);
                 item.attr('placeholder', item.attr('data-placeholder_' + Leela.lang));
             });
+            Leela.players.el.find('.nav-name').each(function() {
+                var item = $(this);
+                if (item.val() == item.attr('placeholder')) {
+                    item.val(item.attr('data-placeholder_' + Leela.lang)).blur();
+                }
+            });
         },
-        toggle: function(lang) {
-            if ( ! lang || lang == Leela.lang) return;
+        intro: function(lang) {
+            if ( ! lang) lang = Leela.lang;
 
             var intro_lang = Leela.design.intro.find('.lang-' + lang);
 
             if ( ! intro_lang.text()) {
                 intro_lang.html('').append(Leela.design.loader).load('data/intro_' + lang + '.html');
             }
+        },
+        toggle: function(lang) {
+            if ( ! lang || lang == Leela.lang) return;
 
-            Leela.players.el.find('.nav-name').each(function() {
-                var item = $(this);
-                if (item.val() == item.attr('placeholder')) {
-                    item.val(item.attr('data-placeholder_' + lang)).blur();
-                }
-            });
+            Leela.language.intro(lang);
             Leela.lang = lang;
             Leela.language.translate();
         }
@@ -905,73 +914,73 @@ Leela = {
             { id:  3, name_ru: 'Гнев', name_en: 'Anger' },
             { id:  4, name_ru: 'Жадность', name_en: 'Greed' },
             { id:  5, name_ru: 'Физический план', name_en: 'Physical Plan' },
-            { id:  6, name_ru: 'Заблуждение', name_en: 'Delusion' },
+            { id:  6, name_ru: 'Заблуждение', name_en: 'Misconception' },
             { id:  7, name_ru: 'Тщеславие', name_en: 'Vanity' },
-            { id:  8, name_ru: 'Алчность', name_en: 'Алчность' },
-            { id:  9, name_ru: 'Чувственный план', name_en: 'Чувственный план' },
-            { id: 10, name_ru: 'Очищение', name_en: 'Очищение', type: 'arrow', goto: 23 },
-            { id: 11, name_ru: 'Развлечения', name_en: 'Развлечения' },
-            { id: 12, name_ru: 'Зависть', name_en: 'Зависть', type: 'snake', goto: 8 },
-            { id: 13, name_ru: 'Ничтожность', name_en: 'Ничтожность' },
-            { id: 14, name_ru: 'Астральный план', name_en: 'Астральный план' },
-            { id: 15, name_ru: 'План фантазии', name_en: 'План фантазии' },
-            { id: 16, name_ru: 'Ревность', name_en: 'Ревность', type: 'snake', goto: 4 },
-            { id: 17, name_ru: 'Сострадание', name_en: 'Сострадание', type: 'arrow', goto: 69 },
-            { id: 18, name_ru: 'План радости', name_en: 'План радости' },
-            { id: 19, name_ru: 'План кармы', name_en: 'План кармы' },
-            { id: 20, name_ru: 'Благотворительность', name_en: 'Благотворительность', type: 'arrow', goto: 32 },
-            { id: 21, name_ru: 'Искупление', name_en: 'Искупление' },
-            { id: 22, name_ru: 'План Дхармы', name_en: 'План Дхармы', type: 'arrow', goto: 60 },
-            { id: 23, name_ru: 'Небесный план', name_en: 'Небесный план' },
-            { id: 24, name_ru: 'Плохая компания', name_en: 'Плохая компания', type: 'snake', goto: 7 },
-            { id: 25, name_ru: 'Хорошая компания', name_en: 'Хорошая компания' },
-            { id: 26, name_ru: 'Печаль', name_en: 'Печаль' },
-            { id: 27, name_ru: 'Самоотверженное служение', name_en: 'Самоотверженное служение', type: 'arrow', goto: 41 },
-            { id: 28, name_ru: 'Истинная религиозность', name_en: 'Истинная религиозность', type: 'arrow', goto: 50 },
-            { id: 29, name_ru: 'Неправедность', name_en: 'Неправедность', type: 'snake', goto: 6 },
-            { id: 30, name_ru: 'Хорошие тенденции', name_en: 'Хорошие тенденции' },
-            { id: 31, name_ru: 'План святости', name_en: 'План святости' },
-            { id: 32, name_ru: 'План равновесия', name_en: 'План равновесия' },
-            { id: 33, name_ru: 'План ароматов', name_en: 'План ароматов' },
-            { id: 34, name_ru: 'План вкуса', name_en: 'План вкуса' },
-            { id: 35, name_ru: 'Чистилище', name_en: 'Чистилище' },
-            { id: 36, name_ru: 'Ясность сознания', name_en: 'Ясность сознания' },
-            { id: 37, name_ru: 'Джняна', name_en: 'Джняна', type: 'arrow', goto: 66 },
-            { id: 38, name_ru: 'Прана-лока', name_en: 'Прана-лока' },
-            { id: 39, name_ru: 'Апана-лока', name_en: 'Апана-лока' },
-            { id: 40, name_ru: 'Въяна-лока', name_en: 'Въяна-лока' },
-            { id: 41, name_ru: 'Человеческий план', name_en: 'Человеческий план' },
-            { id: 42, name_ru: 'План Агни', name_en: 'План Агни' },
-            { id: 43, name_ru: 'Рождение человека', name_en: 'Рождение человека' },
-            { id: 44, name_ru: 'Неведение', name_en: 'Неведение', type: 'snake', goto: 9 },
-            { id: 45, name_ru: 'Правильное знание', name_en: 'Правильное знание', type: 'arrow', goto: 67 },
-            { id: 46, name_ru: 'Различение', name_en: 'Различение', type: 'arrow', goto: 62 },
-            { id: 47, name_ru: 'План нейтральности', name_en: 'План нейтральности' },
-            { id: 48, name_ru: 'Солнечный план', name_en: 'Солнечный план' },
-            { id: 49, name_ru: 'Лунный план', name_en: 'Лунный план' },
-            { id: 50, name_ru: 'План аскетизма', name_en: 'План аскетизма' },
-            { id: 51, name_ru: 'Земля', name_en: 'Земля' },
-            { id: 52, name_ru: 'План насилия', name_en: 'План насилия', type: 'snake', goto: 35 },
-            { id: 53, name_ru: 'План жидкостей', name_en: 'План жидкостей' },
-            { id: 54, name_ru: 'План духовной преданности', name_en: 'План духовной преданности', type: 'arrow', goto: 68 },
-            { id: 55, name_ru: 'Эгоизм', name_en: 'Эгоизм', type: 'snake', goto: 3 },
-            { id: 56, name_ru: 'План изначальных вибраций', name_en: 'План изначальных вибраций' },
-            { id: 57, name_ru: 'План газов', name_en: 'План газов' },
-            { id: 58, name_ru: 'План сияния', name_en: 'План сияния' },
-            { id: 59, name_ru: 'План реальности', name_en: 'План реальности' },
-            { id: 60, name_ru: 'Позитивный интеллект', name_en: 'Позитивный интеллект' },
-            { id: 61, name_ru: 'Негативный интеллект', name_en: 'Негативный интеллект', type: 'snake', goto: 13 },
-            { id: 62, name_ru: 'Счастье', name_en: 'Счастье' },
-            { id: 63, name_ru: 'Тамас', name_en: 'Тамас', type: 'snake', goto: 2 },
-            { id: 64, name_ru: 'Феноменальный план', name_en: 'Феноменальный план' },
-            { id: 65, name_ru: 'План внутреннего пространства', name_en: 'План внутреннего пространства' },
-            { id: 66, name_ru: 'План блаженства', name_en: 'План блаженства' },
-            { id: 67, name_ru: 'План космического блага', name_en: 'План космического блага' },
-            { id: 68, name_ru: 'Космическое Сознание', name_en: 'Космическое Сознание' },
-            { id: 69, name_ru: 'План Абсолюта', name_en: 'План Абсолюта' },
-            { id: 70, name_ru: 'Саттвагуна', name_en: 'Саттвагуна' },
-            { id: 71, name_ru: 'Раджогуна', name_en: 'Раджогуна' },
-            { id: 72, name_ru: 'Тамогуна', name_en: 'Тамогуна', type: 'snake', goto: 51 }
+            { id:  8, name_ru: 'Алчность', name_en: 'Avidity' },
+            { id:  9, name_ru: 'Чувственный план', name_en: 'Sensual plan' },
+            { id: 10, name_ru: 'Очищение', name_en: 'Purification', type: 'arrow', goto: 23 },
+            { id: 11, name_ru: 'Развлечения', name_en: 'Entertainment' },
+            { id: 12, name_ru: 'Зависть', name_en: 'Envy', type: 'snake', goto: 8 },
+            { id: 13, name_ru: 'Ничтожность', name_en: 'Nullity' },
+            { id: 14, name_ru: 'Астральный план', name_en: 'Astral plane' },
+            { id: 15, name_ru: 'План фантазии', name_en: 'Fantasy plan' },
+            { id: 16, name_ru: 'Ревность', name_en: 'Jealousy', type: 'snake', goto: 4 },
+            { id: 17, name_ru: 'Сострадание', name_en: 'Compassion', type: 'arrow', goto: 69 },
+            { id: 18, name_ru: 'План радости', name_en: 'Joy plan' },
+            { id: 19, name_ru: 'План кармы', name_en: 'Karma plan' },
+            { id: 20, name_ru: 'Благотворительность', name_en: 'Charity', type: 'arrow', goto: 32 },
+            { id: 21, name_ru: 'Искупление', name_en: 'Redemption' },
+            { id: 22, name_ru: 'План Дхармы', name_en: 'Dharma plan', type: 'arrow', goto: 60 },
+            { id: 23, name_ru: 'Небесный план', name_en: 'Heavenly plan' },
+            { id: 24, name_ru: 'Плохая компания', name_en: 'Bad company', type: 'snake', goto: 7 },
+            { id: 25, name_ru: 'Хорошая компания', name_en: 'Good company' },
+            { id: 26, name_ru: 'Печаль', name_en: 'Grief' },
+            { id: 27, name_ru: 'Самоотверженное служение', name_en: 'Selfless service', type: 'arrow', goto: 41 },
+            { id: 28, name_ru: 'Истинная религиозность', name_en: 'True religiosity', type: 'arrow', goto: 50 },
+            { id: 29, name_ru: 'Неправедность', name_en: 'Unrighteousness', type: 'snake', goto: 6 },
+            { id: 30, name_ru: 'Хорошие тенденции', name_en: 'Good trends' },
+            { id: 31, name_ru: 'План святости', name_en: 'Holiness plan' },
+            { id: 32, name_ru: 'План равновесия', name_en: 'Balance plan' },
+            { id: 33, name_ru: 'План ароматов', name_en: 'Flavors plan' },
+            { id: 34, name_ru: 'План вкуса', name_en: 'Taste plan' },
+            { id: 35, name_ru: 'Чистилище', name_en: 'Purgatory' },
+            { id: 36, name_ru: 'Ясность сознания', name_en: 'Mind clarity' },
+            { id: 37, name_ru: 'Джняна', name_en: 'Jnana', type: 'arrow', goto: 66 },
+            { id: 38, name_ru: 'Прана-лока', name_en: 'Prana-Loka' },
+            { id: 39, name_ru: 'Апана-лока', name_en: 'Apana-Loka' },
+            { id: 40, name_ru: 'Въяна-лока', name_en: 'Vyana-Loka' },
+            { id: 41, name_ru: 'Человеческий план', name_en: 'Human plan' },
+            { id: 42, name_ru: 'План Агни', name_en: 'Agni plan' },
+            { id: 43, name_ru: 'Рождение человека', name_en: 'Human birth' },
+            { id: 44, name_ru: 'Неведение', name_en: 'Ignorance', type: 'snake', goto: 9 },
+            { id: 45, name_ru: 'Правильное знание', name_en: 'Right knowledge', type: 'arrow', goto: 67 },
+            { id: 46, name_ru: 'Различение', name_en: 'Distinction', type: 'arrow', goto: 62 },
+            { id: 47, name_ru: 'План нейтральности', name_en: 'Neutrality plan' },
+            { id: 48, name_ru: 'Солнечный план', name_en: 'Solar plan' },
+            { id: 49, name_ru: 'Лунный план', name_en: 'Moon plan' },
+            { id: 50, name_ru: 'План аскетизма', name_en: 'Austerity plan' },
+            { id: 51, name_ru: 'Земля', name_en: 'Earth' },
+            { id: 52, name_ru: 'План насилия', name_en: 'Violence plan', type: 'snake', goto: 35 },
+            { id: 53, name_ru: 'План жидкостей', name_en: 'Liquids plan' },
+            { id: 54, name_ru: 'План духовной преданности', name_en: 'Spiritual devotion plan', type: 'arrow', goto: 68 },
+            { id: 55, name_ru: 'Эгоизм', name_en: 'Selfishness', type: 'snake', goto: 3 },
+            { id: 56, name_ru: 'План изначальных вибраций', name_en: 'Primeordial vibrations' },
+            { id: 57, name_ru: 'План газов', name_en: 'Gas plan' },
+            { id: 58, name_ru: 'План сияния', name_en: 'Lights plan' },
+            { id: 59, name_ru: 'План реальности', name_en: 'Reality plan' },
+            { id: 60, name_ru: 'Позитивный интеллект', name_en: 'Positive intelligence' },
+            { id: 61, name_ru: 'Негативный интеллект', name_en: 'Negative intelligence', type: 'snake', goto: 13 },
+            { id: 62, name_ru: 'Счастье', name_en: 'Happiness' },
+            { id: 63, name_ru: 'Тамас', name_en: 'Tamas', type: 'snake', goto: 2 },
+            { id: 64, name_ru: 'Феноменальный план', name_en: 'Phenomenal plan' },
+            { id: 65, name_ru: 'План внутреннего пространства', name_en: 'Internal space plan' },
+            { id: 66, name_ru: 'План блаженства', name_en: 'Bliss plan' },
+            { id: 67, name_ru: 'План космического блага', name_en: 'Space benefits plan' },
+            { id: 68, name_ru: 'Космическое Сознание', name_en: 'Cosmic Consciousness' },
+            { id: 69, name_ru: 'План Абсолюта', name_en: 'Absolute plan' },
+            { id: 70, name_ru: 'Саттвагуна', name_en: 'Sattvaguna' },
+            { id: 71, name_ru: 'Раджогуна', name_en: 'Radzhoguna' },
+            { id: 72, name_ru: 'Тамогуна', name_en: 'Tamoguna', type: 'snake', goto: 51 }
         ]
     }
 };
