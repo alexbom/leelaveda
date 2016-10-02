@@ -1,9 +1,9 @@
 LeelaGame = { turn: 1, players: [] };
 
 Leela = {
-    mobile: 1,
+    mobile: 0,
     paid:   0,
-    lang:  'en',
+    lang:  'ru',
     init:  function() {
         Leela.design.tpls   = $('#tpls');
         Leela.design.logo   = $('#logo');
