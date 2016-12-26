@@ -46,7 +46,7 @@ Leela = {
             });
 
             if (Leela.mobile) {
-                $('#lang-toggle, #download-btn').hide();
+                $('#lang-toggle, #download-btn, #vk-btn').hide();
                 $('#exit-btn').show();
 
                 var sc  = document.createElement('script');
