@@ -22,67 +22,13 @@ Leela = {
         Leela.adv.init();
         Leela.sound.init();
     },
-    language: {
-        init: function() {
-            Leela.language.toggle();
-        },
-        translate: function(sel) {
-            sel = sel || 'body';
-            if (sel instanceof jQuery === false) sel = $(sel);
-
-            sel.find('.lang:not(.lang-' + Leela.lang + ')').hide();
-            sel.find('.lang-' + Leela.lang).show();
-
-            sel.find('[data-alt_ru]').each(function() {
-                var item = $(this);
-                item.attr('alt', item.attr('data-alt_' + Leela.lang));
-            });
-            sel.find('[data-title_ru]').each(function() {
-                var item = $(this);
-                item.attr('title', item.attr('data-title_' + Leela.lang));
-            });
-            sel.find('[data-placeholder_ru]').each(function() {
-                var item = $(this);
-                item.attr('placeholder', item.attr('data-placeholder_' + Leela.lang));
-            });
-        },
-        toggle: function(lang) {
-            if ( ! lang) lang = Leela.lang;
-
-            Leela.players.el.find('.nav-name').each(function() {console.log(1);
-                var item = $(this),
-                    pl   = item.attr('placeholder');
-
-                if ( ! pl || pl == item.val()) {
-                    item.val(item.attr('data-placeholder_' + lang)).blur();
-                }
-            });
-
-            var intro_lang = Leela.design.intro.find('.lang-' + lang);
-            if ( ! intro_lang.text()) {
-                intro_lang.html('').append(Leela.design.loader).load('data/intro_' + lang + '.html');
-            }
-
-            Leela.lang = lang;
-            Leela.language.translate();
-        }
-    },
     design: {
         min: 320,
         init: function() {
             Leela.design.nav('#players', '#players-btn', '#players-panel');
             Leela.design.nav('#actions', '#actions-btn', '#actions-panel');
             Leela.design.adaptive();
-
-            var hash = window.location.href;
-            if (hash.indexOf('#cell-') !== -1) {
-                var arr = hash.split('-');
-                $('#cell-' + arr[1]).click();
-            } else {
-                if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
-                    $('#intro-win').remodal().open();
-                }
-            }
+            Leela.design.hash(1);
 
             $(document).on('opened', '.remodal', function() {
                 if (Leela.mobile) return;
@@ -100,7 +46,8 @@ Leela = {
             });
 
             if (Leela.mobile) {
-                $('#lang-toggle, .download-btn').hide();
+                $('#lang-toggle, #download-btn').hide();
+                $('#exit-btn').show();
 
                 var sc  = document.createElement('script');
                 sc.type = 'text/javascript';
@@ -119,6 +66,19 @@ Leela = {
                 sc.type = 'text/javascript';
                 sc.src  = '//yastatic.net/share2/share.js';
                 document.getElementsByTagName('body')[0].appendChild(sc);
+            }
+        },
+        hash: function(start) {
+            var hash = window.location.href;
+            if (hash.indexOf('#lang-en') !== -1) {
+                Leela.language.toggle('en');
+            } else if (hash.indexOf('#cell-') !== -1) {
+                var arr = hash.split('-');
+                $('#cell-' + arr[1]).click();
+            } else if (start) {
+                if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
+                    $('#intro-win').remodal().open();
+                }
             }
         },
         nav: function(aside, btn, nav) {
@@ -187,79 +147,49 @@ Leela = {
             return html;
         }
     },
-    adv: {
-        shown: 0,
+    language: {
         init: function() {
-            if (Leela.mobile) return;
-
-            Leela.adv.intrv = setInterval(function() {
-                if (Leela.adv.shown) return;
-                if ($('.remodal-wrapper.remodal-is-opened:visible').length) return;
-
-                Leela.adv.shown = 1;
-                clearInterval(Leela.adv.intrv);
-                $('[data-remodal-id="adv-popup"]').remodal().open();
-            }, 3 * 60000);
-        }
-    },
-    sound: {
-        init: function() {
-            if (Leela.mobile) return;
-
-            var ms    = document.createElement('link');
-            ms.rel    = 'stylesheet';
-            ms.href   = 'libs/soundmanager2/demo/bar-ui/css/bar-ui.min.css';
-            document.getElementsByTagName('head')[0].appendChild(ms);
-
-            var sc    = document.createElement('script');
-            sc.type   = 'text/javascript';
-            sc.async  = false;
-            sc.src    = 'libs/soundmanager2/script/soundmanager2-nodebug-jsmin.js';
-            document.getElementsByTagName('body')[0].appendChild(sc);
-
-            var sc    = document.createElement('script');
-            sc.type   = 'text/javascript';
-            sc.async  = false;
-            sc.src    = 'libs/soundmanager2/demo/bar-ui/script/bar-ui.min.js';
-            sc.onload = function() {
-                soundManager.setup({ url: '/libs/soundmanager2/swf/' });
-                $('#actions-sound').show().click(function() {
-                    $('#play-music').slideToggle();
-                });
-
-                $(document).on('closing', '.remodal', function() {
-                    var time = $('#play-voice .sm2-inline-time');
-
-                    if (time.length && time.text() != '0:00') {
-                        time.text('0:00');
-                        window.sm2BarPlayers[1].actions.stop();
-                        soundManager.reboot();
-                    }
-                    $('#play-voice').hide().remove().appendTo('body');
-                });
-            };
-            document.getElementsByTagName('body')[0].appendChild(sc);
+            Leela.language.toggle();
         },
-        voice: function() {
-            if (Leela.mobile) return;
+        translate: function(sel) {
+            sel = sel || 'body';
+            if (sel instanceof jQuery === false) sel = $(sel);
 
-            var item = $('.remodal.remodal-is-opened .voice-wrap');
-            if ( ! item.length) return;
+            sel.find('.lang:not(.lang-' + Leela.lang + ')').hide();
+            sel.find('.lang-' + Leela.lang).show();
 
-            var play = $('#play-voice');
-            play.find('.sm2-playlist-bd').html('<li class="selected"><a href="' + item.attr('data-url') + '">' + item.attr('data-read') + '</a></li>');
-            play.remove().appendTo(item).show();
+            sel.find('[data-alt_ru]').each(function() {
+                var item = $(this);
+                item.attr('alt', item.attr('data-alt_' + Leela.lang));
+            });
+            sel.find('[data-title_ru]').each(function() {
+                var item = $(this);
+                item.attr('title', item.attr('data-title_' + Leela.lang));
+            });
+            sel.find('[data-placeholder_ru]').each(function() {
+                var item = $(this);
+                item.attr('placeholder', item.attr('data-placeholder_' + Leela.lang));
+            });
         },
-        record: function() {
-            var modal = $('.remodal.remodal-is-opened'),
-                btn   = $('<button></button>');
+        toggle: function(lang) {
+            if ( ! lang) lang = Leela.lang;
 
-            btn.addClass('cell-rec-open').click(function() {
-                $(this).parent().parent().find('.cell-rec-wrap').slideToggle();
+            Leela.players.el.find('.nav-name').each(function() {
+                var item = $(this),
+                    pl   = item.attr('placeholder');
+
+                if ( ! pl || pl == item.val()) {
+                    item.val(item.attr('data-placeholder_' + lang)).blur();
+                }
             });
 
-            modal.find('.cell-page-head').append(btn);
-            modal.find('.cell-rec-wrap').append(Leela.design.tpl('.cell-rec'));
+            var intro_lang = Leela.design.intro.find('.lang-' + lang);
+            if ( ! intro_lang.text()) {
+                intro_lang.html('').append(Leela.design.loader).load('data/intro_' + lang + '.html');
+            }
+
+            Leela.lang = lang;
+            Leela.language.translate();
         }
     },
     players: {
@@ -524,8 +454,10 @@ Leela = {
             }
 
             if (cell_id == 68 || prev_id + value == 68) {
-                var salute = $('<img src="img/salute.gif" id="salute">');
-                salute
+                //var salute = $('<img src="img/salute.gif" id="salute">');
+
+                var salute = $('<div id="salute"></div>');
+                salute.fireworks()
                     .add(Leela.actions.dice.el)
                     .add(Leela.actions.dice.root.find('.dice-aside button'))
                     .one('click', function() {
@@ -571,95 +503,64 @@ Leela = {
             }
         }
     },
-    history: {
+    sound: {
         init: function() {
-            Leela.history.root = $('#actions-history');
+            if (Leela.mobile) return;
 
-            Leela.history.el.on('click', '.hist-cell', function() {
-                $('#cell-' + $(this).attr('data-id')).click();
+            var ms    = document.createElement('link');
+            ms.rel    = 'stylesheet';
+            ms.href   = 'libs/soundmanager2/demo/bar-ui/css/bar-ui.min.css';
+            document.getElementsByTagName('head')[0].appendChild(ms);
+
+            var sc    = document.createElement('script');
+            sc.type   = 'text/javascript';
+            sc.async  = false;
+            sc.src    = 'libs/soundmanager2/script/soundmanager2-nodebug-jsmin.js';
+            document.getElementsByTagName('body')[0].appendChild(sc);
+
+            var sc    = document.createElement('script');
+            sc.type   = 'text/javascript';
+            sc.async  = false;
+            sc.src    = 'libs/soundmanager2/demo/bar-ui/script/bar-ui.min.js';
+            sc.onload = function() {
+                soundManager.setup({ url: '/libs/soundmanager2/swf/' });
+                $('#actions-sound').show().click(function() {
+                    $('#play-music').slideToggle();
+                });
+
+                $(document).on('closing', '.remodal', function() {
+                    var time = $('#play-voice .sm2-inline-time');
+
+                    if (time.length && time.text() != '0:00') {
+                        time.text('0:00');
+                        window.sm2BarPlayers[1].actions.stop();
+                        soundManager.reboot();
+                    }
+                    $('#play-voice').hide().remove().appendTo('body');
+                });
+            };
+            document.getElementsByTagName('body')[0].appendChild(sc);
+        },
+        voice: function() {
+            if (Leela.mobile) return;
+
+            var item = $('.remodal.remodal-is-opened .voice-wrap');
+            if ( ! item.length) return;
+
+            var play = $('#play-voice');
+            play.find('.sm2-playlist-bd').html('<li class="selected"><a href="' + item.attr('data-url') + '">' + item.attr('data-read') + '</a></li>');
+            play.remove().appendTo(item).show();
+        },
+        record: function() {
+            var modal = $('.remodal.remodal-is-opened'),
+                btn   = $('<button></button>');
+
+            btn.addClass('cell-rec-open').click(function() {
+                $(this).parent().parent().find('.cell-rec-wrap').slideToggle();
             });
 
-            $(document).on('click', '.hist-step-full a', function() {
-                $('#cell-' + $(this).attr('data-id')).click();
-            });
-
-            $('#hist-new').click(function() {
-                if ( ! window.confirm($('#alert-hist-new').find('.lang-' + Leela.lang).text())) return;
-
-                localStorage.removeItem('LeelaGame');
-                window.location.reload(true);
-            });
-        },
-        add: function(step, no_obj, player_id) {
-            var player = LeelaGame.players[Leela.players.get(step.player_id).i],
-                hist   = player.history,
-                d      = new Date(step.date),
-                cell   = Leela.map.cells[step.cell_id - 1],
-                date   =
-                    ('0' + d.getDate()).slice(-2) + '.' +
-                    ('0' + (d.getMonth() + 1)).slice(-2) + ' ' +
-                    ('0' + d.getHours()).slice(-2) + ':' +
-                    ('0' + d.getMinutes()).slice(-2),
-                vars   = [
-                    { name: 'Id',           value: player.id },
-                    { name: 'Player_name',  value: player.name },
-                    { name: 'Hist_date',    value: date },
-                    { name: 'Cell_id',      value: step.cell_id },
-                    { name: 'Cell_name_ru', value: cell.name_ru },
-                    { name: 'Cell_name_en', value: cell.name_en }
-                ];
-
-            if ( ! no_obj) hist.push(step);
-            if (player_id) {
-                var step_full = $('.remodal .hist-steps-full');
-                step_full.prepend(Leela.design.tpl('.hist-step-full:first', vars));
-
-                var step_img = step_full.find('img:first');
-                step_img.attr('src', step_img.attr('data-src'));
-            } else {
-                if (Leela.history.root.is(':hidden')) Leela.history.root.show();
-                Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
-            }
-        },
-        fill: function(player_id) {
-            var steps = [];
-            if (player_id) {
-                var player = LeelaGame.players[Leela.players.get(player_id).i];
-                Leela.players.add(player, 1, player_id);
-                steps = steps.concat(player.history);
-            } else {
-                for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
-                    Leela.players.add(LeelaGame.players[i], 1, player_id);
-                    steps = steps.concat(LeelaGame.players[i].history);
-                }
-            }
-            steps.sort(Leela.history.sort);
-            if (player_id) {
-                steps.reverse();
-                $('#history-full').html('');
-            }
-
-            var dice = 0;
-            for (var l = steps.length, i = 0; i < l; i++) {
-                if (steps[i].dice) dice = steps[i].dice;
-                Leela.history.add(steps[i], 1, player_id);
-            }
-
-            if ( ! player_id && dice) {
-                Leela.actions.dice.el.attr('class', 'dice-' + dice).attr('data-value');
-            }
-        },
-        sort: function(a, b) {
-            if (a.date < b.date) return -1;
-            if (a.date > b.date) return 1;
-            return 0;
-        },
-        save: function() {
-            $.post('php/save.php', 'game=' + localStorage.getItem('LeelaGame'), function(result) {
-                if ( ! result) return;
-
-                window.open('game/' + result + '.html');
-            });
+            modal.find('.cell-page-head').append(btn);
+            modal.find('.cell-rec-wrap').append(Leela.design.tpl('.cell-rec'));
         }
     },
     actions: {
@@ -807,6 +708,135 @@ Leela = {
             }
         }
     },
+    history: {
+        init: function() {
+            Leela.history.root = $('#actions-history');
+
+            Leela.history.el.on('click', '.hist-cell', function() {
+                $('#cell-' + $(this).attr('data-id')).click();
+            });
+
+            $(document).on('click', '.hist-step-full a', function() {
+                $('#cell-' + $(this).attr('data-id')).click();
+            });
+
+            $('#hist-new').click(function() {
+                if ( ! window.confirm($('#alert-hist-new').find('.lang-' + Leela.lang).text())) return;
+
+                localStorage.removeItem('LeelaGame');
+                window.location.reload(true);
+            });
+        },
+        add: function(step, no_obj, player_id) {
+            var player = LeelaGame.players[Leela.players.get(step.player_id).i],
+                hist   = player.history,
+                d      = new Date(step.date),
+                cell   = Leela.map.cells[step.cell_id - 1],
+                date   =
+                    ('0' + d.getDate()).slice(-2) + '.' +
+                    ('0' + (d.getMonth() + 1)).slice(-2) + ' ' +
+                    ('0' + d.getHours()).slice(-2) + ':' +
+                    ('0' + d.getMinutes()).slice(-2),
+                vars   = [
+                    { name: 'Id',           value: player.id },
+                    { name: 'Player_name',  value: player.name },
+                    { name: 'Hist_date',    value: date },
+                    { name: 'Cell_id',      value: step.cell_id },
+                    { name: 'Cell_name_ru', value: cell.name_ru },
+                    { name: 'Cell_name_en', value: cell.name_en }
+                ];
+
+            if ( ! no_obj) hist.push(step);
+
+            if (player_id) {
+                var step_full = $('.remodal .hist-steps-full');
+                step_full.prepend(Leela.design.tpl('.hist-step-full:first', vars));
+
+                var step_img = step_full.find('img:first');
+                step_img.attr('src', step_img.attr('data-src'));
+            } else {
+                if (Leela.history.root.is(':hidden')) Leela.history.root.show();
+                Leela.history.el.prepend(Leela.design.tpl('.hist-step:first', vars));
+            }
+        },
+        fill: function(player_id) {
+            var steps = [];
+            if (player_id) {
+                var player = LeelaGame.players[Leela.players.get(player_id).i];
+                Leela.players.add(player, 1, player_id);
+                steps = steps.concat(player.history);
+
+                /*var step_full = $('.remodal .hist-steps-full');
+                step_full.append('<p>Всего ходов: ' + player.history.length + '</p>');
+
+                var freq = [];
+                for (var i in player.history) {
+                    var c = player.history[i].cell_id;
+                    freq[c] = (freq[c] || 0) + 1;
+                }
+
+                var top = [];
+                for (var i = 0; i < 3; i++) {
+                    var max = Math.max.apply(null, Object.keys(freq).map(function(j) { return freq[j]; })),
+                        key = freq.indexOf(max);
+
+                    top.push({ name: eval('Leela.map.cells[key - 1].name_' + Leela.lang), freq: max });
+                    freq.splice(key, 1);
+                }
+
+                for (var i in top) {
+                    step_full.append('<p>' + top[i].name + ' (' + top[i].freq + ')</p>');
+                }*/
+            } else {
+                for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
+                    Leela.players.add(LeelaGame.players[i], 1, player_id);
+                    steps = steps.concat(LeelaGame.players[i].history);
+                }
+            }
+            steps.sort(Leela.history.sort);
+            if (player_id) {
+                steps.reverse();
+                $('#history-full').html('');
+            }
+
+            var dice = 0;
+            for (var l = steps.length, i = 0; i < l; i++) {
+                if (steps[i].dice) dice = steps[i].dice;
+                Leela.history.add(steps[i], 1, player_id);
+            }
+
+            if ( ! player_id && dice) {
+                Leela.actions.dice.el.attr('class', 'dice-' + dice).attr('data-value');
+            }
+        },
+        sort: function(a, b) {
+            if (a.date < b.date) return -1;
+            if (a.date > b.date) return 1;
+            return 0;
+        },
+        save: function() {
+            $.post('php/save.php', 'game=' + localStorage.getItem('LeelaGame'), function(result) {
+                if ( ! result) return;
+
+                window.open('game/' + result + '.html');
+            });
+        }
+    },
+    adv: {
+        shown: 0,
+        init: function() {
+            if (Leela.mobile) return;
+
+            Leela.adv.intrv = setInterval(function() {
+                if (Leela.adv.shown) return;
+                if ($('.remodal-wrapper.remodal-is-opened:visible').length) return;
+
+                Leela.adv.shown = 1;
+                clearInterval(Leela.adv.intrv);
+                $('[data-remodal-id="adv-popup"]').remodal().open();
+            }, 3 * 60000);
+        }
+    },
     pay: {
         check: function() {
             if ( ! Leela.mobile || Leela.paid) return;
@@ -880,7 +910,7 @@ Leela = {
 
                 $.get('data/' + id + '.html', function(data) {
                     var vars  = [
-                        { name: 'Id', value: 'cell-' + id },
+                        { name: 'Id',   value: 'cell-' + id },
                         { name: 'Data', value: data }
                     ];
 
@@ -891,6 +921,25 @@ Leela = {
 
                     Leela.design.modal.removeClass('remodal-tpl').addClass('remodal').appendTo('body');
                     Leela.design.modal.find('.remodal-continue').css('background-image', 'url(img/cells/' + id + '.jpg)');
+
+                    var btn   = $('<button><span class="lang lang-ru">Подробнее</span><span class="lang lang-en">More</span></button>'),
+                        short = Leela.design.modal.find('.cell-text-short'),
+                        full  = Leela.design.modal.find('.cell-text-full');
+
+                    btn.click(function() {
+                        var is_short = short.is(':visible');
+                        if (is_short) {
+                            short.stop().animate({ height: full.height(), opacity: 0 }, function() {
+                                full.css({ opacity: 0 }).show().stop().animate({ opacity: 1 });
+                            });
+                        } else {
+                            full.stop().animate({ opacity: 0 }, function() {
+                                short.css({ opacity: 1 }).show().stop().animate({ height: 'auto', opacity: 1 });
+                            });
+                        }
+                    });
+                    short.after(btn);
+
                     Leela.design.modal = Leela.design.modal.remodal();
                     Leela.design.modal.open();
                 });
@@ -987,6 +1036,21 @@ Leela = {
 if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/index.max.html']) !== -1) {
     Leela.init();
 }
+
+(function(history){
+    var pushState = history.pushState;
+    history.pushState = function(state) {
+        if (typeof history.onpushstate == "function") {
+            history.onpushstate({state: state});
+        }
+        // whatever else you want to do
+        // maybe call onhashchange e.handler
+        return pushState.apply(history, arguments);
+    }
+})(window.history);
+window.onpopstate = history.onpushstate = function(e) {
+    Leela.design.hash();
+};
 
 if (Leela.mobile) {
     // PhoneGap Build

@@ -66,12 +66,20 @@ a:hover {
     font-size: 120%;
     color: #333;
 }
+.remodal[data-remodal-id="adv-popup"] {
+    max-width: 630px;
+    padding: 1px;
+    font-size: 0;
+}
 .remodal-overlay {
     background: rgba(43, 46, 56, .5);
 }
 .remodal-close, .remodal-close:before {
     left: auto;
     right: 0;
+}
+.remodal img {
+    max-width: 100%;
 }
 .remodal img:not(.simple-img), .cell-page-head img, .remodal-continue {
     display: block;
@@ -435,28 +443,44 @@ a:hover {
 #actions-btn {
     background: url(img/btn-actions.png) 0 0 no-repeat;
 }
-#author {
+#download {
     left: 0;
 }
-#author-btn {
-    width: 70px;
+#download-btn a {
+    display: block;
+    width: 60px;
     height: 50px;
     margin-right: 130px;
     padding: 0 0 0 60px;
-    background: url(img/btn-author.png) 0 0 no-repeat;
+    background: url(img/btn-download.png) 0 0 no-repeat;
+}
+#exit-btn {
+    left: 0;
+    display: none;
+}
+#exit-btn a {
+    display: block;
+    width: 70px;
+    height: 50px;
+    margin-right: 120px;
+    padding: 0 0 0 60px;
+    background: url(img/btn-exit.png) 0 0 no-repeat;
+}
+#vk-btn {
+    width: 90px;
+    margin-right: 110px;
 }
 #share {
     margin-top: 14px;
 }
-#download {
+#author {
     right: 0;
 }
-.download-btn {
-    display: block;
+#author-btn {
     width: 60px;
     height: 50px;
-    padding: 0 60px 0 0;
-    background: url(img/btn-download.png) 100% 0 no-repeat;
+    padding: 0 50px 0 0;
+    background: url(img/btn-author.png) 100% 0 no-repeat;
 }
 .font-default {
     font-size: 16px;
@@ -835,11 +859,18 @@ a:hover {
 .cell-rec-wrap p {
     margin: 1em;
 }
+.cell-text-full {
+    display: none;
+}
 #salute {
     position: absolute;
-    height: 125%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*height: 125%;
     bottom: 0;
-    left: -16%;
+    left: -16%;*/
 }
 #ya-donate {
     width: 524px;
@@ -896,10 +927,10 @@ a:hover {
     #logo h1 { margin-bottom: -6px; }
 }
 @media only screen and (max-width : 640px) {
-    #share { display: none; }
+    #share, #lang-toggle, #social-group { display: none; }
 }
 @media only screen and (max-width : 320px) {
-    #share, #author { display: none; }
+    #share { display: none; }
 }
 @media print  {
     .remodal-wrapper { position: absolute; overflow: visible; }
