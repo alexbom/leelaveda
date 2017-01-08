@@ -2,8 +2,8 @@
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.alexbom.leelaveda_en"
-        versionCode = "17"
-        version     = "2.1.2" >
+        versionCode = "18"
+        version     = "2.1.3" >
 
     <name>Leela Game</name>
 

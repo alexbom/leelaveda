@@ -1,7 +1,7 @@
 LeelaGame = { turn: 1, players: [] };
 
 Leela = {
-    mobile: 0,
+    mobile: 1,
     paid:   0,
     lang:  'ru',
     init:  function() {
@@ -665,7 +665,7 @@ Leela = {
             Leela.actions.panel.find('button').prop('disabled', false);
             if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
 
-            if (Leela.mobile) localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
+            /*if (Leela.mobile)*/ localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
 
             Leela.pay.check();
         },
@@ -841,7 +841,7 @@ Leela = {
         check: function() {
             if ( ! Leela.mobile || Leela.paid) return;
 
-            var free   = 3,
+            var free   = 5,
                 player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],
                 hist   = player.history,
                 length = hist.length,
