@@ -2,7 +2,7 @@ var LeelaGame;
 
 var Leela = {
     mobile: 1,
-    paid:   0,
+    paid:   1,
     lang:  'ru',
     init:  function() {
         Leela.design.tpls   = $('#tpls');
