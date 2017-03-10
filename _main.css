@@ -28,14 +28,14 @@ body {
     font-family: 'RobotoRegular', sans-serif;
     color: #fff;
 }
-h1, h2, h3, h4 {
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
     margin: 0;
     text-align: center;
 }
-h1, h2, h3 {
+h1, h2, h3, .h1, .h2, .h3 {
     font: 36px 'RuslanDisplay', sans-serif;
 }
-h4 {
+h4, .h4 {
     font-size: 18px;
 }
 small {
@@ -53,6 +53,9 @@ a {
 }
 a:hover {
     color: #ff9;
+}
+:focus {
+    outline: none!important;
 }
 
 .loader {
@@ -923,7 +926,7 @@ a:hover {
     .fixed-panel { background-color: rgba(0, 0, 0, .9); }
 }
 @media only screen and (max-width : 768px) {
-    h1, h2, h3 { font-size: 26px; }
+    h1, h2, h3, .h1, .h2, .h3 { font-size: 26px; }
     #logo h1 { margin-bottom: -6px; }
 }
 @media only screen and (max-width : 640px) {

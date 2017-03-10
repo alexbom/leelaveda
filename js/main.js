@@ -1,6 +1,6 @@
-LeelaGame = { turn: 1, players: [] };
+var LeelaGame;
 
-Leela = {
+var Leela = {
     mobile: 1,
     paid:   0,
     lang:  'ru',
@@ -69,16 +69,34 @@ Leela = {
             }
         },
         hash: function(start) {
-            var hash = window.location.href;
-            if (hash.indexOf('#lang-en') !== -1) {
+
+            var hash = window.location.hash;
+
+            if (hash.indexOf('#load-') !== -1) {
+                console.log('load!');
+
+                var arr = hash.split('-');
+                console.log(arr);
+                $.getJSON('/game/' + arr[1] + '.json', function(game) {
+                    console.log(game);
+                    if (game) LeelaGame = JSON.parse(game);
+                });
+
+            } else if (hash.indexOf('#lang-en') !== -1) {
+
                 Leela.language.toggle('en');
+
             } else if (hash.indexOf('#cell-') !== -1) {
+
                 var arr = hash.split('-');
                 $('#cell-' + arr[1]).click();
+
             } else if (start) {
+
                 if ( ! LeelaGame.players[0].history.length && LeelaGame.players.length == 1) {
                     $('#intro-win').remodal().open();
                 }
+
             }
         },
         nav: function(aside, btn, nav) {
@@ -91,8 +109,7 @@ Leela = {
                     nav.hide().removeClass('clicked');
                 } else {
                     if ($(window).width() < 1366) {
-                        $('.fixed-panel:not(#' + aside.attr('id') + '-panel)')
-                            .hide().removeClass('clicked');
+                        $('.fixed-panel:not(#' + aside.attr('id') + '-panel)').hide().removeClass('clicked');
                     }
                     nav.show().addClass('clicked');
                 }
@@ -115,6 +132,8 @@ Leela = {
                 Leela.map.el.css({ width: map_w, height: map_h });
                 Leela.design.logo.width(win_w);
 
+                Leela.history.el.css({ height: win_h - 430 });
+
                 for (var l = LeelaGame.players.length, i = 0; i < l; i++) {
                     var player  = LeelaGame.players[i],
                         hist    = player.history,
@@ -123,8 +142,6 @@ Leela = {
 
                     $('#map-player-' + player.id).css({ top: pos.top, left: pos.left });
                 }
-
-                Leela.history.el.css({ height: win_h - 430 });
             }).resize();
 
             Leela.actions.btn.click();
@@ -178,7 +195,7 @@ Leela = {
                 var item = $(this),
                     pl   = item.attr('placeholder');
 
-                if ( ! pl || pl == item.val()) {
+                if (pl == item.val()) {
                     item.val(item.attr('data-placeholder_' + lang)).blur();
                 }
             });
@@ -197,11 +214,11 @@ Leela = {
         init: function() {
             Leela.players.add_btn = $('#players-add');
 
-            if (Leela.paid) {
-                Leela.players.add_btn.click(function() { Leela.players.add(); });
-            } else {
+            if (Leela.mobile && ! Leela.paid) {
                 Leela.players.add_btn.hide();
             }
+
+            Leela.players.add_btn.click(function() { Leela.players.add(); });
 
             Leela.players.load();
             Leela.players.next(1);
@@ -211,6 +228,8 @@ Leela = {
                 var game = localStorage.getItem('LeelaGame');
                 if (game) LeelaGame = JSON.parse(game);
             }
+
+            if (LeelaGame === undefined) LeelaGame = { turn: 1, players: [] };
 
             if (LeelaGame.players.length) {
                 Leela.history.fill(player_id);
@@ -253,6 +272,8 @@ Leela = {
 
                 $('.player-name-' + player.id).text(player_name);
                 LeelaGame.players[Leela.players.get(player.id).i].name = player_name;
+
+                localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
             });
 
             nav_player.find('.nav-ava').click(function() {
@@ -267,7 +288,7 @@ Leela = {
                         { name: 'Data', value: Leela.design.tpl('.hist-full:first', [
                             { name: 'Player_name', value: player.name }
                         ])
-                        }];
+                    }];
 
                 Leela.design.modal = $(Leela.design.tpl('.remodal-tpl:first', vars));
                 Leela.design.modal.find('img:first').attr('src', 'img/ava/' + player.ava + '.png');
@@ -319,7 +340,7 @@ Leela = {
             LeelaGame.players.splice(player.i, 1);
             $('#nav-player-' + id + ', #map-player-' + id).remove();
 
-            if (Leela.paid) Leela.players.add_btn.show();
+            if (Leela.paid || ! Leela.mobile) Leela.players.add_btn.show();
 
             if (LeelaGame.players.length == 1) {
                 Leela.players.el.find('.nav-del:first').hide();
@@ -362,6 +383,8 @@ Leela = {
             }
             nav_player.add(map_player).removeClass('ava-' + player.ava).addClass('ava-' + new_ava);
             player.ava = new_ava;
+
+            localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
 
             return player.ava;
         },
@@ -665,7 +688,7 @@ Leela = {
             Leela.actions.panel.find('button').prop('disabled', false);
             if (Leela.actions.panel.is(':hidden')) Leela.actions.btn.click();
 
-            /*if (Leela.mobile)*/ localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
+            localStorage.setItem('LeelaGame', JSON.stringify(LeelaGame));
 
             Leela.pay.check();
         },
@@ -818,7 +841,7 @@ Leela = {
             $.post('php/save.php', 'game=' + localStorage.getItem('LeelaGame'), function(result) {
                 if ( ! result) return;
 
-                window.open('game/' + result + '.html');
+                window.open('game/' + result + '.json');
             });
         }
     },
@@ -839,7 +862,7 @@ Leela = {
     },
     pay: {
         check: function() {
-            if ( ! Leela.mobile || Leela.paid) return;
+            if (Leela.paid || ! Leela.mobile) return;
 
             var free   = 5,
                 player = LeelaGame.players[Leela.players.get(LeelaGame.turn).i],
@@ -1027,7 +1050,7 @@ Leela = {
             { id: 69, name_ru: 'План Абсолюта', name_en: 'Absolute plan' },
             { id: 70, name_ru: 'Саттвагуна', name_en: 'Sattvaguna' },
             { id: 71, name_ru: 'Раджогуна', name_en: 'Radzhoguna' },
-            { id: 72, name_ru: 'Тамогуна', name_en: 'Tamoguna', type: 'snake', goto: 51 }
+            { id: 72, name_ru: 'Тамагуна', name_en: 'Tamaguna', type: 'snake', goto: 51 }
         ]
     }
 };
@@ -1048,6 +1071,7 @@ if (Leela.mobile || $.inArray(window.location.pathname, ['/', '/index.html', '/i
         return pushState.apply(history, arguments);
     }
 })(window.history);
+
 window.onpopstate = history.onpushstate = function(e) {
     Leela.design.hash();
 };
