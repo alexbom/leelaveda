@@ -1,7 +1,7 @@
 var LeelaGame;
 
 var Leela = {
-    mobile: 1,
+    mobile: 0,
     paid:   0,
     lang:  'ru',
     init:  function() {
