@@ -2,7 +2,7 @@ var LeelaGame;
 
 var Leela = {
     mobile: 1,
-    paid:   0,
+    paid:   1,
     lang:  'en',
     init:  function() {
         Leela.design.tpls   = $('#tpls');
@@ -258,7 +258,7 @@ var Leela = {
                 name       = nav_player.find('.nav-name');
 
             if ( ! player.name) {
-                player.name = name.attr('placeholder');
+                player.name = name.attr('data-placeholder_' + Leela.lang);
                 name.val(player.name);
             }
 
