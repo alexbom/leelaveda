@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+
 $name = md5($_SERVER['REMOTE_ADDR'].time());
 $file = '../game/'.$name.'.json';
 

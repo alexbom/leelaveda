@@ -1,10 +1,11 @@
 var LeelaGame;
-
+//localStorage.removeItem('LeelaGame');
 var Leela = {
     mobile: 0,
     paid:   0,
-    lang:  'ru',
-    init:  function() {
+    lang:   'ru',
+    domain: '//leelaveda.ru/',
+    init: function() {
         Leela.design.tpls   = $('#tpls');
         Leela.design.logo   = $('#logo');
         Leela.design.intro  = $('#intro-win');
@@ -72,17 +73,17 @@ var Leela = {
 
             var hash = window.location.hash;
 
-            if (hash.indexOf('#load-') !== -1) {
+            /*if (hash.indexOf('#load-') !== -1) {
                 console.log('load!');
 
                 var arr = hash.split('-');
                 console.log(arr);
-                $.getJSON('/game/' + arr[1] + '.json', function(game) {
+                $.getJSON(Leela.domain + 'game/' + arr[1] + '.json', function(game) {
                     console.log(game);
                     if (game) LeelaGame = JSON.parse(game);
                 });
 
-            } else if (hash.indexOf('#lang-en') !== -1) {
+            } else */if (hash.indexOf('#lang-en') !== -1) {
 
                 Leela.language.toggle('en');
 
@@ -224,6 +225,8 @@ var Leela = {
             Leela.players.next(1);
         },
         load: function(player_id) {
+            player_id = player_id || 0;
+
             if ( ! player_id) {
                 var game = localStorage.getItem('LeelaGame');
                 if (game) LeelaGame = JSON.parse(game);
@@ -838,11 +841,38 @@ var Leela = {
             return 0;
         },
         save: function() {
-            $.post('php/save.php', 'game=' + localStorage.getItem('LeelaGame'), function(result) {
+            $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
 
-                window.open('game/' + result + '.json');
+                window.open(Leela.domain + 'game/' + result + '.json');
             });
+        },
+        load: function() {
+            startApp.set({ /* params */
+                "action": "ACTION_VIEW",
+                "uri": "skype:+79109999999"
+            }).start();
+
+            /*var game_id = window.prompt('Вставьте номер сохранённой игры');
+
+            if ( ! game_id) return;
+
+            $.getJSON(Leela.domain + 'php/load.php', { game_id: game_id, cache: new Date().getTime() }, function(game) {
+                if ( ! game) {
+                    alert('Игра не найдена');
+                    return;
+                }
+
+                localStorage.setItem('LeelaGame', game);
+
+                Leela.players.el.html('');
+                Leela.history.el.html('');
+                Leela.map.el.find('.map-player').remove();
+
+                Leela.players.load();
+                $(window).resize();
+                Leela.players.next(1);
+            });*/
         }
     },
     adv: {
