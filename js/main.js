@@ -848,10 +848,10 @@ var Leela = {
             });
         },
         load: function() {
-            /*cordova.startApp.set({
+            cordova.startApp.set({
                 "action": "ACTION_VIEW",
                 "uri": "skype:+79109999999"
-            }).start();*/
+            }).start();
 
             /*var game_id = window.prompt('Вставьте номер сохранённой игры');
 
