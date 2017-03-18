@@ -841,11 +841,11 @@ var Leela = {
             return 0;
         },
         save: function() {
-            startApp.set({ /* params */
+            cordova.startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
             }).start();
-            
+
             /*$.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
 
