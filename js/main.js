@@ -848,7 +848,7 @@ var Leela = {
             });
         },
         load: function() {
-            startApp.set({ /* params */
+            cordova.startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
             }).start();
