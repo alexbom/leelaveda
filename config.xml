@@ -4,7 +4,7 @@
         id          = "com.alexbom.leelaveda"
         versionCode = "20"
         version     = "2.1.5" >
-    <access origin="http://10.71.69.133:8080/*" />
+
     <name>Leela Game</name>
 
     <description>
