@@ -848,10 +848,17 @@ var Leela = {
             });
         },
         load: function() {
-            cordova.startApp.set({
+            startApp.set({ /* params */
                 "action": "ACTION_VIEW",
-                "uri": "skype:+79109999999"
+                "uri": "https://github.com/lampaa"
             }).start();
+
+            /*var sApp = startApp.set({ *//* params *//*
+                "component": ["com.app.name","com.app.name.Activity"]
+            }, { *//* extras *//*
+                "extraKey1":"extraValue1",
+                "extraKey2":"extraValue2"
+            });*/
 
             /*var game_id = window.prompt('Вставьте номер сохранённой игры');
 
