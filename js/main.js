@@ -841,10 +841,16 @@ var Leela = {
             return 0;
         },
         save: function() {
-            startApp.set({ /* params */
+            var sApp = startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
-            }).start();
+            });
+
+            sApp.start(function() { /* success */
+                alert("OK");
+            }, function(error) { /* fail */
+                alert(error);
+            });
 
             /*$.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
@@ -853,10 +859,16 @@ var Leela = {
             });*/
         },
         load: function() {
-            navigator.startApp.set({ /* params */
+            var sApp = navigator.startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
-            }).start();
+            });
+
+            sApp.start(function() { /* success */
+                alert("OK");
+            }, function(error) { /* fail */
+                alert(error);
+            });
 
             /*var sApp = startApp.set({ *//* params *//*
                 "component": ["com.app.name","com.app.name.Activity"]
