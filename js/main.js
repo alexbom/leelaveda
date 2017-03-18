@@ -848,7 +848,7 @@ var Leela = {
             });
         },
         load: function() {
-            /*startApp.set({
+            /*cordova.startApp.set({
                 "action": "ACTION_VIEW",
                 "uri": "skype:+79109999999"
             }).start();*/
