@@ -24,7 +24,7 @@
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
     </feature>
 
-    <plugin name="cordova-plugin-startapp" />
+    <plugin name="com.surfernetwork.startapp" source="pgb" />
     <feature name="startApp">
         <param name="android-package" value="com.lampa.startapp.startApp" />
     </feature>
