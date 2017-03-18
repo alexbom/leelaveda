@@ -20,11 +20,11 @@
     <access origin="*" />
 
     <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
-
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
     </feature>
 
+    <plugin name="com.surfernetwork.startapp" spec="1.0.0" source="pgb" />
     <feature name="startApp">
         <param name="android-package" value="com.lampa.startapp.startApp" />
     </feature>
