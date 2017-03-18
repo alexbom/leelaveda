@@ -1,7 +1,7 @@
 var LeelaGame;
 //localStorage.removeItem('LeelaGame');
 var Leela = {
-    mobile: 0,
+    mobile: 1,
     paid:   0,
     lang:   'ru',
     domain: '//leelaveda.ru/',
