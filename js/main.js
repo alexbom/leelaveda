@@ -842,7 +842,7 @@ var Leela = {
             if (a.date < b.date) return -1;
             if (a.date > b.date) return 1;
             return 0;
-        },
+        }/*,
         save: function() {
             $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {alert(result);
                 if ( ! result) return;
@@ -872,8 +872,8 @@ var Leela = {
             });
         },
         load: function() {
-            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', 'Leela.history.loadCallback');
-        }
+            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', Leela.history.loadCallback);
+        }*/
     },
     adv: {
         shown: 0,
