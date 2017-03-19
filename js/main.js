@@ -851,9 +851,7 @@ var Leela = {
                 //window.open(Leela.domain + 'game/' + result + '.json');
             });
         },
-        load: function() {
-            var game_id = prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text());
-
+        loadCallback: function(game_id) {
             if ( ! game_id) return;
 
             $.getJSON(Leela.domain + 'php/load.php', { game_id: game_id, cache: new Date().getTime() }, function(game) {
@@ -872,6 +870,9 @@ var Leela = {
                 $(window).resize();
                 Leela.players.next(1);
             });
+        },
+        load: function() {
+            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), 'Leela.history.loadCallback');
         }
     },
     adv: {
@@ -1113,10 +1114,10 @@ if (Leela.mobile) {
             navigator.notification.alert(message, null, title || '', 'OK');
         };
 
-        prompt = function(message, title) {
+        prompt = function(message, title, callback) {
             navigator.notification.prompt(
                 message,
-                null,
+                callback || null,
                 title || '',
                 ['OK', 'Cancel']
             );
