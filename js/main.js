@@ -2,8 +2,8 @@ var LeelaGame;
 //localStorage.removeItem('LeelaGame');
 var Leela = {
     mobile: 1,
-    paid:   0,
-    lang:   'ru',
+    paid:   1,
+    lang:   'en',
     domain: '//leelaveda.ru/',
     init: function() {
         Leela.design.tpls   = $('#tpls');
@@ -847,12 +847,12 @@ var Leela = {
             $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
 
-                window.prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), result);
+                prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), result);
                 //window.open(Leela.domain + 'game/' + result + '.json');
             });
         },
         load: function() {
-            var game_id = window.prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text());
+            var game_id = prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text());
 
             if ( ! game_id) return;
 
@@ -1111,6 +1111,15 @@ if (Leela.mobile) {
     if (navigator.notification) {
         alert = function(message, title) {
             navigator.notification.alert(message, null, title || '', 'OK');
-        }
+        };
+
+        prompt = function(message, title) {
+            navigator.notification.prompt(
+                message,
+                null,
+                title || '',
+                ['OK', 'Cancel']
+            );
+        };
     }
 }
