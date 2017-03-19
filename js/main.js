@@ -2,7 +2,7 @@ var LeelaGame;
 //localStorage.removeItem('LeelaGame');
 var Leela = {
     mobile: 1,
-    paid:   1,
+    paid:   0,
     lang:   'ru',
     domain: '//leelaveda.ru/',
     init: function() {
@@ -70,7 +70,6 @@ var Leela = {
             }
         },
         hash: function(start) {
-
             var hash = window.location.hash;
 
             /*if (hash.indexOf('#load-') !== -1) {
@@ -213,7 +212,7 @@ var Leela = {
     players: {
         max: 7,
         init: function() {
-            Leela.players.add_btn = $('#players-add');
+            Leela.players.add_btn  = $('#players-add');
 
             if (Leela.mobile && ! Leela.paid) {
                 Leela.players.add_btn.hide();
@@ -752,6 +751,10 @@ var Leela = {
                 localStorage.removeItem('LeelaGame');
                 window.location.reload(true);
             });
+
+            $('#hist-save').click(function() { Leela.history.save(); });
+
+            $('#hist-load').click(function() { Leela.history.load(); });
         },
         add: function(step, no_obj, player_id) {
             var player = LeelaGame.players[Leela.players.get(step.player_id).i],
@@ -841,43 +844,15 @@ var Leela = {
             return 0;
         },
         save: function() {
-            var sApp = startApp.set({
-                "component": ["com.alexbom.leelaveda_ru_full"]
-            }, {
-                "LeelaGame": LeelaGame
-            });
-
-            sApp.start(function() {
-                alert("OK");
-            }, function(error) {
-                alert(error);
-            });
-
-            /*var sApp = startApp.set({
-                "action": "ACTION_VIEW",
-                "uri": "https://github.com/lampaa"
-            });*/
-
-            /*$.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
+            $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
 
-                window.open(Leela.domain + 'game/' + result + '.json');
-            });*/
+                window.prompt('Ваш игровой прогресс сохраняется автоматически, но для продолжения игры в полной версии (или на другом устройстве), скопируйте код, приведённый ниже, и вставьте его в окне загрузки полной версии (или на другом устройстве)', result);
+                //window.open(Leela.domain + 'game/' + result + '.json');
+            });
         },
         load: function() {
-            var sApp = startApp.set({
-                "component": ["com.alexbom.leelaveda_ru_full","com.alexbom.leelaveda_ru_full.Activity"]
-            }, {
-                "LeelaGame": LeelaGame
-            });
-
-            sApp.start(function() {
-                alert("OK");
-            }, function(error) {
-                alert(error);
-            });
-
-            /*var game_id = window.prompt('Вставьте номер сохранённой игры');
+            var game_id = window.prompt('Вставьте код сохранённой игры');
 
             if ( ! game_id) return;
 
@@ -896,7 +871,7 @@ var Leela = {
                 Leela.players.load();
                 $(window).resize();
                 Leela.players.next(1);
-            });*/
+            });
         }
     },
     adv: {
@@ -964,7 +939,7 @@ var Leela = {
                 Leela.map.el.append(Leela.design.tpl('.cell:first', vars));
 
                 if (item.type == 'arrow' || item.type == 'snake') {
-                    var img = $('<img src="img/guide-' + item.id + '.png" alt="" id="guide-' + item.id + '" class="map-guide trans-linear">');
+                    var img = $('<img src="img/guides/' + item.id + '.png" alt="" id="guide-' + item.id + '" class="map-guide trans-linear">');
 
                     Leela.map.el.append(img);
                     $('#cell-' + item.id).hover(
@@ -1131,7 +1106,6 @@ window.onpopstate = history.onpushstate = function(e) {
 };
 
 if (Leela.mobile) {
-    // PhoneGap Build
     window.open = cordova.InAppBrowser.open;
 
     if (navigator.notification) {

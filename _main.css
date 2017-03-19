@@ -138,6 +138,9 @@ a:hover {
 .text-right {
     text-align: right;
 }
+.text-left {
+    text-align: left;
+}
 .float-left {
     float: left;
 }
@@ -762,21 +765,31 @@ a:hover {
     overflow-y: auto;
 }
 
-#hist-new {
+#hist-actions {
     position: absolute;
     top: 0;
     right: 0;
+}
+#hist-actions button {
     width: 32px;
     height: 32px;
-    background: url(img/history-new.png) 0 0 no-repeat;
 
     zoom: 1;
     opacity: .5;
     filter: alpha(opacity=50);
 }
-#hist-new:hover {
+#hist-actions button:hover {
     opacity: 1;
     filter: alpha(opacity=100);
+}
+#hist-save {
+    background: url(img/history-save.png) 0 0 no-repeat;
+}
+#hist-load {
+    background: url(img/history-load.png) 0 0 no-repeat;
+}
+#hist-new {
+    background: url(img/history-new.png) 0 0 no-repeat;
 }
 #hist-print {
     position: absolute;

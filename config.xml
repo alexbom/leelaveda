@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "com.alexbom.leelaveda_ru_full"
+        id          = "com.alexbom.leelaveda"
         versionCode = "20"
         version     = "2.1.5" >
 
@@ -22,11 +22,6 @@
     <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
-    </feature>
-
-    <plugin name="com.lampa.startapp" spec="0.1.4" />
-    <feature name="startApp">
-        <param name="android-package" value="com.lampa.startapp.startApp" />
     </feature>
 
     <feature name="http://api.phonegap.com/1.0/notification" />

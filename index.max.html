@@ -24,7 +24,6 @@
     <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png"-->
 
-    <script src="http://weinre.mybluemix.net/target/target-script-min.js#anonymous"></script>
 </head>
 
 <body>
@@ -144,7 +143,7 @@
 <div id="players" class="fixed-aside">
     <button id="players-btn" data-title_ru="Игроки" data-title_en="Players"></button>
 </div>
-<div id="players-panel" class="fixed-panel panel trans-linear font-default">
+<div id="players-panel" class="fixed-panel panel trans-linear text-center font-default">
     <div id="players-list"></div>
     <button id="players-add" class="trans-linear">
         <span class="lang lang-ru">Добавить игрока</span>
@@ -183,11 +182,15 @@
     <div class="font-default">
         <div id="actions-help"></div>
         <div id="actions-history">
-            <div class="h2">
+            <div class="h2 text-left">
                 <span class="lang lang-ru">История</span>
                 <span class="lang lang-en">History</span>
             </div>
-            <button id="hist-new" class="trans-linear" data-title_ru="Начать сначала" data-title_en="Start over"></button>
+            <div id="hist-actions">
+                <button id="hist-save" class="trans-linear" data-title_ru="Сохранить игру" data-title_en="Save game"></button>
+                <button id="hist-load" class="trans-linear" data-title_ru="Загрузить игру" data-title_en="Load game"></button>
+                <button id="hist-new" class="trans-linear" data-title_ru="Начать сначала" data-title_en="Start over"></button>
+            </div>
             <div id="actions-steps"></div>
         </div>
     </div>
