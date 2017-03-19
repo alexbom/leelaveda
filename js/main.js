@@ -2,7 +2,7 @@ var LeelaGame;
 //localStorage.removeItem('LeelaGame');
 var Leela = {
     mobile: 1,
-    paid:   0,
+    paid:   1,
     lang:   'ru',
     domain: '//leelaveda.ru/',
     init: function() {
@@ -847,18 +847,18 @@ var Leela = {
             $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
 
-                window.prompt('Ваш игровой прогресс сохраняется автоматически, но для продолжения игры в полной версии (или на другом устройстве), скопируйте код, приведённый ниже, и вставьте его в окне загрузки полной версии (или на другом устройстве)', result);
+                window.prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), result);
                 //window.open(Leela.domain + 'game/' + result + '.json');
             });
         },
         load: function() {
-            var game_id = window.prompt('Вставьте код сохранённой игры');
+            var game_id = window.prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text());
 
             if ( ! game_id) return;
 
             $.getJSON(Leela.domain + 'php/load.php', { game_id: game_id, cache: new Date().getTime() }, function(game) {
                 if ( ! game) {
-                    alert('Игра не найдена');
+                    alert($('#alert-hist-noload').find('.lang-' + Leela.lang).text());
                     return;
                 }
 
