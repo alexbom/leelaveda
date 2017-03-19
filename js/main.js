@@ -844,7 +844,7 @@ var Leela = {
             return 0;
         },
         save: function() {
-            $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
+            $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {alert(result);
                 if ( ! result) return;
 
                 prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), result);
@@ -872,7 +872,7 @@ var Leela = {
             });
         },
         load: function() {
-            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), 'Leela.history.loadCallback');
+            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', 'Leela.history.loadCallback');
         }
     },
     adv: {
