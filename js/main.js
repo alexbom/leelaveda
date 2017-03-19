@@ -841,6 +841,9 @@ var Leela = {
             return 0;
         },
         save: function() {
+            alert('startApp');
+            alert(startApp);
+            
             var sApp = startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
@@ -859,6 +862,9 @@ var Leela = {
             });*/
         },
         load: function() {
+            alert('navigator.startApp');
+            alert(navigator.startApp);
+
             var sApp = navigator.startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
