@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest>
+
+<application>
+
+    <activity
+            android:name="com.alexbom.leelaveda_ru_full.Activity"
+            android:label="@string/app_name">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+        </intent-filter>
+    </activity>
+
+</application>
+
+</manifest>
