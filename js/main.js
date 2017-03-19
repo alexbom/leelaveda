@@ -841,9 +841,6 @@ var Leela = {
             return 0;
         },
         save: function() {
-            alert('startApp');
-            alert(startApp);
-
             var sApp = startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
@@ -862,12 +859,12 @@ var Leela = {
             });*/
         },
         load: function() {
-            alert('navigator.startApp');
-            alert(navigator.startApp);
-
-            var sApp = navigator.startApp.set({ /* params */
-                "action": "ACTION_VIEW",
-                "uri": "https://github.com/lampaa"
+            var sApp = startApp.set({ /* params */
+                "action": "ACTION_SEND",
+                "package": "com.whatsapp",
+                "type": "text/plain"
+            }, {
+                "android.intent.extra.TEXT":"Text..."
             });
 
             sApp.start(function() { /* success */
@@ -875,13 +872,6 @@ var Leela = {
             }, function(error) { /* fail */
                 alert(error);
             });
-
-            /*var sApp = startApp.set({ *//* params *//*
-                "component": ["com.app.name","com.app.name.Activity"]
-            }, { *//* extras *//*
-                "extraKey1":"extraValue1",
-                "extraKey2":"extraValue2"
-            });*/
 
             /*var game_id = window.prompt('Вставьте номер сохранённой игры');
 
