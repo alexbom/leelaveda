@@ -843,7 +843,7 @@ var Leela = {
         save: function() {
             alert('startApp');
             alert(startApp);
-            
+
             var sApp = startApp.set({ /* params */
                 "action": "ACTION_VIEW",
                 "uri": "https://github.com/lampaa"
