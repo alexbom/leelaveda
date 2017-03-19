@@ -841,16 +841,22 @@ var Leela = {
             return 0;
         },
         save: function() {
-            var sApp = startApp.set({ /* params */
-                "action": "ACTION_VIEW",
-                "uri": "https://github.com/lampaa"
+            var sApp = startApp.set({
+                "component": ["com.alexbom.leelaveda_ru_full"]
+            }, {
+                "LeelaGame": LeelaGame
             });
 
-            sApp.start(function() { /* success */
+            sApp.start(function() {
                 alert("OK");
-            }, function(error) { /* fail */
+            }, function(error) {
                 alert(error);
             });
+
+            /*var sApp = startApp.set({
+                "action": "ACTION_VIEW",
+                "uri": "https://github.com/lampaa"
+            });*/
 
             /*$.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {
                 if ( ! result) return;
@@ -859,17 +865,15 @@ var Leela = {
             });*/
         },
         load: function() {
-            var sApp = startApp.set({ /* params */
-                "action": "ACTION_SEND",
-                "package": "com.whatsapp",
-                "type": "text/plain"
+            var sApp = startApp.set({
+                "component": ["com.alexbom.leelaveda_ru_full","com.alexbom.leelaveda_ru_full.Activity"]
             }, {
-                "android.intent.extra.TEXT":"Text..."
+                "LeelaGame": LeelaGame
             });
 
-            sApp.start(function() { /* success */
+            sApp.start(function() {
                 alert("OK");
-            }, function(error) { /* fail */
+            }, function(error) {
                 alert(error);
             });
 
