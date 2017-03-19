@@ -3,7 +3,7 @@ var LeelaGame;
 var Leela = {
     mobile: 1,
     paid:   1,
-    lang:   'en',
+    lang:   'ru',
     domain: '//leelaveda.ru/',
     init: function() {
         Leela.design.tpls   = $('#tpls');
