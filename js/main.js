@@ -844,7 +844,7 @@ var Leela = {
             return 0;
         },
         save: function() {alert('save');
-            var request = new XMLHttpRequest(),
+            /*var request = new XMLHttpRequest(),
                 url     = Leela.domain + 'php/save.php?cache=' + Math.random() + '&game=' + localStorage.getItem('LeelaGame');
 
             request.open('POST', url, true);alert(url);
@@ -855,18 +855,18 @@ var Leela = {
                 prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), request.responseText);
                 //JSON.parse(request.responseText);
             };
-            request.send();
+            request.send();*/
 
-            /*$.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {alert(result);
+            $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame'), cache: new Date().getTime() }, function(result) {
                 if ( ! result) return;
 
                 prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), result);
                 //window.open(Leela.domain + 'game/' + result + '.json');
-            });*/
+            });
         },
         loadCallback: function(result) {alert('loadCallback');
             if ( ! result.input1 || result.buttonIndex !== 0) return;
-alert(result.input1 + ' = ' + result.buttonIndex);
+
             $.getJSON(Leela.domain + 'php/load.php', { game_id: result.input1, cache: new Date().getTime() }, function(game) {
                 if ( ! game) {
                     alert($('#alert-hist-noload').find('.lang-' + Leela.lang).text());
