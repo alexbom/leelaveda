@@ -19,6 +19,8 @@
 
     <access origin="*" />
 
+    <plugin name="cordova-plugin-whitelist" />
+
     <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
