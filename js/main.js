@@ -4,7 +4,7 @@ var Leela = {
     mobile: 1,
     paid:   0,
     lang:   'ru',
-    domain: '//leelaveda.ru/',
+    domain: 'http://leelaveda.ru/',
     init: function() {
         Leela.design.tpls   = $('#tpls');
         Leela.design.logo   = $('#logo');
@@ -845,13 +845,13 @@ var Leela = {
         },
         save: function() {alert('save');
             var request = new XMLHttpRequest(),
-                url     = 'http:' + Leela.domain + 'php/save.php?game=' + localStorage.getItem('LeelaGame') + '&cache=' + new Date().getTime();
+                url     = Leela.domain + 'php/save.php?game=' + localStorage.getItem('LeelaGame') + '&cache=' + new Date().getTime();
 alert(url);
             request.open('POST', url, true);
             request.onreadystatechange = function() {
                 if (request.readyState != 4) return;
                 if (request.status != 0 && request.status != 200) return;
-
+alert(request.responseText);
                 prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), request.responseText);
                 //JSON.parse(request.responseText);
             };
