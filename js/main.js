@@ -845,7 +845,7 @@ var Leela = {
         },
         save: function() {alert('save');
             var request = new XMLHttpRequest();
-            request.open('POST', Leela.domain + 'php/save.php?cache=' + Math.rand() + '&game=' + JSON.stringify(localStorage.getItem('LeelaGame')), true);
+            request.open('POST', Leela.domain + 'php/save.php?cache=' + Math.random() + '&game=' + JSON.stringify(localStorage.getItem('LeelaGame')), true);
             request.onreadystatechange = function() {alert('onreadystatechange');
                 if (request.readyState != 4) return;alert('readyState');
                 if (request.status && request.status != 200) return;alert(request.responseText);
