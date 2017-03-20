@@ -848,7 +848,7 @@ var Leela = {
             request.open('POST', Leela.domain + 'php/save.php?game=' + JSON.stringify(localStorage.getItem('LeelaGame')), true);
             request.onreadystatechange = function() {alert('onreadystatechange');
                 if (request.readyState != 4) return;alert('readyState');
-                if (request.status && request.status != 200) return;alert('status');
+                if (request.status && request.status != 200) return;alert(request.responseText);
 
                 //JSON.parse(request.responseText);
             };
