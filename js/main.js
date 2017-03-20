@@ -844,12 +844,22 @@ var Leela = {
             return 0;
         },
         save: function() {alert('save');
-            $.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {alert(result);
+            var request = new XMLHttpRequest();
+            request.open('POST', Leela.domain + 'php/save.php?game=' + JSON.stringify(localStorage.getItem('LeelaGame')), true);
+            request.onreadystatechange = function() {alert('onreadystatechange');
+                if (request.readyState != 4) return;alert('readyState');
+                if (request.status && request.status != 200) return;alert('status');
+
+                //JSON.parse(request.responseText);
+            };
+            request.send();
+
+            /*$.post(Leela.domain + 'php/save.php', { game: localStorage.getItem('LeelaGame') }, function(result) {alert(result);
                 if ( ! result) return;
 
                 prompt($('#alert-hist-save').find('.lang-' + Leela.lang).text(), result);
                 //window.open(Leela.domain + 'game/' + result + '.json');
-            });
+            });*/
         },
         loadCallback: function(result) {alert('loadCallback');
             if ( ! result.input1 || result.buttonIndex !== 0) return;
