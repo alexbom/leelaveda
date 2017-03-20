@@ -903,7 +903,7 @@ alert(request.responseText);
             });*/
         },
         load: function() {alert('load');
-            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', Leela.history.loadCallback);
+            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', 'Leela.history.loadCallback');
         }
     },
     adv: {
