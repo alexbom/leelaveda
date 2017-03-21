@@ -845,7 +845,7 @@ var Leela = {
         },
         save: function() {
             var request = new XMLHttpRequest(),
-                url     = Leela.domain + 'php/save.php?game=' + localStorage.getItem('LeelaGame')/* + '&cache=' + new Date().getTime()*/;
+                url     = Leela.domain + 'php/save.php?game=' + localStorage.getItem('LeelaGame') + '&cache=' + new Date().getTime();
 
             request.open('POST', url, true);
             request.onreadystatechange = function() {
@@ -861,7 +861,7 @@ var Leela = {
             if (results.input1 != 1 || results.buttonIndex !== 0) return;
 
             var request = new XMLHttpRequest(),
-                url     = Leela.domain + 'php/load.php?game_id=' + localStorage.getItem('LeelaGame')/* + '&cache=' + new Date().getTime()*/;
+                url     = Leela.domain + 'php/load.php?game_id=' + localStorage.getItem('LeelaGame') + '&cache=' + new Date().getTime();
 
             request.open('GET', url, true);
             request.onreadystatechange = function() {
@@ -903,7 +903,8 @@ alert(request.responseText);
             });*/
         },
         load: function() {alert('load');
-            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', 'Leela.history.loadCallback');
+            var callback = Leela.history.loadCallback;
+            prompt($('#alert-hist-load').find('.lang-' + Leela.lang).text(), '', callback);
         }
     },
     adv: {
