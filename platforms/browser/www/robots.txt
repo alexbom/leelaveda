@@ -1,0 +1,12 @@
+User-agent: *
+
+Disallow: /data/
+Disallow: /fonts/
+Disallow: /js/
+Disallow: /libs/
+Disallow: /old/
+Disallow: /music/
+Disallow: /voice/
+Disallow: /game/
+Disallow: /soundmanager2/
+Disallow: /index.max.html
