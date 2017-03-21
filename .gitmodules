@@ -1,0 +1,3 @@
+[submodule "leelaveda"]
+	path = leelaveda
+	url = https://github.com/alexbom/leelaveda
