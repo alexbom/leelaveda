@@ -2,8 +2,8 @@ var LeelaGame;
 //localStorage.removeItem('LeelaGame');
 var Leela = {
     mobile: 1,
-    paid:   1,
-    lang:   'ru',
+    paid:   0,
+    lang:   'en',
     domain: 'http://leelaveda.ru/',
     init: function() {
         Leela.design.tpls   = $('#tpls');
